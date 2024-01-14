@@ -111,8 +111,8 @@ public class SwerveModule {
         driveEncoder.setVelocityConversionFactor(kDriveEncoderRPM2MeterPerSec);
 
         // Change conversion factors for neo turning encoder - should be in radians!
-        driveEncoder.setPositionConversionFactor(kTurningEncoderRot2Rad);
-        driveEncoder.setVelocityConversionFactor(kTurningEncoderRPM2RadPerSec);
+        // driveEncoder.setPositionConversionFactor(kTurningEncoderRot2Rad);
+        // driveEncoder.setVelocityConversionFactor(kTurningEncoderRPM2RadPerSec);
     }
 
     public SwerveModuleState getState() {

@@ -56,8 +56,16 @@ public class RobotContainer {
     tab.addNumber("testLeftY", testLeftY);
     tab.addNumber("testLeftX", testLeftX);
     tab.addNumber("testRightX", testRightX);
+
+    SmartDashboard.putNumber("x", m_poseEstimationSubsystem.getPose().getX());
+    SmartDashboard.putNumber("y", m_poseEstimationSubsystem.getPose().getY());
+    SmartDashboard.putNumber("z", m_poseEstimationSubsystem.getPose().getRotation().getDegrees());
+    // SmartDashboard.putBoolean("roll", m_poseEstimationSubsystem.getRoll());
+    // SmartDashboard.putBoolean("pitch", m_poseEstimationSubsystem.getPitch());
+    // SmartDashboard.putBoolean("yaw", m_poseEstimationSubsystem.getYaw());
+
     setDefaultCommands();
-    configureBindings();
+    //configureBindings();
   }
 
   /**

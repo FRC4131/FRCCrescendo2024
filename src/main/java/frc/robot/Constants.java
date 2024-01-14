@@ -68,8 +68,8 @@ public final class Constants {
             /* Drive Gear Ratios for all supported modules */
 
         public static final double kDriveEncoderRot2Meter =  Math.PI * SDSMK4_Constants.wheelDiameter / SDSMK4_Constants.driveGearRatio;
-        public static final double kTurningEncoderRot2Rad = 2 * Math.PI / SDSMK4_Constants.angleGearRatio;;
-        public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
+        public static final double kTurningEncoderRot2Rad = 2 * Math.PI / SDSMK4_Constants.angleGearRatio;
+        public static final double kDriveEncoderRPM2MeterPerSec = Math.PI * (SDSMK4_Constants.wheelDiameter) / (SDSMK4_Constants.driveGearRatio * 60);//kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
 
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-

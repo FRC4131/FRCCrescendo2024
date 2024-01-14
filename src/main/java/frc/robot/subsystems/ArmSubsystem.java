@@ -6,9 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class SwivelArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase {
   /** Creates a new SwivelArmSubsystem. */
-  public SwivelArmSubsystem() {}
+  public ArmSubsystem() {}
 
   @Override
   public void periodic() {
