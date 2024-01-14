@@ -25,14 +25,19 @@ public class SwerveModule {
     private CANCoder angleEncoder;
     private ProfiledPIDController turningPidController;
 
-    public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
+    public SwerveModule(
+        int moduleNumber,
+        int angleMotorID, 
+        int driveMotorID, 
+        int canCoderID ) 
+        {
         this.moduleNumber = moduleNumber;
 
         /* Motor & Encoder Config */
-        m_angleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
-        m_driveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
+        m_angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
+        m_driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         driveEncoder = m_driveMotor.getEncoder(com.revrobotics.SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-        angleEncoder = new CANCoder(moduleConstants.cancoderID);
+        angleEncoder = new CANCoder(canCoderID);
 
         configAngleMotor();
         configDriveMotor();
@@ -58,13 +63,13 @@ public class SwerveModule {
     }
 
     private void setSpeed(SwerveModuleState desiredState) {
-        double percentOutput = (Math.abs(desiredState.speedMetersPerSecond) <= Constants.Swerve.maxSpeed * 0.01) ? 0
-                : desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
+        double percentOutput = (Math.abs(desiredState.speedMetersPerSecond) <= Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.01) ? 0
+                : desiredState.speedMetersPerSecond / Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND;
         m_driveMotor.set(percentOutput);
     }
 
     private void setAngle(SwerveModuleState desiredState) {
-        Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.001))
+        Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.001))
                 ? lastAngle
                 : desiredState.angle; // Prevent rotating module if speed is less then 1%. Prevents Jittering.
 
@@ -95,11 +100,11 @@ public class SwerveModule {
     }
 
     private void configAngleMotor() {
-        m_angleMotor.setInverted(angleMotorInvert);
+        m_angleMotor.setInverted(Constants.SDSMK4_Constants.angleMotorInvert);
     }
 
     private void configDriveMotor() {
-        m_driveMotor.setInverted(driveMotorInvert);
+        m_driveMotor.setInverted(Constants.SDSMK4_Constants.driveMotorInvert);
         // m_driveMotor.setIdleMode(IdleMode.kBrake);
         m_driveMotor.burnFlash();
         driveEncoder.setPositionConversionFactor(kDriveEncoderRot2Meter);

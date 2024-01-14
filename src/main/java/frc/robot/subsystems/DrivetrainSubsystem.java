@@ -23,10 +23,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public DrivetrainSubsystem() {
 
         m_SwerveMods = new SwerveModule[] {
-                new SwerveModule(0, Constants.Swerve.Mod0.constants),
-                new SwerveModule(1, Constants.Swerve.Mod1.constants),
-                new SwerveModule(2, Constants.Swerve.Mod2.constants),
-                new SwerveModule(3, Constants.Swerve.Mod3.constants)
+                new SwerveModule(0,
+                    Constants.Swerve.Mod0.angleMotorID,
+                    Constants.Swerve.Mod0.driveMotorID,
+                    Constants.Swerve.Mod0.canCoderID),
+                new SwerveModule(1, 
+                    Constants.Swerve.Mod1.angleMotorID,
+                    Constants.Swerve.Mod1.driveMotorID,
+                    Constants.Swerve.Mod1.canCoderID),
+                new SwerveModule(2,
+                    Constants.Swerve.Mod2.angleMotorID,
+                    Constants.Swerve.Mod2.driveMotorID,
+                    Constants.Swerve.Mod2.canCoderID),
+                new SwerveModule(3,
+                    Constants.Swerve.Mod3.angleMotorID,
+                    Constants.Swerve.Mod3.driveMotorID,
+                    Constants.Swerve.Mod3.canCoderID)
         };
         for (SwerveModule mod : m_SwerveMods) {
             mod.reset();
@@ -89,7 +101,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND);
 
         for (SwerveModule mod : m_SwerveMods) {
             mod.setDesiredState(desiredStates[mod.moduleNumber]);
