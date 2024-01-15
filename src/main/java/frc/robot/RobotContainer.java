@@ -43,7 +43,6 @@ public class RobotContainer {
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  private boolean isInDefaultDriveMode = true;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -65,7 +64,7 @@ public class RobotContainer {
     // SmartDashboard.putBoolean("yaw", m_poseEstimationSubsystem.getYaw());
 
     setDefaultCommands();
-    //configureBindings();
+    configureBindings();
   }
 
   /**
@@ -77,9 +76,6 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-      private static Command waitCommand(double seconds) {
-    return new WaitCommand(seconds);
-  }
    
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
@@ -118,19 +114,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(() -> isInDefaultDriveMode)
-    .whileTrue(new DefaultDriveCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem,
-        () -> -modifyAxis(m_driverController.getLeftY(), false) *
-            Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
-            Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getRightX(), false) *
-            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
-        true));
-
-        m_driverController.back().onTrue(new InstantCommand(() -> m_poseEstimationSubsystem.zeroAngle()));
+    // Schedule Triggers
   }
 
   /**
