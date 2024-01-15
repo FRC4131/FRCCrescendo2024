@@ -42,24 +42,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
-    DoubleSupplier testLeftY = () -> m_driverController.getLeftY() * MAX_VELOCITY_METERS_PER_SECOND;
-    DoubleSupplier testLeftX = () -> m_driverController.getLeftX() * MAX_VELOCITY_METERS_PER_SECOND;
-    DoubleSupplier testRightX = () -> m_driverController.getRightX() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
-
-    ShuffleboardTab tab = Shuffleboard.getTab("tab");
-    tab.addNumber("testLeftY", testLeftY);
-    tab.addNumber("testLeftX", testLeftX);
-    tab.addNumber("testRightX", testRightX);
-
-    SmartDashboard.putNumber("x", m_poseEstimationSubsystem.getPose().getX());
-    SmartDashboard.putNumber("y", m_poseEstimationSubsystem.getPose().getY());
-    SmartDashboard.putNumber("z", m_poseEstimationSubsystem.getPose().getRotation().getDegrees());
-    // SmartDashboard.putBoolean("roll", m_poseEstimationSubsystem.getRoll());
-    // SmartDashboard.putBoolean("pitch", m_poseEstimationSubsystem.getPitch());
-    // SmartDashboard.putBoolean("yaw", m_poseEstimationSubsystem.getYaw());
-
+    // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     setDefaultCommands();
+
+    // Configure any game controller bindings and Triggers
     configureBindings();
   }
 
