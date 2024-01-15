@@ -24,21 +24,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         m_SwerveMods = new SwerveModule[] {
                 new SwerveModule(0,
-                    Constants.Swerve.Mod0.angleMotorID,
-                    Constants.Swerve.Mod0.driveMotorID,
-                    Constants.Swerve.Mod0.canCoderID),
+                    Constants.Swerve.Mod0.ANGLE_MOTOR_ID,
+                    Constants.Swerve.Mod0.DRIVE_MOTOR_ID,
+                    Constants.Swerve.Mod0.CANCODER_ID),
                 new SwerveModule(1, 
-                    Constants.Swerve.Mod1.angleMotorID,
-                    Constants.Swerve.Mod1.driveMotorID,
-                    Constants.Swerve.Mod1.canCoderID),
+                    Constants.Swerve.Mod1.ANGLE_MOTOR_ID,
+                    Constants.Swerve.Mod1.DRIVE_MOTOR_ID,
+                    Constants.Swerve.Mod1.CANCODER_ID),
                 new SwerveModule(2,
-                    Constants.Swerve.Mod2.angleMotorID,
-                    Constants.Swerve.Mod2.driveMotorID,
-                    Constants.Swerve.Mod2.canCoderID),
+                    Constants.Swerve.Mod2.ANGLE_MOTOR_ID,
+                    Constants.Swerve.Mod2.DRIVE_MOTOR_ID,
+                    Constants.Swerve.Mod2.CANCODER_ID),
                 new SwerveModule(3,
-                    Constants.Swerve.Mod3.angleMotorID,
-                    Constants.Swerve.Mod3.driveMotorID,
-                    Constants.Swerve.Mod3.canCoderID)
+                    Constants.Swerve.Mod3.ANGLE_MOTOR_ID,
+                    Constants.Swerve.Mod3.DRIVE_MOTOR_ID,
+                    Constants.Swerve.Mod3.DRIVE_MOTOR_ID)
         };
         for (SwerveModule mod : m_SwerveMods) {
             mod.reset();
@@ -56,7 +56,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      */
     public void drive(Translation2d translation, double rotation, Rotation2d currentRotation, boolean fieldRelative,
             boolean isOpenLoop) {
-        SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+        SwerveModuleState[] swerveModuleStates = Constants.Swerve.SWERVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                         translation.getX(),
                         translation.getY(),
@@ -80,7 +80,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
-        SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+        SwerveModuleState[] swerveModuleStates = Constants.Swerve.SWERVE_KINEMATICS.toSwerveModuleStates(
                 chassisSpeeds);
         setModuleStates(swerveModuleStates);
     }
@@ -92,7 +92,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      * @param speedCapRotation in rad/s.
      */
     public void drive(ChassisSpeeds chassisSpeeds, double speedCapTranslation, double speedCapRotation) {
-        SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+        SwerveModuleState[] swerveModuleStates = Constants.Swerve.SWERVE_KINEMATICS.toSwerveModuleStates(
                 chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, chassisSpeeds, speedCapTranslation,
                 speedCapTranslation, speedCapRotation);

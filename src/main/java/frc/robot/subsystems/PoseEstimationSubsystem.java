@@ -42,10 +42,10 @@ public class PoseEstimationSubsystem extends SubsystemBase {
 
     m_navX = new AHRS(SPI.Port.kMXP, (byte) 200);
 
-    zeroGyro();
+    this.zeroGyro();
 
     m_swerveDrivePoseEst = new SwerveDrivePoseEstimator(
-        Constants.Swerve.swerveKinematics,
+        Constants.Swerve.SWERVE_KINEMATICS,
         getGyroYaw(),
         m_drivetrainSubsystem.getModulePositions(),
         new Pose2d()
@@ -70,7 +70,7 @@ public class PoseEstimationSubsystem extends SubsystemBase {
   }
 
   private Rotation2d getGyroYaw() {
-    return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - m_navX.getYaw())
+    return (Constants.Swerve.GYRO_INVERT) ? Rotation2d.fromDegrees(360 - m_navX.getYaw())
         : Rotation2d.fromDegrees(m_navX.getYaw());
   }
 

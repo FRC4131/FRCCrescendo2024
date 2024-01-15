@@ -100,19 +100,15 @@ public class SwerveModule {
     }
 
     private void configAngleMotor() {
-        m_angleMotor.setInverted(Constants.SDSMK4_Constants.angleMotorInvert);
+        m_angleMotor.setInverted(Constants.Swerve.ANGLE_MOTOR_INVERT);
     }
 
     private void configDriveMotor() {
-        m_driveMotor.setInverted(Constants.SDSMK4_Constants.driveMotorInvert);
-        // m_driveMotor.setIdleMode(IdleMode.kBrake);
-        m_driveMotor.burnFlash();
-        driveEncoder.setPositionConversionFactor(kDriveEncoderRot2Meter);
-        driveEncoder.setVelocityConversionFactor(kDriveEncoderRPM2MeterPerSec);
-
-        // Change conversion factors for neo turning encoder - should be in radians!
-        // driveEncoder.setPositionConversionFactor(kTurningEncoderRot2Rad);
-        // driveEncoder.setVelocityConversionFactor(kTurningEncoderRPM2RadPerSec);
+        m_driveMotor.setInverted(Constants.Swerve.DRIVE_MOTOR_INVERT);
+        // m_driveMotor.setIdleMode(IdleMode.kBrake); 
+        driveEncoder.setPositionConversionFactor(Constants.Swerve.DRIVE_ENCODER_ROT2METERS);
+        driveEncoder.setVelocityConversionFactor(Constants.Swerve.DRIVE_ENCODER_RPM2METERSPERSEC);
+        m_driveMotor.burnFlash();  //TODO: Do we need to flash these values into the encoder?
     }
 
     public SwerveModuleState getState() {

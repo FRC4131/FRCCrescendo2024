@@ -10,11 +10,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 
-public class DefaultDriveCommand extends CommandBase {
+public class DefaultDriveCommand extends Command {
   DrivetrainSubsystem m_drivetrainSubsystem;
   PoseEstimationSubsystem m_poseEstimationSubsystem;
   DoubleSupplier x;
@@ -22,7 +23,6 @@ public class DefaultDriveCommand extends CommandBase {
   DoubleSupplier theta;
   DoubleSupplier throttle;
   boolean fieldRelative;
-  double minThrottle = 0.2;
 
   /** Creates a new DefaultDriveCommand. */
   public DefaultDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
@@ -39,6 +39,7 @@ public class DefaultDriveCommand extends CommandBase {
     this.theta = theta;
     this.fieldRelative = fieldRelative;
     this.throttle = throttle;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrainSubsystem);
     addRequirements(poseEstimationSubsystem);
@@ -52,8 +53,8 @@ public class DefaultDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double slope = 1 - minThrottle;
-    double scale = slope * this.throttle.getAsDouble() + minThrottle;
+    double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL;
+    double scale = slope * this.throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL;
     m_drivetrainSubsystem.drive(new Translation2d(x.getAsDouble() * scale,
         y.getAsDouble() * scale),
         theta.getAsDouble() * scale,
