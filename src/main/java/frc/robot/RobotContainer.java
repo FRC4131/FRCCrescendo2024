@@ -23,7 +23,6 @@ import static frc.robot.Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND;
 
 import java.util.function.DoubleSupplier;
 
-
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -42,11 +41,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
-    setDefaultCommands();
-
-    // Configure any game controller bindings and Triggers
-    configureBindings();
+    configureAutonBuilder(); // Configure PathPlanner AutonBuilder 
+    setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
+    configureBindings();  // Configure any game controller bindings and Triggers
   }
 
   /**
@@ -80,6 +77,11 @@ public class RobotContainer {
       value = Math.copySign(value * value, value);
     }
     return value;
+  }
+
+  public void configureAutonBuilder()
+  {
+
   }
 
   public void setDefaultCommands() {
