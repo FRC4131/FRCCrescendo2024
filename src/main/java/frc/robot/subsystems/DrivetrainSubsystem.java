@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -11,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.SwerveModule;
 import frc.robot.Constants;
@@ -43,6 +46,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         for (SwerveModule mod : m_SwerveMods) {
             mod.reset();
         }
+
     }
 
     /**
@@ -116,6 +120,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return states;
     }
 
+    public ChassisSpeeds getChassisSpeed() {
+        SwerveModuleState[] arr = getModuleStates();
+        return Constants.Swerve.SWERVE_KINEMATICS.toChassisSpeeds(arr); 
+    }
+
     public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for (SwerveModule mod : m_SwerveMods) {
@@ -127,9 +136,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // for (SwerveModule mod : m_SwerveMods) {
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Drive Position", mod.getDrivePosition());
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Turn Position", mod.getTurningPosition());
-        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+            ChassisSpeeds chassisSpeed = this.getChassisSpeed();
+            SmartDashboard.putNumber("Chassis x", chassisSpeed.vxMetersPerSecond);
+            SmartDashboard.putNumber("Chassis y", chassisSpeed.vyMetersPerSecond);
+            SmartDashboard.putNumber("Chassis rads/sec", chassisSpeed.omegaRadiansPerSecond);
+            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Turn Position", mod.getTurningPosition());
+            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         // }
 
     }

@@ -11,6 +11,10 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,7 +50,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    configureAutonBuilder(); // Configure PathPlanner AutonBuilder 
+    configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureBindings();  // Configure any game controller bindings and Triggers
   }
@@ -84,12 +88,18 @@ public class RobotContainer {
     return value;
   }
 
-  public void configureAutonBuilder() {
-    /*AutoBuilder.configureHolonomic(
-        this::getPose, // Robot pose supplier
-        this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-        this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+  public void configureAutoBuilder() {
+    // m_poseEstimationSubsystem.get
+    
+    AutoBuilder.configureHolonomic(
+        m_poseEstimationSubsystem::getPose, // Robot pose supplier
+        m_poseEstimationSubsystem::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+        () ->{
+          return m_drivetrainSubsystem.getChassisSpeed();         
+        }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        (speeds) -> {
+          m_drivetrainSubsystem.drive(speeds);
+        }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
             new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
             new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
@@ -109,8 +119,8 @@ public class RobotContainer {
           }
           return false;
         },
-        this // Reference to this subsystem to set requirements
-    );*/
+        m_drivetrainSubsystem // Reference to this subsystem to set requirements
+    );
   }
 
   public void setDefaultCommands() {
@@ -128,6 +138,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Schedule Triggers
+    // m_driverController.x()
+    
+    // .onTrue(getAutonomousCommand());
   }
 
   /**
