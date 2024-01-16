@@ -38,7 +38,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new SwerveModule(3,
                     Constants.Swerve.Mod3.ANGLE_MOTOR_ID,
                     Constants.Swerve.Mod3.DRIVE_MOTOR_ID,
-                    Constants.Swerve.Mod3.DRIVE_MOTOR_ID)
+                    Constants.Swerve.Mod3.CANCODER_ID)
         };
         for (SwerveModule mod : m_SwerveMods) {
             mod.reset();
