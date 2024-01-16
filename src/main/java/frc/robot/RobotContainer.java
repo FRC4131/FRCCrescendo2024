@@ -30,6 +30,7 @@ import static frc.robot.Constants.Swerve.WHEEL_BASE;
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -135,10 +136,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Schedule Triggers
-    // m_driverController.x()
-    
-    // .onTrue(getAutonomousCommand());
+    // Schedule Triggers    
   }
 
   /**
@@ -147,7 +145,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return new PathPlannerAuto("test");
   }
 }
