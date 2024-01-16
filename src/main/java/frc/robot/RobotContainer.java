@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.robot.Constants.Swerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 import static frc.robot.Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND;
+import static frc.robot.Constants.Swerve.TRACK_WIDTH;
+import static frc.robot.Constants.Swerve.WHEEL_BASE;
 
 import java.util.function.DoubleSupplier;
 
@@ -89,22 +91,18 @@ public class RobotContainer {
   }
 
   public void configureAutoBuilder() {
-    // m_poseEstimationSubsystem.get
     
+    //Configure the autobuilder from pathplanner (Holonomic for Swerve drive)
     AutoBuilder.configureHolonomic(
         m_poseEstimationSubsystem::getPose, // Robot pose supplier
         m_poseEstimationSubsystem::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-        () ->{
-          return m_drivetrainSubsystem.getChassisSpeed();         
-        }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        (speeds) -> {
-          m_drivetrainSubsystem.drive(speeds);
-        }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        m_drivetrainSubsystem::getChassisSpeed,// ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        m_drivetrainSubsystem::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-            4.5, // Max module speed, in m/s
-            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            new PIDConstants(3.5, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(6.0, 0.0, 0.0), // Rotation PID constants
+            MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
+            Math.sqrt(TRACK_WIDTH*TRACK_WIDTH + WHEEL_BASE*WHEEL_BASE) / 2.0, // Drive base radius in meters. Distance from robot center to furthest module.
             new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {
