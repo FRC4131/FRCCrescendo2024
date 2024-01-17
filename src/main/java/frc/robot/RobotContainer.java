@@ -136,7 +136,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Schedule Triggers    
+    // Schedule Triggers  
+    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand());  
   }
 
   /**
