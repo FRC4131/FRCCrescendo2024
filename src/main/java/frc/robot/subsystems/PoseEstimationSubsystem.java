@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.EstimatedRobotPose;
 import frc.robot.Constants;
 
 public class PoseEstimationSubsystem extends SubsystemBase {
@@ -50,8 +51,8 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         getGyroYaw(),
         m_drivetrainSubsystem.getModulePositions(),
         new Pose2d()
-        ,VecBuilder.fill(0.1, 0.1, 0.1),
-        VecBuilder.fill(0.16, 0.16, 0.16)
+        ,VecBuilder.fill(0.1, 0.1, 0.1), //odometry 
+        VecBuilder.fill(0.9, 0.9, 100) //april tags
         );
     
         
@@ -101,17 +102,19 @@ public class PoseEstimationSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-   /*  EstimatedRobotPose aprilTagPose = m_visionSubsystem.getAprilTagRobotPose().orElse(null);
+    EstimatedRobotPose aprilTagPose = m_visionSubsystem.getAprilTagRobotPose().orElse(null);
     DriverStation.refreshData(); 
+    SmartDashboard.putBoolean("test", false);
     if (aprilTagPose != null && (!DriverStation.isAutonomous())) {
-      m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.estimatedPose.toPose2d(), aprilTagPose.timestampSeconds);
-    }*/
+      m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
+      SmartDashboard.putBoolean("test", true);
+    }
     m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions());
     field2d.setRobotPose(m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions()));
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("RawGyroYaw", getGyroYaw().getDegrees());
-    SmartDashboard.putNumber("x", m_swerveDrivePoseEst.getEstimatedPosition().getX());
-    SmartDashboard.putNumber("y", m_swerveDrivePoseEst.getEstimatedPosition().getY());
+    SmartDashboard.putNumber("SwervePoseEst x", m_swerveDrivePoseEst.getEstimatedPosition().getX());
+    SmartDashboard.putNumber("SwervePoseEst y", m_swerveDrivePoseEst.getEstimatedPosition().getY());
     SmartDashboard.putNumber("Odom Rotation", m_swerveDrivePoseEst.getEstimatedPosition().getRotation().getDegrees());
     SmartDashboard.putNumber("Robot Pitch", getPitch());
     SmartDashboard.putNumber("Robot Roll", getRoll());

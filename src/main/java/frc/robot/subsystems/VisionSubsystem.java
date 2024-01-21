@@ -48,7 +48,7 @@ public class VisionSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("pose y", rawBotPose [1]);
       SmartDashboard.putNumber("pose z", rawBotPose [2]);
 
-      return Optional.of(new EstimatedRobotPose(new Pose3d(new Translation3d (rawBotPose[0], rawBotPose[1], rawBotPose[2]), new Rotation3d(rawBotPose[3], rawBotPose[4], rawBotPose[5])).toPose2d(), Timer.getFPGATimestamp() - (rawBotPose[6]/1000.0))); //returns pose based on april tag
+      return Optional.of(new EstimatedRobotPose(new Pose3d(new Translation3d (rawBotPose[0], rawBotPose[1], rawBotPose[2]), new Rotation3d(Math.toRadians(rawBotPose[3]), Math.toRadians(rawBotPose[4]), Math.toRadians(rawBotPose[5]))).toPose2d(), Timer.getFPGATimestamp() - (rawBotPose[6]/1000.0))); //returns pose based on april tag
     }
     else{
       return Optional.empty(); 
@@ -63,9 +63,9 @@ public class VisionSubsystem extends SubsystemBase {
     // SmartDashboard.putNumberArray("Bot Pose", NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpiblue").getDoubleArray(new double[6]));
     
     if (m_estimatedRobotPose.isPresent()) { //if optional contains a value 
-      SmartDashboard.putNumber("Apriltag X", m_estimatedRobotPose.get().getPose().getX()); //returns robot x and y values + heading 
-      SmartDashboard.putNumber("Apriltag Y", m_estimatedRobotPose.get().getPose().getY());
-      SmartDashboard.putNumber("Apriltag Heading (degrees)", m_estimatedRobotPose.get().getPose().getRotation().getDegrees());
+      SmartDashboard.putNumber( "April Tag X", m_estimatedRobotPose.get().getPose().getX()); //returns robot x and y values + heading 
+      SmartDashboard.putNumber("April Tag Y", m_estimatedRobotPose.get().getPose().getY());
+      SmartDashboard.putNumber("April Tag Heading", m_estimatedRobotPose.get().getPose().getRotation().getDegrees());
      }
 
   }
