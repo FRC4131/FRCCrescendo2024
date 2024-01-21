@@ -25,7 +25,7 @@ public class FixateOnThing extends Command {
     m_poseEstimationSubsystem = poseEstimationSubsystem;
     m_desiredAngle = angle;
 
-    m_pidController = new PIDController(.4, 0, 0);
+    m_pidController = new PIDController(3, 0, 0);
     m_pidController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem);
   }

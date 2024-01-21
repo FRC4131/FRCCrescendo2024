@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.FixateOnThing;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
@@ -140,7 +141,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Schedule Triggers  
-    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand());  
+    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
+    m_driverController.a().whileTrue(new FixateOnThing(m_drivetrainSubsystem, m_poseEstimationSubsystem,0));
   }
 
   /**
