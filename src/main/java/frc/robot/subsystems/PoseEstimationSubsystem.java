@@ -52,7 +52,7 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         m_drivetrainSubsystem.getModulePositions(),
         new Pose2d()
         ,VecBuilder.fill(0.1, 0.1, 0.1), //odometry 
-        VecBuilder.fill(0.9, 0.9, 100) //april tags
+        VecBuilder.fill(0.9, 0.9, 0.9) //april tags
         );
     
         
