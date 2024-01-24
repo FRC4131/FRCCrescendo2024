@@ -5,21 +5,12 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FixateOnThing;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -28,8 +19,6 @@ import static frc.robot.Constants.Swerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
 import static frc.robot.Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND;
 import static frc.robot.Constants.Swerve.TRACK_WIDTH;
 import static frc.robot.Constants.Swerve.WHEEL_BASE;
-
-import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -45,7 +34,6 @@ import com.pathplanner.lib.util.ReplanningConfig;
  */
 public class RobotContainer {
   // The robot's subsystems:
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
@@ -124,6 +112,9 @@ public class RobotContainer {
         },
         m_drivetrainSubsystem // Reference to this subsystem to set requirements
     );
+
+    //Register named commands here (mappings of string names to actual commands)
+
   }
 
   public void setDefaultCommands() {

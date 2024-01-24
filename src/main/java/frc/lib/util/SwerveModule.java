@@ -6,14 +6,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants;
-import com.ctre.phoenix.sensors.CANCoder;
-// import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-// import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-// import com.revrobotics.CANSparkLowLevel.MotorType;
-import static frc.robot.Constants.Swerve.*;
 
 public class SwerveModule {
     public int moduleNumber;
@@ -22,7 +18,7 @@ public class SwerveModule {
     private CANSparkMax m_angleMotor;
     private CANSparkMax m_driveMotor;
     private RelativeEncoder driveEncoder;
-    private CANCoder angleEncoder;
+    private CANcoder angleEncoder;
     private ProfiledPIDController turningPidController;
 
     public SwerveModule(
@@ -36,8 +32,8 @@ public class SwerveModule {
         /* Motor & Encoder Config */
         m_angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
         m_driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
-        driveEncoder = m_driveMotor.getEncoder(com.revrobotics.SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-        angleEncoder = new CANCoder(canCoderID);
+        driveEncoder = m_driveMotor.getEncoder();
+        angleEncoder = new CANcoder(canCoderID);
 
         configAngleMotor();
         configDriveMotor();
@@ -88,7 +84,7 @@ public class SwerveModule {
     }
 
     public double getTurningPosition() {
-        return angleEncoder.getAbsolutePosition();
+        return angleEncoder.getAbsolutePosition().getValue();
     }
 
     public double getDriveVelocity() {
@@ -96,12 +92,13 @@ public class SwerveModule {
     }
 
     public double getTurningVelocity() {
-        return angleEncoder.getVelocity();
+        return angleEncoder.getVelocity().getValue();
+        // return angleEncoder.getVelocity();    
     }
 
-    private void configAngleMotor() {
-        m_angleMotor.setInverted(Constants.Swerve.ANGLE_MOTOR_INVERT);
-    }
+     private void configAngleMotor() {
+         m_angleMotor.setInverted(Constants.Swerve.ANGLE_MOTOR_INVERT);
+     }
 
     private void configDriveMotor() {
         m_driveMotor.setInverted(Constants.Swerve.DRIVE_MOTOR_INVERT);
