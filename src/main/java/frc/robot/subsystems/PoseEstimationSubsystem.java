@@ -102,13 +102,13 @@ public class PoseEstimationSubsystem extends SubsystemBase {
     return m_navX.getYaw();
   }
 
-  // public boolean getAsBoolean(Point targetPose, double radialThreshold)
-  // { 
-  //     double dx = Math.pow(m_targetPose.getX() - m_robotPose.getX(), 2); 
-  //     double dy = Math.pow(m_targetPose.getY() - m_robotPose.getY(), 2);
-  //     double radius = Math.sqrt(dx + dy); 
-  //     return radius < m_radialThreshold; 
-  // }
+  public boolean isInRadius(Pose2d targetPose, double radialThreshold)
+  { 
+      double dx = Math.pow(targetPose.getX() - m_swerveDrivePoseEst.getEstimatedPosition().getX(), 2); 
+      double dy = Math.pow(targetPose.getY() - m_swerveDrivePoseEst.getEstimatedPosition().getY(), 2);
+      double radius = Math.sqrt(dx + dy); 
+      return (radius < radialThreshold); 
+  }
 
   @Override
   public void periodic() {

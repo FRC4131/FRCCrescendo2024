@@ -14,6 +14,8 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -125,6 +127,7 @@ public class RobotContainer {
         },
         m_drivetrainSubsystem // Reference to this subsystem to set requirements
     );
+
   }
 
   public void setDefaultCommands() {
@@ -144,6 +147,14 @@ public class RobotContainer {
     // Schedule Triggers  
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
     m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    () -> -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+        () -> m_driverController.getLeftTriggerAxis(),
+         true));
+
+    new Trigger (() -> m_poseEstimationSubsystem.isInRadius(new Pose2d(0,5.4, new Rotation2d()), 1.5)).whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
     () -> -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_driverController.getLeftX(), false) *

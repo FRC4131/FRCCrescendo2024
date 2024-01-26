@@ -62,6 +62,7 @@ public class GoToPoseTeleopCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_robotPose = m_poseEstimationSubsystem.getPose();
     m_desiredAngle = Math.atan2(5.4 - m_robotPose.getY(), 0 - m_robotPose.getX());
     m_pidController.setSetpoint(m_desiredAngle);
     Double desiredRotation = m_pidController.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
