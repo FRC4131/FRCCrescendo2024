@@ -61,7 +61,13 @@ public final class Constants {
     //     /** SDS MK4 - 5.14 : 1 */
     //     public static final double SDSMK4_L4 = (5.14 / 1.0);
 
-
+    public static final class CoordinateConstants{
+        public static final double[] SPEAKER_BLUE = {};
+        public static final double[] SPEAKER_RED = {};
+        public static final double[] AMP_BLUE = {};
+        public static final double [] AMP_RED ={}; 
+        public static final double [] SOURCE_RED = {};
+    }
     /* Swerve drive constants (for SW Testbase) */
     public static final class Swerve {
         

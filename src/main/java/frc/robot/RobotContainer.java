@@ -8,7 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.FixateOnThing;
+import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
@@ -49,6 +49,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
+
   
   
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
@@ -142,7 +143,13 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule Triggers  
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
-    m_driverController.a().whileTrue(new FixateOnThing(m_drivetrainSubsystem, m_poseEstimationSubsystem,0));
+    m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    () -> -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+        () -> m_driverController.getLeftTriggerAxis(),
+         true));
   }
 
   /**
