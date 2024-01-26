@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
+import org.opencv.core.Point;
+
 // import org.photonvision.EstimatedRobotPose;
 // import org.photonvision.PhotonPoseEstimator;
 // import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -99,6 +101,14 @@ public class PoseEstimationSubsystem extends SubsystemBase {
   public double getYaw() {
     return m_navX.getYaw();
   }
+
+  // public boolean getAsBoolean(Point targetPose, double radialThreshold)
+  // { 
+  //     double dx = Math.pow(m_targetPose.getX() - m_robotPose.getX(), 2); 
+  //     double dy = Math.pow(m_targetPose.getY() - m_robotPose.getY(), 2);
+  //     double radius = Math.sqrt(dx + dy); 
+  //     return radius < m_radialThreshold; 
+  // }
 
   @Override
   public void periodic() {
