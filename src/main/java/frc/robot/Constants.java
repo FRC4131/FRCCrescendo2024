@@ -20,6 +20,27 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static class FieldCoordConstants{
+        public static final double RED_SPEAKER_X = 16.579342;
+        public static final double RED_SPEAKER_Y = 5.547868;
+        public static final double RED_AMP_X = 14.700758;
+        public static final double RED_AMP_Y = 8.2042;
+        public static final double RED_SOURCE_RIGHT_X = .356108;
+        public static final double RED_SOURCE_RIGHT_Y = .883666;
+        public static final double RED_SOURCE_LEFT_X = 1.461516;
+        public static final double RED_SOURCE_LEFT_Y = 245872;
+
+
+        public static final double BLUE_SPEAKER_X = 0;
+        public static final double BLUE_SPEAKER_Y = 5.547868;
+        public static final double BLUE_AMP_X = 1.8415;
+        public static final double BLUE_AMP_Y = 8.2042;
+        public static final double BLUE_SOURCE_RIGHT_X = 15.079472;
+        public static final double BLUE_SOURCE_RIGHT_Y = .245872;
+        public static final double BLUE_SOURCE_LEFT_X = 16.185134;
+        public static final double BLUE_SOURCE_LEFT_Y = .883666;
+
+    }
     public static class OperatorConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int OPERATOR_CONTROLLER_PORT = 1;
