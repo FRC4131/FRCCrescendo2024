@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -20,27 +21,18 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static class FieldCoordConstants{
-        public static final double RED_SPEAKER_X = 16.579342;
-        public static final double RED_SPEAKER_Y = 5.547868;
-        public static final double RED_AMP_X = 14.700758;
-        public static final double RED_AMP_Y = 8.2042;
-        public static final double RED_SOURCE_RIGHT_X = .356108;
-        public static final double RED_SOURCE_RIGHT_Y = .883666;
-        public static final double RED_SOURCE_LEFT_X = 1.461516;
-        public static final double RED_SOURCE_LEFT_Y = 245872;
+    public static class FieldConstants{
+        public static final Pose2d RED_SPEAKER = new Pose2d(16.579342, 5.547868, new Rotation2d());
+        public static final Pose2d RED_AMP = new Pose2d(14.700758, 8.2042, new Rotation2d());
+        public static final Pose2d RED_SOURCE_RIGHT = new Pose2d(.356108,.883666, new Rotation2d());
+        public static final Pose2d RED_SOURCE_LEFT = new Pose2d(1.461516,245872, new Rotation2d());
 
-
-        public static final double BLUE_SPEAKER_X = 0;
-        public static final double BLUE_SPEAKER_Y = 5.547868;
-        public static final double BLUE_AMP_X = 1.8415;
-        public static final double BLUE_AMP_Y = 8.2042;
-        public static final double BLUE_SOURCE_RIGHT_X = 15.079472;
-        public static final double BLUE_SOURCE_RIGHT_Y = .245872;
-        public static final double BLUE_SOURCE_LEFT_X = 16.185134;
-        public static final double BLUE_SOURCE_LEFT_Y = .883666;
-
+        public static final Pose2d BLUE_SPEAKER = new Pose2d(0, 5.547868, new Rotation2d());
+        public static final Pose2d BLUE_AMP = new Pose2d(1.8415,8.2042, new Rotation2d());
+        public static final Pose2d BLUE_SOURCE_RIGHT = new Pose2d(15.079472, .245872, new Rotation2d());
+        public static final Pose2d BLUE_SOURCE_LEFT = new Pose2d(16.185134, .883666, new Rotation2d());
     }
+
     public static class OperatorConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int OPERATOR_CONTROLLER_PORT = 1;
@@ -61,13 +53,6 @@ public final class Constants {
     //     /** SDS MK4 - 5.14 : 1 */
     //     public static final double SDSMK4_L4 = (5.14 / 1.0);
 
-    public static final class CoordinateConstants{
-        public static final double[] SPEAKER_BLUE = {};
-        public static final double[] SPEAKER_RED = {};
-        public static final double[] AMP_BLUE = {};
-        public static final double [] AMP_RED ={}; 
-        public static final double [] SOURCE_RED = {};
-    }
     /* Swerve drive constants (for SW Testbase) */
     public static final class Swerve {
         

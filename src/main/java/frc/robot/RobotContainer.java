@@ -9,6 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
+import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
@@ -19,6 +20,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +33,7 @@ import static frc.robot.Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND;
 import static frc.robot.Constants.Swerve.TRACK_WIDTH;
 import static frc.robot.Constants.Swerve.WHEEL_BASE;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -51,6 +54,12 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
+  private Pose2d m_speakerPose; 
+  private Pose2d m_ampPose; 
+  private Pose2d m_sourcePose; 
+  private Pose2d m_stagePose; 
+  private double m_directionInvert; 
+  private double m_angleOffset;
 
   
   
@@ -60,9 +69,11 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    setAllianceSpecific();
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureBindings();  // Configure any game controller bindings and Triggers
+    
   }
 
   /**
@@ -96,6 +107,28 @@ public class RobotContainer {
       value = Math.copySign(value * value, value);
     }
     return value;
+  }
+
+  public void setAllianceSpecific()
+  {
+    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    if (alliance.get().equals(Alliance.Blue) || alliance.isEmpty())
+    {
+      m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
+      m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
+      m_ampPose = Constants.FieldConstants.BLUE_AMP; 
+      m_directionInvert = 1.0;
+      m_angleOffset = 0.0;
+
+
+    }
+    else{
+      m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
+      m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
+      m_ampPose = Constants.FieldConstants.RED_AMP; 
+      m_directionInvert = -1.0;
+      m_angleOffset = Math.PI; 
+    }
   }
 
   public void configureAutoBuilder() {
@@ -152,15 +185,26 @@ public class RobotContainer {
         () -> -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> m_driverController.getLeftTriggerAxis(),
-         true));
+         true,
+         m_ampPose));
 
-    new Trigger (() -> m_poseEstimationSubsystem.isInRadius(new Pose2d(0,5.4, new Rotation2d()), 1.5)).whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    () -> -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
-         true));
+    //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
+
+    new Trigger (() -> m_visionSubsystem.seesTargets()).whileTrue(new StdDevEstimatorCommand(m_visionSubsystem));
+
+    //automatic spatial trigger
+    // new Trigger (() -> m_poseEstimationSubsystem.isInRadius(new Pose2d(m_speakerPose.getX(), //blue speaker
+    //     m_speakerPose.getY(),
+    //     new Rotation2d()), 1.5))
+    //       .whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    //           () -> -modifyAxis(m_driverController.getLeftY(), false) *
+    //               MAX_VELOCITY_METERS_PER_SECOND,
+    //           () -> -modifyAxis(m_driverController.getLeftX(), false) *
+    //               MAX_VELOCITY_METERS_PER_SECOND,
+    //           () -> m_driverController.getLeftTriggerAxis(),
+    //           true,
+    //           m_speakerPose));
+
   }
 
   /**

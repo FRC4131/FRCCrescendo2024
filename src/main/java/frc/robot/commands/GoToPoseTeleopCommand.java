@@ -26,6 +26,7 @@ public class GoToPoseTeleopCommand extends Command {
   private DoubleSupplier m_throttle; 
   private Boolean m_fieldRelative;
   private Pose2d m_robotPose; 
+  private Pose2d m_targetPose; 
 
   PIDController m_pidController;
 
@@ -36,11 +37,13 @@ public class GoToPoseTeleopCommand extends Command {
     DoubleSupplier x,
     DoubleSupplier y, 
     DoubleSupplier throttle,
-    Boolean fieldRelative) {
+    Boolean fieldRelative, 
+    Pose2d targetPose) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_poseEstimationSubsystem = poseEstimationSubsystem;
     m_desiredAngle = angle;
+    m_targetPose = targetPose;
 
     m_pidController = new PIDController(4, 0, 0);
     m_pidController.enableContinuousInput(-Math.PI, Math.PI);
@@ -63,7 +66,7 @@ public class GoToPoseTeleopCommand extends Command {
   @Override
   public void execute() {
     m_robotPose = m_poseEstimationSubsystem.getPose();
-    m_desiredAngle = Math.atan2(5.4 - m_robotPose.getY(), 0 - m_robotPose.getX());
+    m_desiredAngle = Math.atan2(m_targetPose.getY() - m_robotPose.getY(), m_targetPose.getX() - m_robotPose.getX());
     m_pidController.setSetpoint(m_desiredAngle);
     Double desiredRotation = m_pidController.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
 

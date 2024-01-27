@@ -55,6 +55,11 @@ public class VisionSubsystem extends SubsystemBase {
     }
   }
 
+  public boolean seesTargets()
+  {
+    return aprilTagUpdate().isPresent();
+  }
+
   @Override
   public void periodic() {
     m_estimatedRobotPose = aprilTagUpdate();

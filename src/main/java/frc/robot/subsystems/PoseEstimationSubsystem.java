@@ -35,6 +35,10 @@ public class PoseEstimationSubsystem extends SubsystemBase {
   private final Field2d field2d = new Field2d();
   static SwerveDrivePoseEstimator m_swerveDrivePoseEst;
   AHRS m_navX;
+  
+  private Double m_sdX; 
+  private Double m_sdY; 
+  private Double m_sdTheta; 
 
   public frc.lib.util.SwerveModule[] mSwerveMods;
 
