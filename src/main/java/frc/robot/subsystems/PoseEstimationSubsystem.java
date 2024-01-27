@@ -58,7 +58,7 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         m_drivetrainSubsystem.getModulePositions(),
         new Pose2d()
         ,VecBuilder.fill(0.1, 0.1, 0.1), //odometry 
-        VecBuilder.fill(0.9, 0.9, 0.9) //april tags
+        VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X, Constants.VisionConstants.APRIL_TAG_SD_Y, 0.9) //april tags
         );
     
         
@@ -118,8 +118,16 @@ public class PoseEstimationSubsystem extends SubsystemBase {
   public void periodic() {
     EstimatedRobotPose aprilTagPose = m_visionSubsystem.getAprilTagRobotPose().orElse(null);
     DriverStation.refreshData(); 
+
     SmartDashboard.putBoolean("test", false);
     if (aprilTagPose != null && (!DriverStation.isAutonomous())) {
+      SmartDashboard.putNumber("MAGNITUDE", aprilTagPose.getMagnitude());
+      //updates std values based on magnitude of the vector from camera to april tag (trusts it less as we go back more)
+      m_swerveDrivePoseEst.setVisionMeasurementStdDevs( 
+        VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X * aprilTagPose.getMagnitude(),
+        Constants.VisionConstants.APRIL_TAG_SD_Y * aprilTagPose.getMagnitude(), 
+        10));
+
       m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
       SmartDashboard.putBoolean("test", true);
     }
