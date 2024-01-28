@@ -36,12 +36,11 @@ public final class Constants {
     public static class OperatorConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int OPERATOR_CONTROLLER_PORT = 1;
-        public static final int MACROPAD_PORT = 2;
     }
 
     public static final class VisionConstants {
         public static final double GOAL_RANGE_METERS = 5;
-        public static final double APRIL_TAG_SD_X = 0.1; 
+        public static final double APRIL_TAG_SD_X = 0.1; //base vision std dev values for pose estimator 
         public static final double APRIL_TAG_SD_Y = 0.1; 
 
     }
