@@ -221,6 +221,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("test");
+    return new PathPlannerAuto("1 Amp Test");
   }
 }

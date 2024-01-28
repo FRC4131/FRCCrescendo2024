@@ -66,7 +66,7 @@ public class AutoAmpCommand extends Command {
   @Override
   public void execute() {
     m_robotPose = m_poseEstimationSubsystem.getPose();
-    m_desiredAngle = Math.atan2(m_targetPose.getY() - m_robotPose.getY(), m_targetPose.getX() - m_robotPose.getX());
+    m_desiredAngle = Math.atan2(m_targetPose.getY() - m_robotPose.getY(), m_targetPose.getX() - m_robotPose.getX()); 
     m_pidController.setSetpoint(m_desiredAngle);
     Double desiredRotation = m_pidController.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
 
