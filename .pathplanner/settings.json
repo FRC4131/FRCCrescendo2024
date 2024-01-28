@@ -1,13 +1,14 @@
 {
-  "robotWidth": 0.9,
+  "robotWidth": 0.81,
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [],
   "autoFolders": [
     "Faster Autons",
+    "Inefficient Autons",
+    "Test Autons",
     "Original Autons",
-    "Other Autons",
-    "Inefficient Autons"
+    "Other Autons"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1526218797118444,
-      "y": 6.950246524606524
+      "x": 1.5812001994374358,
+      "y": 6.899551121039565
     },
     "rotation": 0
   },
@@ -14,78 +14,66 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1 Path"
+            "pathName": "Test Path"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S2 Path"
+            "pathName": "Test Path 2"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A1 Path"
+            "pathName": "Test Path 3"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A2 Path"
+            "pathName": "Test Path 4"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "A3 Path"
+            "pathName": "Test Path 5"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "A4 Path"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
+            "waitTime": 1.0
           }
         }
       ]
     }
   },
-  "folder": "Inefficient Autons",
+  "folder": "Test Autons",
   "choreoAuto": false
 }

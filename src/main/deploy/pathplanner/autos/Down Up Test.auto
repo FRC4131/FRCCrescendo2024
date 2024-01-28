@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4408703461281565,
+      "y": 7.028186819906404
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Down-Up Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Down-Up Path 2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Test Autons",
+  "choreoAuto": false
+}
