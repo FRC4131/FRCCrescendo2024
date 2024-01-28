@@ -25,39 +25,40 @@ import frc.lib.util.EstimatedRobotPose;
 
 
 
-public class VisionSubsystem extends SubsystemBase {
-  private Optional<EstimatedRobotPose> m_estimatedRobotPose;
+public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Detection 
+  private Optional<EstimatedRobotPose> m_estimatedRobotPose; 
 
-  private int m_numDetections = 3;
+  private int m_numDetections = 3; //number of april tags we let the robot see at a time 
   private int m_detectionThreshold = 9;
   private ArrayList<Boolean> m_tagDetections = new ArrayList<Boolean>();
   private NetworkTable m_NetworkTable; 
-  private double m_magnitude; 
-  private Vector m_targetVector; 
+  private Vector m_targetVector; //holds vector from target to camera 
+  private double m_magnitude; //magnitude of vector above; used for vision std devs in PoseEstimationSubsystem
 
   public VisionSubsystem() {
     m_NetworkTable = NetworkTableInstance.getDefault().getTable("limelight-front"); 
-    m_targetVector = VecBuilder.fill(20, 20, 20); //arbitrary big values
+    m_targetVector = VecBuilder.fill(20, 20, 20); //arbitrary big values -- if the robot starts out not seeing april tag, it does not trust from the get go
   }
 
   public Optional<EstimatedRobotPose> getAprilTagRobotPose() { //returns current april tag robot pose 
     return m_estimatedRobotPose;
   }
 
-  public Optional<EstimatedRobotPose> aprilTagUpdate()
+  public Optional<EstimatedRobotPose> aprilTagUpdate() //updates estimated robot pose based on april tags seen
   {
     double rawBotPose[];
-    Boolean validTargetsPresent = (1.0 == NetworkTableInstance.getDefault().getTable("limelight-front").getEntry("tv").getDouble(0));
+    Boolean validTargetsPresent = (1.0 == NetworkTableInstance.getDefault().getTable("limelight-front").getEntry("tv").getDouble(0)); 
     SmartDashboard.putBoolean("valid targets", validTargetsPresent);
 
-    if (validTargetsPresent) //check to see if valid targets present 
+    if (validTargetsPresent) //returns bot pose if april tags are seen 
     {
       rawBotPose = m_NetworkTable.getEntry("botpose_wpiblue").getDoubleArray(new double[7]); //gets blue pose (one coordinate system)
-      double[] targetArr = m_NetworkTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[7]); 
-      m_targetVector = VecBuilder.fill(targetArr[0], targetArr[1], targetArr[2]); 
       SmartDashboard.putNumber("pose x", rawBotPose[0]);
       SmartDashboard.putNumber("pose y", rawBotPose [1]);
       SmartDashboard.putNumber("pose z", rawBotPose [2]);
+      
+      double[] targetArr = m_NetworkTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[7]); //gets vector from target to camera
+      m_targetVector = VecBuilder.fill(targetArr[0], targetArr[1], targetArr[2]); //passes x, y, z values into 3d vector (so we can get l3 norm instead of l7)
 
       return Optional.of(new EstimatedRobotPose(new Pose3d(new Translation3d (rawBotPose[0], rawBotPose[1], rawBotPose[2]),
          new Rotation3d(Math.toRadians(rawBotPose[3]), 
@@ -66,11 +67,11 @@ public class VisionSubsystem extends SubsystemBase {
           m_targetVector)); //returns pose based on april tag
     }
     else{
-      return Optional.empty(); 
+      return Optional.empty(); //returns an empty if not seeing april tags 
     }
   }
 
-  public boolean seesTargets()
+  public boolean seesTargets() //returns whether robot sees april tags (used for triggers) 
   {
     return aprilTagUpdate().isPresent();
   }
@@ -78,12 +79,8 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_estimatedRobotPose = aprilTagUpdate();
-    // SmartDashboard.putBoolean("IsAprilTagPersist", IsAprilTagPersistent());
-    // SmartDashboard.putNumber("tv_test", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0));
-    // SmartDashboard.putNumberArray("Bot Pose", NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpiblue").getDoubleArray(new double[6]));
+    m_estimatedRobotPose = aprilTagUpdate(); //constantly updates bot pose
     
-
     if (m_estimatedRobotPose.isPresent()) { //if optional contains a value 
       SmartDashboard.putNumber( "April Tag X", m_estimatedRobotPose.get().getPose().getX()); //returns robot x and y values + heading 
       SmartDashboard.putNumber("April Tag Y", m_estimatedRobotPose.get().getPose().getY());
