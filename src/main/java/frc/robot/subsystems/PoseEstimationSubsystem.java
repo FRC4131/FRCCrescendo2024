@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.EstimatedRobotPose;
 import frc.robot.Constants;
 
-public class PoseEstimationSubsystem extends SubsystemBase {
+public class PoseEstimationSubsystem extends SubsystemBase { //calculates the robot's estimated pose using both vision and odometry 
   DrivetrainSubsystem m_drivetrainSubsystem;
   VisionSubsystem m_visionSubsystem;
   private final Field2d field2d = new Field2d();
@@ -57,18 +57,18 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         getGyroYaw(),
         m_drivetrainSubsystem.getModulePositions(),
         new Pose2d()
-        ,VecBuilder.fill(0.1, 0.1, 0.1), //odometry 
-        VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X, Constants.VisionConstants.APRIL_TAG_SD_Y, 0.9) //april tags
+        ,VecBuilder.fill(0.1, 0.1, 0.1), //odometry std devs
+        VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X, Constants.VisionConstants.APRIL_TAG_SD_Y, 0.9) //april tags std devs
         );
     
         
   }
 
-  public void zeroGyro() {
+  public void zeroGyro() { //resets gyro 
     m_navX.zeroYaw();
   }
 
-  public void zeroAngle(){
+  public void zeroAngle(){ //resets robot angle
     m_navX.zeroYaw();
     m_swerveDrivePoseEst.resetPosition(getGyroYaw(), m_drivetrainSubsystem.getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
   }
@@ -106,20 +106,19 @@ public class PoseEstimationSubsystem extends SubsystemBase {
     return m_navX.getYaw();
   }
 
-  public boolean isInRadius(Pose2d targetPose, double radialThreshold)
+  public boolean isInRadius(Pose2d targetPose, double radialThreshold) //used for spatial trigger, returns whether robot is in specific radius of a given target
   { 
       double dx = Math.pow(targetPose.getX() - m_swerveDrivePoseEst.getEstimatedPosition().getX(), 2); 
       double dy = Math.pow(targetPose.getY() - m_swerveDrivePoseEst.getEstimatedPosition().getY(), 2);
-      double radius = Math.sqrt(dx + dy); 
-      return (radius < radialThreshold); 
+      double radius = Math.sqrt(dx + dy); //l2 norm = distance in x and y 
+      return (radius < radialThreshold); //are we past the threshold? 
   }
 
   @Override
-  public void periodic() {
+  public void periodic() {     // This method will be called once per scheduler run
     EstimatedRobotPose aprilTagPose = m_visionSubsystem.getAprilTagRobotPose().orElse(null);
     DriverStation.refreshData(); 
 
-    SmartDashboard.putBoolean("test", false);
     if (aprilTagPose != null && (!DriverStation.isAutonomous())) {
       SmartDashboard.putNumber("MAGNITUDE", aprilTagPose.getMagnitude());
       //updates std values based on magnitude of the vector from camera to april tag (trusts it less as we go back more)
@@ -129,11 +128,10 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         10));
 
       m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
-      SmartDashboard.putBoolean("test", true);
     }
     m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions());
     field2d.setRobotPose(m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions()));
-    // This method will be called once per scheduler run
+
     SmartDashboard.putNumber("RawGyroYaw", getGyroYaw().getDegrees());
     SmartDashboard.putNumber("SwervePoseEst x", m_swerveDrivePoseEst.getEstimatedPosition().getX());
     SmartDashboard.putNumber("SwervePoseEst y", m_swerveDrivePoseEst.getEstimatedPosition().getY());
