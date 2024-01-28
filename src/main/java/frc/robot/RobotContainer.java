@@ -54,6 +54,8 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
+
+  //set to color specific constants later on 
   private Pose2d m_speakerPose; 
   private Pose2d m_ampPose; 
   private Pose2d m_sourcePose; 
@@ -69,7 +71,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    setAllianceSpecific();
+    setAllianceSpecific(); //sets constants to be either blue or red 
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureBindings();  // Configure any game controller bindings and Triggers
@@ -112,15 +114,13 @@ public class RobotContainer {
   public void setAllianceSpecific()
   {
     Optional<Alliance> alliance = DriverStation.getAlliance(); 
-    if (alliance.get().equals(Alliance.Blue) || alliance.isEmpty())
+    if (alliance.get().equals(Alliance.Blue) || alliance.isEmpty()) //defaults to blue 
     {
       m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
       m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
       m_ampPose = Constants.FieldConstants.BLUE_AMP; 
       m_directionInvert = 1.0;
       m_angleOffset = 0.0;
-
-
     }
     else{
       m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
