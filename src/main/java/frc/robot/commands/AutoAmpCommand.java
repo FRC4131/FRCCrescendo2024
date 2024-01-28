@@ -30,32 +30,27 @@ public class AutoAmpCommand extends Command {
 
   PIDController m_pidController;
 
-  /** Creates a new FixateOnThing. */
   public AutoAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
-    PoseEstimationSubsystem poseEstimationSubsystem, 
-    double angle,
-    DoubleSupplier x,
-    DoubleSupplier y, 
-    DoubleSupplier throttle,
-    Boolean fieldRelative, 
-    Pose2d targetPose) {
+                      PoseEstimationSubsystem poseEstimationSubsystem, 
+                      DoubleSupplier y, 
+                      DoubleSupplier throttle,
+                      Boolean fieldRelative, 
+                      Pose2d targetPose) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_poseEstimationSubsystem = poseEstimationSubsystem;
-    m_desiredAngle = angle;
     m_targetPose = targetPose;
 
     m_pidController = new PIDController(4, 0, 0);
     m_pidController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem);
 
-    m_controllerX = x; 
     m_controllerY = y;
     m_throttle = throttle; 
     m_fieldRelative = fieldRelative; 
     m_robotPose = m_poseEstimationSubsystem.getPose();
-
   }
+
 
   // Called when the command is initially scheduled.
   @Override
@@ -66,19 +61,21 @@ public class AutoAmpCommand extends Command {
   @Override
   public void execute() {
     m_robotPose = m_poseEstimationSubsystem.getPose();
-    // Calculate the angle to always face the AprilTag
     m_desiredAngle = Math.atan2(m_targetPose.getY() - m_robotPose.getY(), m_targetPose.getX() - m_robotPose.getX());
     m_pidController.setSetpoint(m_desiredAngle);
     Double desiredRotation = m_pidController.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
 
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
+
+    // Drive with Y-axis control only, maintaining desired rotation
     m_drivetrainSubsystem.drive(new Translation2d(0, m_controllerY.getAsDouble() * scale),
         desiredRotation,
         m_poseEstimationSubsystem.getPose().getRotation(),
         m_fieldRelative,
         true);
   }
+
 
 
 

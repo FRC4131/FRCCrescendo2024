@@ -188,12 +188,14 @@ public class RobotContainer {
          true,
           m_speakerPose));
     m_driverController.a().whileTrue(new AutoAmpCommand(
-        m_drivetrainSubsystem, 
-        m_poseEstimationSubsystem,  
-        () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(), 
-        m_speakerPose 
+      m_drivetrainSubsystem, 
+      m_poseEstimationSubsystem,  
+      () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
+      () -> m_driverController.getLeftTriggerAxis(),
+      true,
+      m_speakerPose // Assuming this is the target AprilTag pose
     ));
+        
         
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
