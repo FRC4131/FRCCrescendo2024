@@ -72,11 +72,8 @@ public class AutoAmpCommand extends Command {
 
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
-    m_drivetrainSubsystem.drive(
-        new Translation2d(
-            m_controllerX.getAsDouble() * scale,
-            m_controllerY.getAsDouble() * scale
-        ),
+    m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
+        m_controllerY.getAsDouble() * scale),
         desiredRotation,
         m_poseEstimationSubsystem.getPose().getRotation(),
         m_fieldRelative,
