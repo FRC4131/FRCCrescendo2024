@@ -187,14 +187,14 @@ public class RobotContainer {
          () -> m_driverController.getLeftTriggerAxis(),
          true,
           m_speakerPose));
-    m_driverController.b().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    () -> -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
-         true,
-         m_ampPose));
+    m_driverController.a().whileTrue(new AutoAmpCommand(
+        m_drivetrainSubsystem, 
+        m_poseEstimationSubsystem,  
+        () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
+        () -> m_driverController.getLeftTriggerAxis(), 
+        m_speakerPose 
+    ));
+        
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
 
