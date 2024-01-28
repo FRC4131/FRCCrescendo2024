@@ -15,7 +15,7 @@ import frc.lib.util.EstimatedRobotPose;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class StdDevEstimatorCommand extends Command {
+public class StdDevEstimatorCommand extends Command { //not currently used : test command used when trying to figure out variable std dev values for vision
   /** Creates a new StdDevEstimatorCommand. */
   private VisionSubsystem m_visionSubsystem; 
   private double[] m_xArray = new double [45]; 

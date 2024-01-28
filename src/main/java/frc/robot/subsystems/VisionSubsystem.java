@@ -88,7 +88,6 @@ public class VisionSubsystem extends SubsystemBase {
       SmartDashboard.putNumber( "April Tag X", m_estimatedRobotPose.get().getPose().getX()); //returns robot x and y values + heading 
       SmartDashboard.putNumber("April Tag Y", m_estimatedRobotPose.get().getPose().getY());
       SmartDashboard.putNumber("April Tag Heading", m_estimatedRobotPose.get().getPose().getRotation().getDegrees());
-      SmartDashboard.putNumber("April Tag Mag", m_estimatedRobotPose.get().getMagnitude());
      }
 
   }

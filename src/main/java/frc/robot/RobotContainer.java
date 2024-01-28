@@ -177,9 +177,17 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Schedule Triggers  
+    // Schedule Triggers 
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
     m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    () -> -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+         () -> m_driverController.getLeftTriggerAxis(),
+         true,
+          m_speakerPose));
+    m_driverController.b().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
     () -> -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_driverController.getLeftX(), false) *
