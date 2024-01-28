@@ -7,19 +7,21 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FeederSubsystem extends SubsystemBase {
   private CANSparkMax m_BeltMotor;
-
-  
+  private DigitalInput m_SecondBreaker;
 
   /** Creates a new FeederSubsystem. */
   public FeederSubsystem() {
-      m_BeltMotor = new CANSparkMax(3, MotorType.kBrushless);
+      m_BeltMotor = new CANSparkMax(2, MotorType.kBrushless);
+      m_SecondBreaker = new DigitalInput(1);
   }
+
   public void setPower(double power)
   {
     m_BeltMotor.set(power);
@@ -29,6 +31,10 @@ public class FeederSubsystem extends SubsystemBase {
     return new InstantCommand(() -> {
       setPower(power);
     }, this);
+  }
+
+  public boolean getSecondBreaker() {
+    return m_SecondBreaker.get();
   }
 
   @Override
