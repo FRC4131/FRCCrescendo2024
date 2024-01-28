@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A1.1 Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2.1 Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A3 Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A4 Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A3.1 Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2 Path"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Inefficient Autons",
+  "choreoAuto": false
+}

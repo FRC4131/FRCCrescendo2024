@@ -1,0 +1,85 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A1.1 Path"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Collect Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2.1 Path"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Place Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 3"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Collect Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 4"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Place Note"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Original Autons",
+  "choreoAuto": false
+}

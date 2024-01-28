@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Central 3 Amp Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Lower 3 Amp Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Lower 3 Amp Path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Lower 3 Amp Path 4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Original Autons",
+  "choreoAuto": false
+}

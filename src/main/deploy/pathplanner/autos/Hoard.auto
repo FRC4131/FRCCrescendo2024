@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 2,
+      "y": 2
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hoard Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hoard Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hoard Path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hoard Path 4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Other Autons",
+  "choreoAuto": false
+}
