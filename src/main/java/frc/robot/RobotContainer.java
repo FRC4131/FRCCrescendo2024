@@ -9,6 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
+import frc.robot.commands.AutoAmpCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
