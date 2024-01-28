@@ -1,0 +1,91 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A1.1 Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Collect Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2.1 Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Place Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Collect Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Place Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Other 3 Amp Path 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Other 3 Amp Path 6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Collect Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Other 3 Amp Path 7"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Place Note"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Original Autons",
+  "choreoAuto": false
+}

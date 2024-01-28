@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A1.1 Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2.1 Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 Amp #2 Path 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Leaver 3 Amp Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2 Path"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
