@@ -8,9 +8,11 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.GoToPoseTeleopCommand;
+// import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -47,22 +50,26 @@ import com.pathplanner.lib.util.ReplanningConfig;
  */
 public class RobotContainer {
   // The robot's subsystems:
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
-  private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
-
+  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  // private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  // private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
+  // private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final FeederSubsystem m_feederSubsystem = new FeederSubsystem();
   
   
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+      new CommandXboxController( OperatorConstants.DRIVER_CONTROLLER_PORT);
 
+      
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureBindings();  // Configure any game controller bindings and Triggers
+
+
   }
 
   /**
@@ -100,67 +107,82 @@ public class RobotContainer {
 
   public void configureAutoBuilder() {
     
-    //Configure the autobuilder from pathplanner (Holonomic for Swerve drive)
-    AutoBuilder.configureHolonomic(
-        m_poseEstimationSubsystem::getPose, // Robot pose supplier
-        m_poseEstimationSubsystem::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-        m_drivetrainSubsystem::getChassisSpeed,// ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        m_drivetrainSubsystem::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-            new PIDConstants(3.5, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(6.0, 0.0, 0.0), // Rotation PID constants
-            MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
-            Math.sqrt(TRACK_WIDTH*TRACK_WIDTH + WHEEL_BASE*WHEEL_BASE) / 2.0, // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig() // Default path replanning config. See the API for the options here
-        ),
-        () -> {
-          // Boolean supplier that controls when the path will be mirrored for the red
-          // alliance
-          // This will flip the path being followed to the red side of the field.
-          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+  //   //Configure the autobuilder from pathplanner (Holonomic for Swerve drive)
+  //   AutoBuilder.configureHolonomic(
+  //       m_poseEstimationSubsystem::getPose, // Robot pose supplier
+  //       m_poseEstimationSubsystem::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+  //       m_drivetrainSubsystem::getChassisSpeed,// ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+  //       m_drivetrainSubsystem::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+  //       new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+  //           new PIDConstants(3.5, 0.0, 0.0), // Translation PID constants
+  //           new PIDConstants(6.0, 0.0, 0.0), // Rotation PID constants
+  //           MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
+  //           Math.sqrt(TRACK_WIDTH*TRACK_WIDTH + WHEEL_BASE*WHEEL_BASE) / 2.0, // Drive base radius in meters. Distance from robot center to furthest module.
+  //           new ReplanningConfig() // Default path replanning config. See the API for the options here
+  //       ),
+  //       () -> {
+  //         // Boolean supplier that controls when the path will be mirrored for the red
+  //         // alliance
+  //         // This will flip the path being followed to the red side of the field.
+  //         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-          var alliance = DriverStation.getAlliance();
-          if (alliance.isPresent()) {
-            return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
-        },
-        m_drivetrainSubsystem // Reference to this subsystem to set requirements
-    );
+  //         var alliance = DriverStation.getAlliance();
+  //         if (alliance.isPresent()) {
+  //           return alliance.get() == DriverStation.Alliance.Red;
+  //         }
+  //         return false;
+  //       },
+  //       m_drivetrainSubsystem // Reference to this subsystem to set requirements
+  //   );
 
   }
 
   public void setDefaultCommands() {
 
-    m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem,
-        () -> -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getRightX(), false) *
-            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
-        true));
+    // m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem,
+    //     () -> -modifyAxis(m_driverController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_driverController.getLeftX(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_driverController.getRightX(), false) *
+    //         MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+    //     () -> m_driverController.getLeftTriggerAxis(),
+    //     true));
   }
 
   private void configureBindings() {
-    // Schedule Triggers  
-    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
-    m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    () -> -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
-         true));
+    m_driverController.a().whileTrue(m_intakeSubsystem.setPowerCommand(0.04))
+    .onFalse(m_intakeSubsystem.setPowerCommand(0));
+    
+    m_driverController.b().whileTrue(m_feederSubsystem.setPowerCommand(0.08))
+    .onFalse(m_feederSubsystem.setPowerCommand(0));
 
-    new Trigger (() -> m_poseEstimationSubsystem.isInRadius(new Pose2d(0,5.4, new Rotation2d()), 1.5)).whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    () -> -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
-         true));
+
+    // Schedule Triggers  
+    // m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
+    // m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    // () -> -modifyAxis(m_driverController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_driverController.getLeftX(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> m_driverController.getLeftTriggerAxis(),
+    //      true));
+
+    // new Trigger (() -> m_poseEstimationSubsystem.isInRadius(new Pose2d(0,5.4, new Rotation2d()), 1.5)).whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    // () -> -modifyAxis(m_driverController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_driverController.getLeftX(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> m_driverController.getLeftTriggerAxis(),
+    //      true));
+
+    // m_driverController.x().onTrue(new DefaultDriveCommand(m_drivetrainSubsystem,
+    //  m_poseEstimationSubsystem,
+    //   () -> 100,
+    //    () -> 100,
+    //     () -> 0, 
+    //     null, 
+    //   false));
   }
 
   /**
