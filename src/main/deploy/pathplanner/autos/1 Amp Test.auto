@@ -74,6 +74,10 @@
       ]
     }
   },
+<<<<<<< Updated upstream
   "folder": "Test Autons",
+=======
+  "folder": "New Folder",
+>>>>>>> Stashed changes
   "choreoAuto": false
 }
