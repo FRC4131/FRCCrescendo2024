@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.6011658289733093,
-      "y": 7.000234938556181
+      "x": 1.5812001994374358,
+      "y": 6.899551121039565
     },
     "rotation": 0
   },
@@ -14,12 +14,66 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 Amp Test Path 2"
+            "pathName": "Test Path"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Test Path 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Test Path 3"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Test Path 4"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Test Path 5"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Test Autons",
   "choreoAuto": false
 }

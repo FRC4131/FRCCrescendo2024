@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2763435455948924,
-      "y": 2.212434495790977
+      "x": 1.4551755469306675,
+      "y": 7.010076157919538
     },
     "rotation": 0
   },
@@ -14,30 +14,30 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Hoard Path 1"
+            "pathName": "Real 1 Amp Path 1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Hoard Path 2"
+            "pathName": "Real 1 Amp Path 2"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Hoard Path 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Hoard Path 4"
+            "waitTime": 1.0
           }
         }
       ]
     }
   },
-  "folder": "Other Autons",
+  "folder": "Test Autons",
   "choreoAuto": false
 }
