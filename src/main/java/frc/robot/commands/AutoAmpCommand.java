@@ -30,26 +30,31 @@ public class AutoAmpCommand extends Command {
 
   PIDController m_pidController;
 
-  public AutoAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
-                      PoseEstimationSubsystem poseEstimationSubsystem, 
-                      DoubleSupplier y, 
-                      DoubleSupplier throttle,
-                      Boolean fieldRelative, 
-                      Pose2d targetPose) {
+  public AutoAmpCommand(
+    DrivetrainSubsystem drivetrainSubsystem, 
+    PoseEstimationSubsystem poseEstimationSubsystem, 
+    double angle,
+    DoubleSupplier x,
+    DoubleSupplier y, 
+    DoubleSupplier throttle,
+    Boolean fieldRelative, 
+    Pose2d targetPose) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_poseEstimationSubsystem = poseEstimationSubsystem;
+    m_desiredAngle = angle;
     m_targetPose = targetPose;
 
     m_pidController = new PIDController(4, 0, 0);
     m_pidController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem);
 
+    m_controllerX = x; 
     m_controllerY = y;
     m_throttle = throttle; 
     m_fieldRelative = fieldRelative; 
     m_robotPose = m_poseEstimationSubsystem.getPose();
-  }
+    }
 
 
   // Called when the command is initially scheduled.
