@@ -203,7 +203,7 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
          () -> m_driverController.getLeftTriggerAxis(),
          true,
-          m_speakerPose));
+          m_ampPose));
         
         
 
