@@ -51,32 +51,44 @@ public class GrabNoteCommand extends Command {
   public void execute() {
     switch (m_State) {
         case hasNotTouchedFirst:
+            // if not touched the first beam break, then run the intake at full power
+            // so that it sucks the thingy into the beam
             m_intakeSubsystem.setPower(0.04);
+
+            // if we're in the first beam, change state
             if (m_intakeSubsystem.getFirstBreaker()) {
                 m_State = State.inFirst;
             }
             break;
         case inFirst:
+            // the note is inside of the breaker beam light
+            // keep sucking it in with the intake
             m_intakeSubsystem.setPower(0.04);
+
+            // bbbutt, if the note comes out of the first breaker, then change state
             if (!m_intakeSubsystem.getFirstBreaker()) {
                 m_State = State.outOfFirst;
             }
             break;
         case outOfFirst:
+            // ok now we need to feed the note through the middle section
             m_intakeSubsystem.setPower(0);
             m_feederSubsystem.setPower(0.04);
             
+            // if it falls into the intake again :(
             if (m_intakeSubsystem.getFirstBreaker()) {
                 m_State = State.inFirst;
                 m_feederSubsystem.setPower(0);
             }
 
+            // if it hits the second breaker, move state
             if (m_feederSubsystem.getSecondBreaker()) {
                 m_State = State.inSecond;
             }
 
             break;
         case inSecond:
+            // keep feeding it through until it's out of the second breaker
             m_feederSubsystem.setPower(0.04);
             if (!m_feederSubsystem.getSecondBreaker()) {
                 m_State = State.outOfSecond;
@@ -85,9 +97,12 @@ public class GrabNoteCommand extends Command {
             break;
         case outOfSecond:
             // feeder continue running
+
             m_shooterSubsystem.setPower(0.04);
             m_ShooterTicks++;
-            if (m_ShooterTicks == SHOOTER_TICKS) {
+
+            // ok im trying to make it last for 1 second but this doesn't work well :(
+            if (m_ShooterTicks >= SHOOTER_TICKS) {
                 m_State = State.done;
                 m_shooterSubsystem.setPower(0);
                 m_feederSubsystem.setPower(0);
