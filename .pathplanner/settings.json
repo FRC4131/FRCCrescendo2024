@@ -6,7 +6,11 @@
   "autoFolders": [
     "Faster Autons",
     "Inefficient Autons",
+<<<<<<< Updated upstream
     "Test Autons",
+=======
+    "New Folder",
+>>>>>>> Stashed changes
     "Original Autons",
     "Other Autons"
   ],
