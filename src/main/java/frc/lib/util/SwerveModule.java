@@ -1,15 +1,21 @@
 package frc.lib.util;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import com.ctre.phoenix.sensors.CANCoder;
-// import com.ctre.phoenix6.hardware.CANcoder;
+// import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkRelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 // import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 // import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -21,39 +27,39 @@ public class SwerveModule {
 
     private CANSparkMax m_angleMotor;
     private CANSparkMax m_driveMotor;
-    private RelativeEncoder driveEncoder;
-    private CANCoder angleEncoder;
-    private ProfiledPIDController turningPidController;
+    private RelativeEncoder m_driveEncoder;
+    private CANcoder m_angleEncoder;
+    private ProfiledPIDController m_turningPidController;
 
     public SwerveModule(
         int moduleNumber,
         int angleMotorID, 
         int driveMotorID, 
-        int canCoderID ) 
+        int canCoderID,
+        double kP) 
         {
         this.moduleNumber = moduleNumber;
 
         /* Motor & Encoder Config */
-        m_angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
-        m_driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
-        driveEncoder = m_driveMotor.getEncoder(com.revrobotics.SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-        angleEncoder = new CANCoder(canCoderID);
-
+        m_angleMotor = new CANSparkMax(angleMotorID, CANSparkLowLevel.MotorType.kBrushless);
+        m_driveMotor = new CANSparkMax(driveMotorID, CANSparkLowLevel.MotorType.kBrushless);
+        m_driveEncoder = m_driveMotor.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
+        m_angleEncoder = new CANcoder(canCoderID);
         configAngleMotor();
         configDriveMotor();
 
         // Create PID controller on ROBO RIO
-        turningPidController = new ProfiledPIDController(0.4, 0, 0,
+        m_turningPidController = new ProfiledPIDController(kP
+        , 0, 0,
                 new TrapezoidProfile.Constraints(20 * 2 * Math.PI, 20 * 2 * Math.PI));
 
         // Tell PID controller that it is a *wheel*
-        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+        m_turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         lastAngle = getState().angle;
 
-        // angleEncoder.configMagnetOffset(moduleConstants.angleOffset.getDegrees());
-        driveEncoder.setPosition(0);
-        angleEncoder.setPosition(0);
+        m_driveEncoder.setPosition(0);
+        m_angleEncoder.setPosition(0);   
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {
@@ -69,17 +75,13 @@ public class SwerveModule {
     }
 
     private void setAngle(SwerveModuleState desiredState) {
-        Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.001))
-                ? lastAngle
-                : desiredState.angle; // Prevent rotating module if speed is less then 1%. Prevents Jittering.
-
-        m_angleMotor.set(turningPidController.calculate(getTurningPosition(),
-                desiredState.angle.getRadians()));
-        lastAngle = angle;
+        double desiredPower = m_turningPidController.calculate(getTurningPosition(),
+                desiredState.angle.getRadians()); 
+        m_angleMotor.set(desiredPower);
     }
 
     public double getDrivePosition() {
-        return driveEncoder.getPosition();
+        return m_driveEncoder.getPosition();
     }
 
     public void rawSet(double drive, double turn) {
@@ -88,15 +90,15 @@ public class SwerveModule {
     }
 
     public double getTurningPosition() {
-        return angleEncoder.getAbsolutePosition();
+        return m_angleEncoder.getAbsolutePosition().getValueAsDouble() * Constants.Swerve.ANGLE_ENCODER_ROT2RAD; 
     }
 
     public double getDriveVelocity() {
-        return driveEncoder.getVelocity();
+        return m_driveEncoder.getVelocity();
     }
 
     public double getTurningVelocity() {
-        return angleEncoder.getVelocity();
+        return m_angleEncoder.getVelocity().getValueAsDouble();
     }
 
     private void configAngleMotor() {
@@ -105,9 +107,9 @@ public class SwerveModule {
 
     private void configDriveMotor() {
         m_driveMotor.setInverted(Constants.Swerve.DRIVE_MOTOR_INVERT);
-        // m_driveMotor.setIdleMode(IdleMode.kBrake); 
-        driveEncoder.setPositionConversionFactor(Constants.Swerve.DRIVE_ENCODER_ROT2METERS);
-        driveEncoder.setVelocityConversionFactor(Constants.Swerve.DRIVE_ENCODER_RPM2METERSPERSEC);
+        m_driveMotor.setIdleMode(IdleMode.kBrake); 
+        m_driveEncoder.setPositionConversionFactor(Constants.Swerve.DRIVE_ENCODER_ROT2METERS);
+        m_driveEncoder.setVelocityConversionFactor(Constants.Swerve.DRIVE_ENCODER_RPM2METERSPERSEC);
         m_driveMotor.burnFlash();  //TODO: Do we need to flash these values into the encoder?
     }
 
@@ -120,9 +122,9 @@ public class SwerveModule {
     }
 
     public void reset() {
-        driveEncoder.setPosition(0);
-        angleEncoder.setPosition(0);
-        turningPidController.reset(0);
+        m_driveEncoder.setPosition(0);
+        m_angleEncoder.setPosition(0);
+        m_turningPidController.reset(0);
     }
 
     public void stop() {

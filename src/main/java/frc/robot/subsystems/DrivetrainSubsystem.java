@@ -29,19 +29,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new SwerveModule(0,
                     Constants.Swerve.Mod0.ANGLE_MOTOR_ID,
                     Constants.Swerve.Mod0.DRIVE_MOTOR_ID,
-                    Constants.Swerve.Mod0.CANCODER_ID),
+                    Constants.Swerve.Mod0.CANCODER_ID, 
+                    0.4),
                 new SwerveModule(1, 
                     Constants.Swerve.Mod1.ANGLE_MOTOR_ID,
                     Constants.Swerve.Mod1.DRIVE_MOTOR_ID,
-                    Constants.Swerve.Mod1.CANCODER_ID),
+                    Constants.Swerve.Mod1.CANCODER_ID, 
+                    0.4),
                 new SwerveModule(2,
                     Constants.Swerve.Mod2.ANGLE_MOTOR_ID,
                     Constants.Swerve.Mod2.DRIVE_MOTOR_ID,
-                    Constants.Swerve.Mod2.CANCODER_ID),
+                    Constants.Swerve.Mod2.CANCODER_ID, 
+                    0.4),
                 new SwerveModule(3,
                     Constants.Swerve.Mod3.ANGLE_MOTOR_ID,
                     Constants.Swerve.Mod3.DRIVE_MOTOR_ID,
-                    Constants.Swerve.Mod3.CANCODER_ID)
+                    Constants.Swerve.Mod3.CANCODER_ID,
+                    0.4)
         };
         for (SwerveModule mod : m_SwerveMods) {
             mod.reset();
@@ -66,9 +70,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         translation.getY(),
                         rotation,
                         currentRotation)
+                        // : new ChassisSpeeds(
+                        //         translation.getX(),
+                        //         translation.getY(),
+                        //         rotation));
                         : new ChassisSpeeds(
-                                translation.getX(),
-                                translation.getY(),
+                                0.0,
+                                0.0,
                                 rotation));
 
         setModuleStates(swerveModuleStates);
@@ -135,14 +143,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // for (SwerveModule mod : m_SwerveMods) {
             ChassisSpeeds chassisSpeed = this.getChassisSpeed();
             SmartDashboard.putNumber("Chassis x", chassisSpeed.vxMetersPerSecond);
             SmartDashboard.putNumber("Chassis y", chassisSpeed.vyMetersPerSecond);
             SmartDashboard.putNumber("Chassis rads/sec", chassisSpeed.omegaRadiansPerSecond);
-            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Turn Position", mod.getTurningPosition());
-            // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
-        // }
+
+            SmartDashboard.putNumber("Mod " + m_SwerveMods[2].moduleNumber + " Turn Position", m_SwerveMods[2].getTurningPosition());
+            SmartDashboard.putNumber("Mod " + m_SwerveMods[0].moduleNumber + " Turn Position", m_SwerveMods[0].getTurningPosition());
+            SmartDashboard.putNumber("Mod " + m_SwerveMods[1].moduleNumber + " Turn Position", m_SwerveMods[1].getTurningPosition());
+            SmartDashboard.putNumber("Mod " + m_SwerveMods[3].moduleNumber + " Turn Position", m_SwerveMods[3].getTurningPosition());
+            //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+
 
     }
 }

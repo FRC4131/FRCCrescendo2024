@@ -9,8 +9,9 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
-import frc.robot.commands.AutoAmpCommand;
+//import frc.robot.commands.AutoAmpCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
+import frc.robot.commands.TargetAmpCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
@@ -188,15 +189,21 @@ public class RobotContainer {
          () -> m_driverController.getLeftTriggerAxis(),
          true,
           m_speakerPose));
-    m_driverController.a().whileTrue(new AutoAmpCommand(
-      m_drivetrainSubsystem, 
-      m_poseEstimationSubsystem,  
-      () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
-      () -> m_driverController.getLeftTriggerAxis(),
-      true,
-      m_speakerPose // Assuming this is the target AprilTag pose
-    ));
+    // m_driverController.b().whileTrue(new AutoAmpCommand(
+    //   m_drivetrainSubsystem, 
+    //   m_poseEstimationSubsystem,  
+    //   () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
+    //   () -> m_driverController.getLeftTriggerAxis(),
+    //   true,
+    //   m_speakerPose // Assuming this is the target AprilTag pose
+    // ));
         
+    // m_driverController.b().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 
+    // () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
+    // () -> -modifyAxis(m_driverController.getLeftX(), false) * MAX_VELOCITY_METERS_PER_SECOND,
+    // () -> m_driverController.getLeftTriggerAxis(),
+    //   true, 
+    //   m_ampPose)); 
         
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 

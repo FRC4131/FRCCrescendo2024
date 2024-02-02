@@ -59,8 +59,8 @@ public final class Constants {
     public static final class Swerve {
         
         /* Drivetrain Constants */
-        public static final double TRACK_WIDTH = Units.inchesToMeters(21); // NOTE: Robot-specific
-        public static final double WHEEL_BASE = Units.inchesToMeters(24); // NOTE: Robot-specific
+        public static final double TRACK_WIDTH = Units.inchesToMeters(18); // NOTE: Robot-specific
+        public static final double WHEEL_BASE = Units.inchesToMeters(20); // NOTE: Robot-specific
         public static final double MAX_VELOCITY_METERS_PER_SECOND = 4.4; //TODO: could be calculated/tuned
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
                 Math.hypot(TRACK_WIDTH / 2.0, WHEEL_BASE / 2.0);
@@ -87,40 +87,42 @@ public final class Constants {
         /* Velocity and Position Scaling factors for built-in REV NEO encoders */
         public static final double DRIVE_ENCODER_ROT2METERS =  Math.PI * WHEEL_DIAMETER / DRIVE_GEAR_RATIO;
         public static final double DRIVE_ENCODER_RPM2METERSPERSEC = DRIVE_ENCODER_ROT2METERS / 60.0;
+        public static final double ANGLE_ENCODER_ROT2RAD = Math.PI * 2.0;
+        
 
         /* NavX/gyro specific constants */
         public static final boolean GYRO_INVERT = false; // Always ensure Gyro is CCW+ CW-
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
-        public static final class Mod0 { // TODO: This must be tuned to specific robot
-            public static final int DRIVE_MOTOR_ID = 19;
-            public static final int ANGLE_MOTOR_ID = 10;
-            public static final int CANCODER_ID = 12;
+        public static final class Mod0 { // TODO: This must be tuned to specific robot 
+            public static final int DRIVE_MOTOR_ID = 7;
+            public static final int ANGLE_MOTOR_ID = 8;
+            public static final int CANCODER_ID = 21;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians((-4.85 * Math.PI) / 4);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 { // TODO: This must be tuned to specific robot
-            public static final int DRIVE_MOTOR_ID = 20;
-            public static final int ANGLE_MOTOR_ID = 2;
-            public static final int CANCODER_ID = 15;
+            public static final int DRIVE_MOTOR_ID = 5;
+            public static final int ANGLE_MOTOR_ID = 6;
+            public static final int CANCODER_ID = 22;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians(1.13 * Math.PI);
         }
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 { // TODO: This must be tuned to specific robot
-            public static final int DRIVE_MOTOR_ID = 11;
-            public static final int ANGLE_MOTOR_ID = 6;
-            public static final int CANCODER_ID = 9;
+            public static final int DRIVE_MOTOR_ID = 3;
+            public static final int ANGLE_MOTOR_ID = 4;
+            public static final int CANCODER_ID = 23;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians((-3.45 * Math.PI) / 4);
         }
 
         /* Back Right Module - Module 3 */
         public static final class Mod3 { // TODO: This must be tuned to specific robot
-            public static final int DRIVE_MOTOR_ID = 14;
-            public static final int ANGLE_MOTOR_ID = 5;
-            public static final int CANCODER_ID = 10;
+            public static final int DRIVE_MOTOR_ID = 2;
+            public static final int ANGLE_MOTOR_ID = 11;
+            public static final int CANCODER_ID = 24;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians((0.75 * Math.PI) / 2);
         }
     }

@@ -92,6 +92,7 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
 
   public Pose2d getPose() {
     return m_swerveDrivePoseEst.getEstimatedPosition();
+    //return new Pose2d(); 
   }
 
   public double getPitch() {
