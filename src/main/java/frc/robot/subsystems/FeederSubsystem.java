@@ -42,7 +42,7 @@ public class FeederSubsystem extends SubsystemBase {
   public FeederSubsystem() {
       m_IntakeMotor = new CANSparkMax(3, CANSparkLowLevel.MotorType.kBrushless);
       m_BeltMotor = new CANSparkMax(21, CANSparkLowLevel.MotorType.kBrushless);
-      m_IntakeBreaker = new DigitalInput(0);
+      m_IntakeBreaker = new DigitalInput(2); // beambreak
       m_FeederBreaker = new DigitalInput(1); //switch 
       m_State = FeederState.READYINPUT;
       m_ShooterTicks = 0;
@@ -82,6 +82,7 @@ public class FeederSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putString("FeederState", m_State.name());
+    SmartDashboard.putBoolean("FeederBeamBreak", m_FeederBreaker.get());
 
     switch (m_State) {
 

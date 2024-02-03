@@ -165,6 +165,7 @@ public class RobotContainer {
     m_driverController.x().and(intakeTrigger)
       .onTrue(m_feederSubsystem.setIntakePowerCommand(0.04)).onFalse(m_feederSubsystem.setIntakePowerCommand(0.0));
     
+    // m_driverController.a().and().onTrue();
     // m_driverController.b()
     //   .onTrue(new InstantCommand(() -> {
     //     m_grabNoteCommand.end(true);
