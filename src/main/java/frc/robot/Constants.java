@@ -51,6 +51,12 @@ public final class Constants {
         public static final double GOAL_RANGE_METERS = 5;
     }
 
+    public static enum FeederState {
+        READYINPUT,
+        FEED,
+        TRANSIT,
+        READYSHOOT,
+      }
     //     /* SDS MK4 Potential Drive Gear Ratios*/
     //     /** SDS MK4 - 8.14 : 1 */
     //     public static final double SDSMK4_L1 = (8.14 / 1.0);

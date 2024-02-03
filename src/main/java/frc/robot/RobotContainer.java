@@ -56,9 +56,9 @@ public class RobotContainer {
   // private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   // private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   // private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  // private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final FeederSubsystem m_feederSubsystem = new FeederSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  // private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private GrabNoteCommand m_grabNoteCommand;
   
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
@@ -160,14 +160,16 @@ public class RobotContainer {
     // m_driverController.b().whileTrue(m_feederSubsystem.setPowerCommand(0.08))
     // .onFalse(m_feederSubsystem.setPowerCommand(0));
 
-    m_grabNoteCommand = new GrabNoteCommand(m_intakeSubsystem, m_feederSubsystem, m_shooterSubsystem);
-    m_driverController.x()
-      .onTrue(m_grabNoteCommand);
+    // m_grabNoteCommand = new GrabNoteCommand(m_intakeSubsystem, m_feederSubsystem, m_shooterSubsystem);
+    Trigger intakeTrigger = new Trigger(m_feederSubsystem::intakeAllowed);
+    m_driverController.x().and(intakeTrigger)
+      .onTrue(m_feederSubsystem.setIntakePowerCommand(0.04)).onFalse(m_feederSubsystem.setIntakePowerCommand(0.0));
     
-    m_driverController.b()
-      .onTrue(new InstantCommand(() -> {
-        m_grabNoteCommand.end(true);
-      }, m_intakeSubsystem, m_feederSubsystem, m_shooterSubsystem));
+    // m_driverController.b()
+    //   .onTrue(new InstantCommand(() -> {
+    //     m_grabNoteCommand.end(true);
+    //   }, m_intakeSubsystem, m_feederSubsystem, m_shooterSubsystem));
+
     // Schedule Triggers  
     // m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
     // m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
