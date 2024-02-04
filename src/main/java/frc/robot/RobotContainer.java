@@ -219,9 +219,7 @@ public class RobotContainer {
   }    
 
   private void configureOperatorBindings() {
-    m_operatorController.leftTrigger();
-    m_operatorController.leftStick();
-    m_operatorController.povDown().whileTrue(m_intakeSubsystem.setIntakeSpeed(-0.01));
+    m_operatorController.povDown().whileTrue(m_intakeSubsystem.setIntakePowerCommand(-0.01));
       
     
 

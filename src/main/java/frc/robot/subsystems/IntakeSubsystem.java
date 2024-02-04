@@ -41,12 +41,16 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakePID.setI(d * 1);
   }
 
-  public Command setIntakeSpeed(double speed) {
+  public void setIntakePower(double power) {
+    m_intakeController.set(power);
+  }
+
+  public Command setIntakePowerCommand(double power) {
     return new InstantCommand(() -> {
-      intakeSpeed(speed);
+      setIntakePower(power);
     }, this);
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
