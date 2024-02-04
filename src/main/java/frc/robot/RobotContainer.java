@@ -14,6 +14,7 @@ import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.commands.TargetAmpCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -56,7 +58,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
-
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
   private Pose2d m_ampPose; 
@@ -70,13 +72,16 @@ public class RobotContainer {
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+  private final CommandXboxController m_operatorController = 
+      new CommandXboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     setAllianceSpecific(); //sets constants to be either blue or red 
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
-    configureBindings();  // Configure any game controller bindings and Triggers
+    configureDriverBindings();  // Configure driver game controller bindings and Triggers
+    configureOperatorBindings();  //Configure operator game controller bindings and Triggers
     
   }
 
@@ -178,7 +183,7 @@ public class RobotContainer {
         true));
   }
 
-  private void configureBindings() {
+  private void configureDriverBindings() {
     // Schedule Triggers 
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
     m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
@@ -189,6 +194,7 @@ public class RobotContainer {
          () -> m_driverController.getLeftTriggerAxis(),
          true,
           m_speakerPose));
+<<<<<<< Updated upstream
     // m_driverController.b().whileTrue(new AutoAmpCommand(
     //   m_drivetrainSubsystem, 
     //   m_poseEstimationSubsystem,  
@@ -203,6 +209,27 @@ public class RobotContainer {
     () -> m_driverController.getLeftTriggerAxis(),
       true, 
       m_ampPose)); 
+=======
+    m_driverController.a().whileTrue(new AutoAmpCommand(
+      m_drivetrainSubsystem, 
+      m_poseEstimationSubsystem,  
+      () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
+      () -> m_driverController.getLeftTriggerAxis(),
+      true,
+      m_speakerPose // Assuming this is the target AprilTag pose
+    ));
+  }      
+  private void configureOperatorBindings() {
+    m_operatorController.leftTrigger();
+    m_operatorController.leftStick();
+    m_operatorController.povDown().whileTrue(m_intakeSubsystem.setPowerCommand(-0.04));
+      
+    
+
+
+    
+  
+>>>>>>> Stashed changes
         
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
