@@ -58,8 +58,7 @@ public class SwerveModule {
 
         lastAngle = getState().angle;
 
-        m_driveEncoder.setPosition(0);
-        m_angleEncoder.setPosition(0);   
+        m_driveEncoder.setPosition(0);   
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {
@@ -123,7 +122,6 @@ public class SwerveModule {
 
     public void reset() {
         m_driveEncoder.setPosition(0);
-        m_angleEncoder.setPosition(0);
         m_turningPidController.reset(0);
     }
 

@@ -64,7 +64,7 @@ public class TargetAmpCommand extends Command {
     double robotX = m_robotPose.getX(); 
     double robotY = m_robotPose.getY(); 
     
-    m_pidController.setSetpoint(m_desiredAngle);
+    //m_pidController.setSetpoint(m_desiredAngle);
     Double desiredRotation = 0.0;
     Double desiredX = m_pidController.calculate(Constants.FieldConstants.BLUE_AMP.getX()); 
 

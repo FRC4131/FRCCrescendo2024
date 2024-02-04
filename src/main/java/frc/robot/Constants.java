@@ -91,7 +91,7 @@ public final class Constants {
         
 
         /* NavX/gyro specific constants */
-        public static final boolean GYRO_INVERT = false; // Always ensure Gyro is CCW+ CW-
+        public static final boolean GYRO_INVERT = true; // Always ensure Gyro is CCW+ CW-
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
