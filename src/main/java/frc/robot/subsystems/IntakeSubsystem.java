@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-<<<<<<< Updated upstream
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -14,19 +13,15 @@ import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
-=======
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
->>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
-<<<<<<< Updated upstream
 
   private CANSparkMax m_intakeController = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
   private RelativeEncoder m_encoder;
@@ -44,25 +39,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void intakeSpeed(double d) {
     m_intakePID.setI(d * 1);
-=======
-  private CANSparkMax m_intakeMotor;  
-
-  public IntakeSubsystem() {
-    m_intakeMotor = new CANSparkMax(10, MotorType.kBrushless);
   }
 
-  public void setPower(double power)
-  {
-    m_intakeMotor.set(power);
-  }
-
-  public Command setPowerCommand(double power) {
+  public Command setIntakeSpeed(double speed) {
     return new InstantCommand(() -> {
-      setPower(power);
+      intakeSpeed(speed);
     }, this);
->>>>>>> Stashed changes
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

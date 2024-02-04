@@ -194,7 +194,6 @@ public class RobotContainer {
          () -> m_driverController.getLeftTriggerAxis(),
          true,
           m_speakerPose));
-<<<<<<< Updated upstream
     // m_driverController.b().whileTrue(new AutoAmpCommand(
     //   m_drivetrainSubsystem, 
     //   m_poseEstimationSubsystem,  
@@ -209,27 +208,26 @@ public class RobotContainer {
     () -> m_driverController.getLeftTriggerAxis(),
       true, 
       m_ampPose)); 
-=======
-    m_driverController.a().whileTrue(new AutoAmpCommand(
-      m_drivetrainSubsystem, 
-      m_poseEstimationSubsystem,  
-      () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
-      () -> m_driverController.getLeftTriggerAxis(),
-      true,
-      m_speakerPose // Assuming this is the target AprilTag pose
-    ));
-  }      
+    // m_driverController.a().whileTrue(new AutoAmpCommand(
+    //   m_drivetrainSubsystem, 
+    //   m_poseEstimationSubsystem,  
+    //   () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
+    //   () -> m_driverController.getLeftTriggerAxis(),
+    //   true,
+    //   m_speakerPose // Assuming this is the target AprilTag pose
+    // ));
+  }    
+
   private void configureOperatorBindings() {
     m_operatorController.leftTrigger();
     m_operatorController.leftStick();
-    m_operatorController.povDown().whileTrue(m_intakeSubsystem.setPowerCommand(-0.04));
+    m_operatorController.povDown().whileTrue(m_intakeSubsystem.setIntakeSpeed(-0.01));
       
     
 
 
     
   
->>>>>>> Stashed changes
         
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
