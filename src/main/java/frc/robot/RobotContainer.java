@@ -10,6 +10,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GrabNoteCommand;
 // import frc.robot.commands.GoToPoseTeleopCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -60,6 +61,7 @@ public class RobotContainer {
   private final FeederSubsystem m_feederSubsystem = new FeederSubsystem();
   // private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private GrabNoteCommand m_grabNoteCommand;
+  private ShootCommand m_ShootCommand;
   
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
@@ -170,6 +172,13 @@ public class RobotContainer {
     //   .onTrue(new InstantCommand(() -> {
     //     m_grabNoteCommand.end(true);
     //   }, m_intakeSubsystem, m_feederSubsystem, m_shooterSubsystem));
+
+
+      Trigger shootTrigger = new Trigger(m_feederSubsystem::shootAllowed);
+
+      m_driverController.a().and(shootTrigger)
+      .onTrue(new InstantCommand(() -> m_ShootCommand.execute())).onFalse(new InstantCommand(() -> m_ShootCommand.end(true)));
+
 
     // Schedule Triggers  
     // m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
