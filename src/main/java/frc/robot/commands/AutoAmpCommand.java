@@ -1,110 +1,94 @@
-// // package frc.robot.commands;
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// // import java.util.function.DoubleSupplier;
+package frc.robot.commands;
 
-// // import edu.wpi.first.math.controller.PIDController;
-// // import edu.wpi.first.math.geometry.Pose2d;
-// // import edu.wpi.first.math.geometry.Translation2d;
-// // import edu.wpi.first.wpilibj2.command.CommandBase;
-// // import frc.robot.Constants;
-// // import frc.robot.subsystems.DrivetrainSubsystem;
-// // import frc.robot.subsystems.PoseEstimationSubsystem;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
-// // public class AutoAmpCommand extends CommandBase {
-// //     private final DrivetrainSubsystem m_drivetrainSubsystem;
-// //     private final PoseEstimationSubsystem m_poseEstimationSubsystem;
-// //     private final PIDController m_pidController;
-// //     private final DoubleSupplier m_throttle;
-// //     private Pose2d m_robotPose;
-// //     private double m_desiredAngle;
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.PoseEstimationSubsystem;
 
-// //     /** Creates a new AutoAmpCommand. */
-// //     public AutoAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
-// //                           PoseEstimationSubsystem poseEstimationSubsystem, 
-// //                           DoubleSupplier throttle,
-// //                           double angle) {
-// //         m_drivetrainSubsystem = drivetrainSubsystem;
-// //         m_poseEstimationSubsystem = poseEstimationSubsystem;
-// //         m_throttle = throttle;
-// //         m_desiredAngle = angle;
+public class AutoAmpCommand extends Command {
+  DrivetrainSubsystem m_drivetrainSubsystem;
+  PoseEstimationSubsystem m_poseEstimationSubsystem;
+  Double m_desiredAngle;
+  private DoubleSupplier m_controllerX; 
+  private DoubleSupplier m_controllerY; 
+  private DoubleSupplier m_throttle; 
+  private Boolean m_fieldRelative;
+  private Pose2d m_robotPose; 
+  private Pose2d m_targetPose; 
 
-// //         m_pidController = new PIDController(4, 0, 0);
-// //         m_pidController.enableContinuousInput(-Math.PI, Math.PI);
-// //         addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem);
+  PIDController m_pidController;
 
-//   public AutoAmpCommand(
-//     DrivetrainSubsystem drivetrainSubsystem, 
-//     PoseEstimationSubsystem poseEstimationSubsystem, 
-//     double angle,
-//     DoubleSupplier x,
-//     DoubleSupplier y, 
-//     DoubleSupplier throttle,
-//     Boolean fieldRelative, 
-//     Pose2d targetPose) {
-//     // Use addRequirements() here to declare subsystem dependencies.
-//     m_drivetrainSubsystem = drivetrainSubsystem;
-//     m_poseEstimationSubsystem = poseEstimationSubsystem;
-//     m_desiredAngle = angle;
-//     m_targetPose = targetPose;
+  /** Creates a new FixateOnThing. */
+  public AutoAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
+    PoseEstimationSubsystem poseEstimationSubsystem, 
+    double angle,
+    DoubleSupplier x,
+    DoubleSupplier y, 
+    DoubleSupplier throttle,
+    Boolean fieldRelative, 
+    Pose2d targetPose) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    m_drivetrainSubsystem = drivetrainSubsystem;
+    m_poseEstimationSubsystem = poseEstimationSubsystem;
+    m_desiredAngle = angle;
+    m_targetPose = targetPose;
 
-// //     @Override
-// //     public void initialize() {
-// //         m_pidController.setSetpoint(m_desiredAngle);
-// //     }
+    m_pidController = new PIDController(4, 0, 0);
+    m_pidController.enableContinuousInput(-Math.PI, Math.PI);
+    addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem);
 
-//     m_controllerX = x; 
-//     m_controllerY = y;
-//     m_throttle = throttle; 
-//     m_fieldRelative = fieldRelative; 
-//     m_robotPose = m_poseEstimationSubsystem.getPose();
-//     }
+    m_controllerX = x; 
+    m_controllerY = y;
+    m_throttle = throttle; 
+    m_fieldRelative = fieldRelative; 
+    m_robotPose = m_poseEstimationSubsystem.getPose();
 
-// //     //     // No strafing, only forward and backward movement
-// //     //     double forwardSpeed = m_throttle.getAsDouble() * Constants.MAX_VELOCITY_METERS_PER_SECOND;
+  }
 
-// //   // Called every time the scheduler runs while the command is scheduled.
-// //   @Override
-// //   public void execute() {
-// //     m_robotPose = m_poseEstimationSubsystem.getPose();
-// //     m_desiredAngle = Math.atan2(m_targetPose.getY() - m_robotPose.getY(), m_targetPose.getX() - m_robotPose.getX()); 
-// //     m_pidController.setSetpoint(m_desiredAngle);
-// //     Double desiredRotation = m_pidController.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+  }
 
-// //         // Move the robot forward/backward with the desired rotation
-// //         m_drivetrainSubsystem.drive(new Translation2d(0, forwardSpeed),
-// //                                     desiredRotation,
-// //                                     m_robotPose.getRotation(),
-// //                                     true,
-// //                                     true);
-// //     }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_robotPose = m_poseEstimationSubsystem.getPose();
+    m_desiredAngle = Math.atan2(m_targetPose.getY() - m_robotPose.getY(), m_targetPose.getX() - m_robotPose.getX());
+    m_pidController.setSetpoint(m_desiredAngle);
+    Double desiredRotation = m_pidController.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
 
-// //     // public void execute() {
-// //     //   m_robotPose = m_poseEstimationSubsystem.getPose();
-// //     //   m_desiredAngle = Math.atan2(m_targetPose.getY() - m_robotPose.getY(), m_targetPose.getX() - m_robotPose.getX());
-// //     //   m_pidController.setSetpoint(m_desiredAngle);
-// //     //   Double desiredRotation = m_pidController.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
-  
-// //     //   double throttleValue = m_throttle.getAsDouble();
-// //     //   double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle
-// //     //   double forwardSpeed = (slope * throttleValue + Constants.Swerve.MIN_THROTTLE_LEVEL) * Constants.MAX_VELOCITY_METERS_PER_SECOND;
-  
-// //     //   // Drive forward or backward while maintaining the desired rotation
-// //     //   // Removed the m_controllerX.getAsDouble() for lateral movement to prevent strafing
-// //     //   m_drivetrainSubsystem.drive(new Translation2d(0, forwardSpeed),
-// //     //       desiredRotation,
-// //     //       m_poseEstimationSubsystem.getPose().getRotation(),
-// //     //       m_fieldRelative,
-// //     //       true);
-// //     // }
-  
+    double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
+    double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
+    m_drivetrainSubsystem.drive(new Translation2d(0,
+        m_controllerY.getAsDouble() * scale),
+        desiredRotation,
+        m_poseEstimationSubsystem.getPose().getRotation(),
+        m_fieldRelative,
+        true);
+  }
 
-// //     @Override
-// //     public void end(boolean interrupted) {
-// //         m_drivetrainSubsystem.drive(new Translation2d(), 0, m_robotPose.getRotation(), true, true);
-// //     }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
+  }
 
-// //     @Override
-// //     public boolean isFinished() {
-// //         return false;
-// //     }
-// // }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}

@@ -9,7 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
-//import frc.robot.commands.AutoAmpCommand;
+import frc.robot.commands.AutoAmpCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.commands.TargetAmpCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -174,11 +174,11 @@ public class RobotContainer {
   public void setDefaultCommands() {
 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem,
-        () -> -modifyAxis(m_driverController.getLeftY(), false) *
+        () -> modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
+        () -> modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getRightX(), false) *
+        () -> modifyAxis(m_driverController.getRightX(), false) *
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
         () -> m_driverController.getLeftTriggerAxis(),
         true));
@@ -204,14 +204,18 @@ public class RobotContainer {
     //   m_speakerPose // Assuming this is the target AprilTag pose
     // ));
         
-    m_driverController.b().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 
-    () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
-    () -> m_driverController.getLeftTriggerAxis(),
-      true, 
-      m_ampPose)); 
+    m_driverController.b().whileTrue(new AutoAmpCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    () -> -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+         () -> m_driverController.getLeftTriggerAxis(),
+         true,
+          m_ampPose));
+      
 
-    m_driverController.y().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
-    m_driverController.x().onTrue(m_intakeSubsystem.setPowerCommand(0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
+    m_driverController.povRight().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
+    m_driverController.povLeft().onTrue(m_intakeSubsystem.setPowerCommand(0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
         
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
