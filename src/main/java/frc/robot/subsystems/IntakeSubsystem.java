@@ -4,41 +4,46 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+<<<<<<< Updated upstream
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
 import com.revrobotics.CANSparkMax;
 
+=======
+import edu.wpi.first.wpilibj.DigitalInput;
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class IntakeSubsystem extends SubsystemBase {
+  private CANSparkMax m_intakeMotor;
+  private DigitalInput firstBreaker;
+
   /** Creates a new IntakeSubsystem. */
-
-  private CANSparkMax m_intakeController = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
-  private RelativeEncoder m_encoder;
-  private SparkPIDController m_intakePID;
-
   public IntakeSubsystem() {
-    m_encoder = m_intakeController.getEncoder();
-    m_intakeController.setSmartCurrentLimit(30, 40);
-
-    m_intakePID =  m_intakeController.getPIDController(); 
-    m_intakeController.burnFlash();
-
-    m_intakePID.setP(1);
+      m_intakeMotor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+      firstBreaker = new DigitalInput(0);
   }
 
-  public void intakeSpeed(double d) {
-    m_intakePID.setI(d * 1);
+  public void setPower(double power)
+  {
+    m_intakeMotor.set(power);
+  }
+
+  public Command setPowerCommand(double power) {
+    return new InstantCommand(() -> {
+      setPower(power);
+    }, this);
+  }
+
+
+  public boolean getFirstBreaker() {
+    return firstBreaker.get();
   }
 
   public void setIntakePower(double power) {

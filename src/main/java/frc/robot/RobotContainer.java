@@ -58,7 +58,12 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
+<<<<<<< Updated upstream
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+=======
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(); 
+
+>>>>>>> Stashed changes
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
   private Pose2d m_ampPose; 
@@ -208,6 +213,7 @@ public class RobotContainer {
     () -> m_driverController.getLeftTriggerAxis(),
       true, 
       m_ampPose)); 
+<<<<<<< Updated upstream
     // m_driverController.a().whileTrue(new AutoAmpCommand(
     //   m_drivetrainSubsystem, 
     //   m_poseEstimationSubsystem,  
@@ -226,6 +232,11 @@ public class RobotContainer {
 
     
   
+=======
+
+    m_driverController.y().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
+    m_driverController.x().onTrue(m_intakeSubsystem.setPowerCommand(0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
+>>>>>>> Stashed changes
         
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
