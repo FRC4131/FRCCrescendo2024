@@ -123,15 +123,19 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
     if (aprilTagPose != null && (!DriverStation.isAutonomous())) {
       SmartDashboard.putNumber("MAGNITUDE", aprilTagPose.getMagnitude());
       //updates std values based on magnitude of the vector from camera to april tag (trusts it less as we go back more)
-      m_swerveDrivePoseEst.setVisionMeasurementStdDevs( 
+      if (aprilTagPose.getMagnitude() < 4.0)
+      {
+         m_swerveDrivePoseEst.setVisionMeasurementStdDevs( 
         VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X * aprilTagPose.getMagnitude(),
         Constants.VisionConstants.APRIL_TAG_SD_Y * aprilTagPose.getMagnitude(), 
         1000));
+      }
 
       m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
     }
     m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions());
     field2d.setRobotPose(m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions()));
+
 
     SmartDashboard.putNumber("RawGyroYaw", getGyroYaw().getDegrees());
     SmartDashboard.putNumber("SwervePoseEst x", m_swerveDrivePoseEst.getEstimatedPosition().getX());
