@@ -70,14 +70,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         translation.getY(),
                         rotation,
                         currentRotation)
-                        // : new ChassisSpeeds(
-                        //         translation.getX(),
-                        //         translation.getY(),
-                        //         rotation));
                         : new ChassisSpeeds(
-                                0.0,
-                                0.0,
+                                translation.getX(),
+                                translation.getY(),
                                 rotation));
+                        // : new ChassisSpeeds(
+                        //         0.0,
+                        //         0.0,
+                        //         rotation));
 
         setModuleStates(swerveModuleStates);
     }

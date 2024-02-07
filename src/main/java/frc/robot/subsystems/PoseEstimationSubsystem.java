@@ -126,7 +126,7 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
       m_swerveDrivePoseEst.setVisionMeasurementStdDevs( 
         VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X * aprilTagPose.getMagnitude(),
         Constants.VisionConstants.APRIL_TAG_SD_Y * aprilTagPose.getMagnitude(), 
-        10));
+        1000));
 
       m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
     }

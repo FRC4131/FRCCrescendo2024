@@ -12,6 +12,7 @@ import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.commands.AutoAmpCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.commands.TargetAmpCommand;
+//import frc.robot.commands.TargetAmpCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -174,23 +175,24 @@ public class RobotContainer {
   public void setDefaultCommands() {
 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem,
-        () -> modifyAxis(m_driverController.getLeftY(), false) *
+        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(m_driverController.getLeftX(), false) *
+        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(m_driverController.getRightX(), false) *
+        () -> -modifyAxis(m_driverController.getRightX(), false) *
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
         () -> m_driverController.getLeftTriggerAxis(),
         true));
+
   }
 
   private void configureDriverBindings() {
     // Schedule Triggers 
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
     m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    () -> -modifyAxis(m_driverController.getLeftY(), false) *
+    () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
+        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
          () -> m_driverController.getLeftTriggerAxis(),
          true,
@@ -204,14 +206,22 @@ public class RobotContainer {
     //   m_speakerPose // Assuming this is the target AprilTag pose
     // ));
         
-    m_driverController.b().whileTrue(new AutoAmpCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    () -> -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-         () -> m_driverController.getLeftTriggerAxis(),
-         true,
-          m_ampPose));
+    // m_driverController.b().whileTrue(new AutoAmpCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
+    // () -> -modifyAxis(m_driverController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_driverController.getLeftX(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //      () -> m_driverController.getLeftTriggerAxis(),
+    //      true,
+    //       m_ampPose));
+
+    m_driverController.b().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
+       m_poseEstimationSubsystem,
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,   
+      () -> m_driverController.getLeftTriggerAxis(), 
+      true, 
+       m_ampPose)); 
       
 
     m_driverController.povRight().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));

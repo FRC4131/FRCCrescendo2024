@@ -71,13 +71,13 @@ public final class Constants {
          * rectangular/square 4 module swerve
          */
         public static final SwerveDriveKinematics SWERVE_KINEMATICS = new SwerveDriveKinematics(
-                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
-                new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
-                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
-                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0));
+                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0), //fl
+                new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0), //fr
+                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0), //bl
+                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0)); //br
 
         /* SDS Swerve Module Constants */
-        public static final boolean DRIVE_MOTOR_INVERT = true;  /* Motor Inverts */
+        public static final boolean DRIVE_MOTOR_INVERT = false;  /* Motor Inverts */
         public static final boolean ANGLE_MOTOR_INVERT = false;
         public static final boolean CANCODER_INVERT = false;
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
@@ -96,33 +96,48 @@ public final class Constants {
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 { // TODO: This must be tuned to specific robot 
-            public static final int DRIVE_MOTOR_ID = 7;
-            public static final int ANGLE_MOTOR_ID = 8;
-            public static final int CANCODER_ID = 21;
+            // public static final int DRIVE_MOTOR_ID = 7;
+            // public static final int ANGLE_MOTOR_ID = 8;
+            // public static final int CANCODER_ID = 21;
+
+            public static final int DRIVE_MOTOR_ID = 2;
+            public static final int ANGLE_MOTOR_ID = 11;
+            public static final int CANCODER_ID = 24;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians((-4.85 * Math.PI) / 4);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 { // TODO: This must be tuned to specific robot
-            public static final int DRIVE_MOTOR_ID = 5;
-            public static final int ANGLE_MOTOR_ID = 6;
-            public static final int CANCODER_ID = 22;
+            // public static final int DRIVE_MOTOR_ID = 5;
+            // public static final int ANGLE_MOTOR_ID = 6;
+            // public static final int CANCODER_ID = 22;
+
+            public static final int DRIVE_MOTOR_ID = 3;
+            public static final int ANGLE_MOTOR_ID = 4;
+            public static final int CANCODER_ID = 23;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians(1.13 * Math.PI);
         }
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 { // TODO: This must be tuned to specific robot
-            public static final int DRIVE_MOTOR_ID = 3;
-            public static final int ANGLE_MOTOR_ID = 4;
-            public static final int CANCODER_ID = 23;
+
+
+            public static final int DRIVE_MOTOR_ID = 5;
+            public static final int ANGLE_MOTOR_ID = 6;
+            public static final int CANCODER_ID = 22;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians((-3.45 * Math.PI) / 4);
         }
 
         /* Back Right Module - Module 3 */
         public static final class Mod3 { // TODO: This must be tuned to specific robot
-            public static final int DRIVE_MOTOR_ID = 2;
-            public static final int ANGLE_MOTOR_ID = 11;
-            public static final int CANCODER_ID = 24;
+            // public static final int DRIVE_MOTOR_ID = 2;
+            // public static final int ANGLE_MOTOR_ID = 11;
+            // public static final int CANCODER_ID = 24;
+
+            public static final int DRIVE_MOTOR_ID = 7;
+            public static final int ANGLE_MOTOR_ID = 8;
+            public static final int CANCODER_ID = 21;
+            
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians((0.75 * Math.PI) / 2);
         }
     }

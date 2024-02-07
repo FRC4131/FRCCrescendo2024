@@ -8,6 +8,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+
+import com.ctre.phoenix6.controls.ControlRequest;
 // import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkLowLevel;
@@ -103,6 +105,7 @@ public class SwerveModule {
     private void configAngleMotor() {
         m_angleMotor.setInverted(Constants.Swerve.ANGLE_MOTOR_INVERT);
     }
+
 
     private void configDriveMotor() {
         m_driveMotor.setInverted(Constants.Swerve.DRIVE_MOTOR_INVERT);
