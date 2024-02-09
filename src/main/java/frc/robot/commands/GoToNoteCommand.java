@@ -67,7 +67,7 @@ public class GoToNoteCommand extends Command {
       {
         desiredRotRadians = noteTx.get() * (Math.PI / 180); 
       }
-      m_angleController.setSetpoint(desiredRotRadians);
+      m_angleController.setSetpoint(robotPose.getRotation().getRadians() - desiredRotRadians);
       m_angleController.calculate(robotPose.getRotation().getRadians()); 
 
       double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
