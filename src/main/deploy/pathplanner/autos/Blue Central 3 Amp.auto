@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.1671773698157324,
+      "y": 4.1
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 6"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Blue Autons",
+  "choreoAuto": false
+}

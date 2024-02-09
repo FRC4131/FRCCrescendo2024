@@ -1,18 +1,14 @@
 {
-  "robotWidth": 0.81,
+  "robotWidth": 0.9,
   "robotLength": 0.9,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "Blue Side",
+    "Red Side"
+  ],
   "autoFolders": [
-    "Faster Autons",
-    "Inefficient Autons",
-<<<<<<< Updated upstream
-    "Test Autons",
-=======
-    "New Folder",
->>>>>>> Stashed changes
-    "Original Autons",
-    "Other Autons"
+    "Blue Autons",
+    "Red Autons"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
