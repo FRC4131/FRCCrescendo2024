@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -61,6 +62,8 @@ public class RobotContainer {
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(); 
 
+  private final SendableChooser<Command> autoChooser;
+
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
   private Pose2d m_ampPose; 
@@ -84,6 +87,8 @@ public class RobotContainer {
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
     //configureOperatorBindings();  //Configure operator game controller bindings and Triggers
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
     
   }
 
@@ -254,7 +259,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 //<<<<<<< HEAD
-    return new PathPlannerAuto("1 Amp Test");
+    return autoChooser.getSelected();
 //=======
     //return new PathPlannerAuto("Faster 3 Amp #3 ^");
 //>>>>>>> a7818c7f0f156c249301516be4aab27bb1be9b7b
