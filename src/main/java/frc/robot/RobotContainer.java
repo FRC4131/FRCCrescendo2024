@@ -70,7 +70,9 @@ public class RobotContainer {
   private Pose2d m_sourcePose; 
   private Pose2d m_stagePose; 
   private double m_directionInvert; 
-  private double m_angleOffset;
+  private double m_angleOffset; 
+
+  //private final SendableChooser<Command> m_autoChooser; //for autons
 
   
   
@@ -127,9 +129,11 @@ public class RobotContainer {
 
   public void setAllianceSpecific()
   {
+
     Optional<Alliance> alliance = DriverStation.getAlliance(); 
     if (alliance.get().equals(Alliance.Blue) || alliance.isEmpty()) //defaults to blue 
     {
+      SmartDashboard.putString("Alliance", "blue");
       m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
       m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
       m_ampPose = Constants.FieldConstants.BLUE_AMP; 
@@ -137,6 +141,7 @@ public class RobotContainer {
       m_angleOffset = 0.0;
     }
     else{
+      SmartDashboard.putString("Alliance", "red");
       m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
       m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
       m_ampPose = Constants.FieldConstants.RED_AMP; 
@@ -258,10 +263,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-//<<<<<<< HEAD
     return autoChooser.getSelected();
-//=======
-    //return new PathPlannerAuto("Faster 3 Amp #3 ^");
-//>>>>>>> a7818c7f0f156c249301516be4aab27bb1be9b7b
+
   }
 }
