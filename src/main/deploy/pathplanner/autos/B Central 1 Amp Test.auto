@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7078465188825315,
+      "y": 4.397287293636501
+    },
+    "rotation": -59.620000000000005
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central Speaker-Corner Start"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Test Autons",
+  "choreoAuto": false
+}

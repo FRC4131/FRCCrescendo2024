@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.6770424047414701,
+      "y": 1.8174427343226178
+    },
+    "rotation": 59.53
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Lower Source-Line Start"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Test Autons",
+  "choreoAuto": false
+}
