@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4551755469306675,
-      "y": 7.010076157919538
+      "x": 15.35,
+      "y": 4.1
     },
-    "rotation": 0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,30 +14,30 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Real 1 Amp Path 1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "R Central Far Amp Path 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Real 1 Amp Path 2"
+            "pathName": "R Lower Far Amp Path 2"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 1.0
+            "pathName": "Red Central Triple Amp Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Central Triple Amp Path 2"
           }
         }
       ]
     }
   },
-  "folder": "Original Autons",
+  "folder": "Red Autons",
   "choreoAuto": false
 }

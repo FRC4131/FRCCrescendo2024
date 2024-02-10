@@ -8,7 +8,9 @@
   ],
   "autoFolders": [
     "Blue Autons",
-    "Red Autons"
+    "Original Autons",
+    "Red Autons",
+    "Test Autons"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
