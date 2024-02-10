@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.commands.AutoAmpCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
@@ -62,7 +63,7 @@ public class RobotContainer {
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(); 
 
-  private final SendableChooser<Command> autoChooser;
+  //private final SendableChooser<Command> autoChooser;
 
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
@@ -89,8 +90,8 @@ public class RobotContainer {
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
     //configureOperatorBindings();  //Configure operator game controller bindings and Triggers
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //m_autoChooser = AutoBuilder.buildAutoChooser();
+    //SmartDashboard.putData("Auto Chooser", m_autoChooser);
     
   }
 
@@ -207,6 +208,17 @@ public class RobotContainer {
          () -> m_driverController.getLeftTriggerAxis(),
          true,
           m_speakerPose));
+
+    m_driverController.povLeft().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem,
+       m_visionSubsystem,
+      m_intakeSubsystem, 
+        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+      () -> m_driverController.getLeftTriggerAxis(),
+      false)); 
+
     // m_driverController.b().whileTrue(new AutoAmpCommand(
     //   m_drivetrainSubsystem, 
     //   m_poseEstimationSubsystem,  
@@ -234,8 +246,9 @@ public class RobotContainer {
        m_ampPose)); 
       
 
-    m_driverController.povRight().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
-    m_driverController.povLeft().onTrue(m_intakeSubsystem.setPowerCommand(0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
+
+    m_driverController.x().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
+    m_driverController.y().onTrue(m_intakeSubsystem.setPowerCommand(0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
         
 
     //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
@@ -264,7 +277,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    return autoChooser.getSelected();
+    //return m_autoChooser.getSelected();
+    return new PathPlannerAuto("testing"); 
 
   }
 }

@@ -101,6 +101,7 @@ public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Det
   @Override
   public void periodic() {
     m_estimatedRobotPose = aprilTagUpdate(); //constantly updates bot pose
+    SmartDashboard.putBoolean("sees note", seesNote()); 
     
     if (m_estimatedRobotPose.isPresent()) { //if optional contains a value 
       SmartDashboard.putNumber( "April Tag X", m_estimatedRobotPose.get().getPose().getX()); //returns robot x and y values + heading 
