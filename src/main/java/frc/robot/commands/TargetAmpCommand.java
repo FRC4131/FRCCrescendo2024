@@ -70,7 +70,7 @@ public class TargetAmpCommand extends Command {
   public void initialize() {
     m_xController.reset(); 
     m_xController.setSetpoint(m_targetPose.getX());
-    m_pidControllerTheta.setSetpoint(Math.PI / 2);
+    m_pidControllerTheta.setSetpoint(-(Math.PI / 2));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
