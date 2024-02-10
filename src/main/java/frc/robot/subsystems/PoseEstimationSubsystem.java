@@ -68,13 +68,13 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
     m_navX.zeroYaw();
   }
 
-  public void zeroAngle(){ //resets robot angle
+  public void zeroAngle(double angleOffset){ //resets robot angle
     m_navX.zeroYaw();
-    m_swerveDrivePoseEst.resetPosition(getGyroYaw(), m_drivetrainSubsystem.getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+    m_swerveDrivePoseEst.resetPosition(getGyroYaw(), m_drivetrainSubsystem.getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d(angleOffset)));
   }
 
-  public Command zeroAngleCommand(){
-    return new InstantCommand(()->this.zeroAngle());
+  public Command zeroAngleCommand(double angleOffset){
+    return new InstantCommand(()->this.zeroAngle(angleOffset));
   }
 
   public void setAngleAdjustment(double adjustment){

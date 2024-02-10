@@ -8,72 +8,65 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 //targets notes using Google Coral and LL3 Detection Pipeline -- rotates and drives towards notes 
 public class GoToNoteCommand extends Command {
-  private VisionSubsystem m_visionSubsystem; 
-  private DrivetrainSubsystem m_DrivetrainSubsystem; 
-  private IntakeSubsystem m_IntakeSubsystem; 
-  private PIDController m_angleController; 
-  private DoubleSupplier m_x; 
-  private DoubleSupplier m_y; 
-  private DoubleSupplier m_throttle; 
-  private Boolean m_fieldRelative; 
+  private VisionSubsystem m_visionSubsystem;
+  private DrivetrainSubsystem m_DrivetrainSubsystem;
+  private IntakeSubsystem m_IntakeSubsystem;
+  private PIDController m_angleController;
+  private DoubleSupplier m_throttle;
+  private Boolean m_fieldRelative;
 
   /** Creates a new GoToNoteCommand. */
-  public GoToNoteCommand(DrivetrainSubsystem drivetrainSubsystem, 
-    VisionSubsystem visionSubsystem, 
-    IntakeSubsystem intakeSubsystem, 
-    DoubleSupplier x, 
-    DoubleSupplier y, 
-    DoubleSupplier throttle, 
-    Boolean fieldRelative) {
-    m_visionSubsystem = visionSubsystem; 
-    m_DrivetrainSubsystem = drivetrainSubsystem; 
-    m_IntakeSubsystem = intakeSubsystem; 
-    m_x = x; 
-    m_y = y; 
-    m_throttle = throttle; 
-    m_angleController = new PIDController(6.0, 0, 0); 
+  public GoToNoteCommand(DrivetrainSubsystem drivetrainSubsystem,
+      VisionSubsystem visionSubsystem,
+      IntakeSubsystem intakeSubsystem,
+      DoubleSupplier throttle,
+      Boolean fieldRelative) {
+    m_visionSubsystem = visionSubsystem;
+    m_DrivetrainSubsystem = drivetrainSubsystem;
+    m_IntakeSubsystem = intakeSubsystem;
+    m_throttle = throttle;
+    m_angleController = new PIDController(6.0, 0, 0);
     m_angleController.enableContinuousInput(-Math.PI, Math.PI);
-    m_fieldRelative = fieldRelative; 
+    m_fieldRelative = fieldRelative;
     addRequirements(m_DrivetrainSubsystem, m_visionSubsystem, m_IntakeSubsystem);
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_angleController.reset(); 
-
+    m_angleController.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      Double rotOutput = 0.0;
-      Optional<Double> noteTx = m_visionSubsystem.getNoteOffset();  //gets horiz distance between note cross hair and LL3 crosshair 
-      if (noteTx.isPresent()) //if the robot sees a note
-      {
-          m_angleController.setSetpoint(0.0); //goal: tx == 0
-          rotOutput = m_angleController.calculate(noteTx.get() * (Math.PI / 180)); //gets tx and converts to radians 
-      }
+    Double rotOutput = 0.0;
+    Optional<Double> noteTx = m_visionSubsystem.getNoteOffset(); // gets horiz distance between note cross hair and LL3
+                                                                 // crosshair
+    if (noteTx.isPresent()) // if the robot sees a note
+    {
+      m_angleController.setSetpoint(0.0); // goal: tx == 0
+      rotOutput = m_angleController.calculate(noteTx.get() * (Math.PI / 180)); // gets tx and converts to radians
+    }
 
-      double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
-      double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
+    double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; // Throttle control
+    double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL;
 
-      m_DrivetrainSubsystem.drive(new Translation2d(-0.8 * scale,
-        m_y.getAsDouble() * scale),
+    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.2;
+
+    //Robot is driven (in Robot-Centric frame) towards note
+    m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,
+        0.0),
         rotOutput,
         new Rotation2d(),
         m_fieldRelative,
@@ -84,7 +77,6 @@ public class GoToNoteCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_DrivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
-
   }
 
   // Returns true when the command should end.

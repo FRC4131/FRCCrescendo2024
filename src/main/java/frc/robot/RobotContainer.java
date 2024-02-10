@@ -199,7 +199,7 @@ public class RobotContainer {
 
   private void configureDriverBindings() {
     // Schedule Triggers 
-    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand()); 
+    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(m_angleOffset)); 
     m_driverController.a().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
     () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
@@ -212,10 +212,6 @@ public class RobotContainer {
     m_driverController.povLeft().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem,
        m_visionSubsystem,
       m_intakeSubsystem, 
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
       () -> m_driverController.getLeftTriggerAxis(),
       false)); 
 
