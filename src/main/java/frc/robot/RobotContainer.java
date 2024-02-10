@@ -5,33 +5,22 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
-import frc.robot.commands.AutoAmpCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.commands.TargetAmpCommand;
 //import frc.robot.commands.TargetAmpCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -41,8 +30,6 @@ import static frc.robot.Constants.Swerve.TRACK_WIDTH;
 import static frc.robot.Constants.Swerve.WHEEL_BASE;
 
 import java.util.Optional;
-import java.util.function.DoubleSupplier;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -72,9 +59,7 @@ public class RobotContainer {
   private double m_directionInvert; 
   private double m_angleOffset; 
 
-  //private final SendableChooser<Command> m_autoChooser; //for autons
-
-  
+  private SendableChooser<Command> m_autoChooser; //for autons
   
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
@@ -89,9 +74,6 @@ public class RobotContainer {
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
     //configureOperatorBindings();  //Configure operator game controller bindings and Triggers
-    //m_autoChooser = AutoBuilder.buildAutoChooser();
-    //SmartDashboard.putData("Auto Chooser", m_autoChooser);
-    
   }
 
   /**
@@ -180,6 +162,8 @@ public class RobotContainer {
         m_drivetrainSubsystem // Reference to this subsystem to set requirements
     );
 
+    m_autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", m_autoChooser);
   }
 
   public void setDefaultCommands() {
@@ -272,8 +256,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    //return m_autoChooser.getSelected();
-    return new PathPlannerAuto("testing"); 
-
+    return m_autoChooser.getSelected();
+    // return new PathPlannerAuto("testing"); 
   }
 }
