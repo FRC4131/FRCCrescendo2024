@@ -19,18 +19,18 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
+//targets notes using Google Coral and LL3 Detection Pipeline -- rotates and drives towards notes 
 public class GoToNoteCommand extends Command {
   private VisionSubsystem m_visionSubsystem; 
   private DrivetrainSubsystem m_DrivetrainSubsystem; 
-  // private PoseEstimationSubsystem m_PoseEstimationSubsystem; 
   private IntakeSubsystem m_IntakeSubsystem; 
   private PIDController m_angleController; 
   private DoubleSupplier m_x; 
   private DoubleSupplier m_y; 
   private DoubleSupplier m_throttle; 
   private Boolean m_fieldRelative; 
-  private Double m_kP; 
-  /** Creates a new GrabNoteCommand. */
+
+  /** Creates a new GoToNoteCommand. */
   public GoToNoteCommand(DrivetrainSubsystem drivetrainSubsystem, 
     VisionSubsystem visionSubsystem, 
     IntakeSubsystem intakeSubsystem, 
@@ -44,13 +44,11 @@ public class GoToNoteCommand extends Command {
     m_x = x; 
     m_y = y; 
     m_throttle = throttle; 
-    m_angleController = new PIDController(6.0, 0, 0);
+    m_angleController = new PIDController(6.0, 0, 0); 
     m_angleController.enableContinuousInput(-Math.PI, Math.PI);
     m_fieldRelative = fieldRelative; 
-    m_kP = 0.0; 
     addRequirements(m_DrivetrainSubsystem, m_visionSubsystem, m_IntakeSubsystem);
 
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -63,15 +61,11 @@ public class GoToNoteCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      //Pose2d robotPose = m_PoseEstimationSubsystem.getPose(); 
       Double rotOutput = 0.0;
-
-      m_kP = SmartDashboard.getNumber("note kp", 6.0);
-      m_angleController.setP(m_kP);
-      Optional<Double> noteTx = m_visionSubsystem.getNoteOffset(); 
-      if (noteTx.isPresent())
+      Optional<Double> noteTx = m_visionSubsystem.getNoteOffset();  //gets horiz distance between note cross hair and LL3 crosshair 
+      if (noteTx.isPresent()) //if the robot sees a note
       {
-          m_angleController.setSetpoint(0.0);
+          m_angleController.setSetpoint(0.0); //goal: tx == 0
           rotOutput = m_angleController.calculate(noteTx.get() * (Math.PI / 180)); //gets tx and converts to radians 
       }
 
