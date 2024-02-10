@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.347501764421915,
-      "y": 7.0
+      "x": 15.35,
+      "y": 4.1
     },
     "rotation": 180.0
   },
@@ -14,13 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R High 3 Amp Path 1"
+            "pathName": "R Central 3 Amp Path 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "R High 3 Amp Path 2"
+            "pathName": "R Central 3 Amp Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Central 3 Amp Path 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Central 3 Amp Path 6"
           }
         },
         {
@@ -38,6 +50,6 @@
       ]
     }
   },
-  "folder": "Red Autons",
+  "folder": "Red Amp Autons",
   "choreoAuto": false
 }

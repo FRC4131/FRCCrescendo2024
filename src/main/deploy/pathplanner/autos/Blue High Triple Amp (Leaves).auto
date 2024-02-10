@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1671773698157324,
-      "y": 4.1
+      "x": 1.2084133736747775,
+      "y": 7.0
     },
     "rotation": 0
   },
@@ -14,13 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 1"
+            "pathName": "B High 3 Amp Path 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 2"
+            "pathName": "B High 3 Amp Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central 3 Amp Path 4"
           }
         },
         {
@@ -38,6 +50,6 @@
       ]
     }
   },
-  "folder": "Blue Autons",
+  "folder": "Blue Amp Autons",
   "choreoAuto": false
 }

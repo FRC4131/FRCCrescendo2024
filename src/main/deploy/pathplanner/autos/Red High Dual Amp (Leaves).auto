@@ -26,18 +26,6 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R Central 3 Amp Path 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "R Central 3 Amp Path 4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "Red Central Triple Amp Path 1"
           }
         },
@@ -50,6 +38,6 @@
       ]
     }
   },
-  "folder": "Red Autons",
+  "folder": "Red Amp Autons",
   "choreoAuto": false
 }

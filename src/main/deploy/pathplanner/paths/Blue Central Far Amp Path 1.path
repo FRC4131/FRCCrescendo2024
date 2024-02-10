@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 4.558360786515194,
-        "y": 1.8790509626047398
+        "x": 4.073195988793479,
+        "y": 1.5864118782646572
       },
       "prevControl": {
-        "x": 3.4494126774369875,
-        "y": 2.171690046944823
+        "x": 2.964247879715273,
+        "y": 1.879050962604739
       },
       "nextControl": {
-        "x": 5.693882794263529,
-        "y": 1.5793993216711513
+        "x": 5.208717996541814,
+        "y": 1.2867602373310687
       },
       "isLocked": false,
       "linkedName": null
@@ -65,7 +65,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue Side",
+  "folder": "Blue Side Amp",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

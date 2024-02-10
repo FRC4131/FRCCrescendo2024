@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.35,
-      "y": 4.1
+      "x": 1.2084133736747775,
+      "y": 7.0
     },
-    "rotation": 180.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,42 +14,54 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R Central 3 Amp Path 1"
+            "pathName": "B High 3 Amp Path 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "R Central 3 Amp Path 2"
+            "pathName": "B High 3 Amp Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "R Central 3 Amp Path 5"
+            "pathName": "B Central 3 Amp Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "R Central 3 Amp Path 6"
+            "pathName": "B Central 3 Amp Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Red Central Triple Amp Path 1"
+            "pathName": "B High 3 Amp Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Red Central Triple Amp Path 2"
+            "pathName": "B Central 3 Amp Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B General Dual Amp + Shoot Path 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Mega Shoot Test Path"
           }
         }
       ]
     }
   },
-  "folder": "Red Autons",
+  "folder": null,
   "choreoAuto": false
 }

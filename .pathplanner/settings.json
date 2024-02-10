@@ -3,13 +3,17 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue Side",
-    "Red Side"
+    "Blue Side Amp",
+    "Blue Side Shoot",
+    "Red Side Amp",
+    "Red Side Shoot"
   ],
   "autoFolders": [
-    "Blue Autons",
+    "Blue Amp Autons",
+    "Blue Shoot Autons",
+    "Red Shoot Autons",
     "Original Autons",
-    "Red Autons",
+    "Red Amp Autons",
     "Test Autons"
   ],
   "defaultMaxVel": 3.0,

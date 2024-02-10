@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 15.35,
+      "y": 4.1
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Central 3 Amp Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Central 3 Amp Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Central 3 Amp Path 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Central 3 Amp Path 6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Central Triple Amp Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Central Triple Amp Path 2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Red Amp Autons",
+  "choreoAuto": false
+}

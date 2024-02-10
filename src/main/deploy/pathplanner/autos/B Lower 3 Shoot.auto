@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2084133736747775,
-      "y": 7.0
+      "x": 1.17,
+      "y": 2.0
     },
     "rotation": 0
   },
@@ -14,42 +14,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B High 3 Amp Path 1"
+            "pathName": "B Lower 2 Amp + Shoot Path 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B High 3 Amp Path 2"
+            "pathName": "B Central 3 Shoot Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 3"
+            "pathName": "B Central 3 Shoot Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 4"
+            "pathName": "B Central 2 Amp + Shoot Path 6"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Triple Amp Path 5"
+            "pathName": "B Central 3 Shoot Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Triple Amp Path 6"
+            "pathName": "B Central 3 Shoot Path 6"
           }
         }
       ]
     }
   },
-  "folder": "Blue Autons",
+  "folder": "Blue Shoot Autons",
   "choreoAuto": false
 }
