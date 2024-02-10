@@ -212,10 +212,6 @@ public class RobotContainer {
     m_driverController.povLeft().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem,
        m_visionSubsystem,
       m_intakeSubsystem, 
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
       () -> m_driverController.getLeftTriggerAxis(),
       false)); 
 
