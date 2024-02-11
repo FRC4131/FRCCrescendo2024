@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.432,
+        "x": 2.19,
         "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.295227852867053,
+        "x": 2.053227852867053,
         "y": 7.117634660801237
       },
       "isLocked": false,
@@ -39,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": -90.0,
     "rotateFast": true
   },
   "reversed": false,
   "folder": "Blue Side Amp",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": false
 }

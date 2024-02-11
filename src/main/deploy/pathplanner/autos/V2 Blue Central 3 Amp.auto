@@ -1,0 +1,133 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.790365980646464,
+      "y": 4.519278340402505
+    },
+    "rotation": -59.620000000000005
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B Central Speaker-Corner Start (Intake)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Down"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B Central 3 Amp Path 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Up"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B Central 3 Amp Path 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Down"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B Central 3 Amp Path 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Up"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B Central 3 Amp Path 5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Down"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "B Central 3 Amp Path 6"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Up"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Blue Amp Autons",
+  "choreoAuto": false
+}

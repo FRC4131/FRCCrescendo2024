@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.17,
-      "y": 2.0
+      "x": 0.6770424047414701,
+      "y": 1.8174427343226178
     },
-    "rotation": 0
+    "rotation": 59.53
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B Lower 2 Amp + Shoot Path 1"
+            "pathName": "B Lower Source-Line Start (Intake)"
           }
         },
         {

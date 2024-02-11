@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -31,6 +32,7 @@ import static frc.robot.Constants.Swerve.WHEEL_BASE;
 
 import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -161,6 +163,10 @@ public class RobotContainer {
         },
         m_drivetrainSubsystem // Reference to this subsystem to set requirements
     );
+
+    //Named Commands 
+    NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(-0.7));
+    NamedCommands.registerCommand("Intake Off", m_intakeSubsystem.setPowerCommand(0.0));
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);

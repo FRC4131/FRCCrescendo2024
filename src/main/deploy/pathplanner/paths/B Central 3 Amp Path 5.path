@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.43,
+        "x": 2.19,
         "y": 7.0011907399701325
       },
       "prevControl": {
-        "x": 1.8658408948023568,
-        "y": 6.972079759762357
+        "x": 2.0889098310263146,
+        "y": 7.12707325652181
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.0,
-      "rotationDegrees": 0,
+      "rotationDegrees": 180.0,
       "rotateFast": false
     }
   ],
@@ -45,13 +45,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Blue Side Amp",
   "previewStartingState": {
-    "rotation": 90.0,
+    "rotation": -90.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

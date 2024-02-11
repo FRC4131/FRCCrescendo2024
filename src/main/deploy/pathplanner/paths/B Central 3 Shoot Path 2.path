@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.191,
+        "x": 2.5,
         "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1931966850312685,
-        "y": 4.387379629731117
+        "x": 2.3979098310263147,
+        "y": 4.3678916811515345
       },
       "isLocked": false,
       "linkedName": null
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Blue Side Shoot",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
