@@ -226,6 +226,10 @@ public class RobotContainer {
        m_ampPose)); 
       
 
+    //Only allow intake when the feeder state shows it's ready for more input AND the driver presses the button
+    // Trigger intakeTrigger = new Trigger(m_feederSubsystem::intakeAllowed);
+    // m_driverController.x().and(intakeTrigger)
+        // .onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0.0));
 
     m_driverController.x().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
     m_driverController.y().onTrue(m_intakeSubsystem.setPowerCommand(0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
