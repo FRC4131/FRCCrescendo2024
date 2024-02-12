@@ -4,22 +4,16 @@
 
 package frc.robot.commands;
 
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.util.EstimatedRobotPose;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
 public class TargetAmpCommand extends Command {
   /** Creates a new TargetAmpCommand. */
@@ -35,8 +29,6 @@ public class TargetAmpCommand extends Command {
 
   private PIDController m_pidControllerTheta;
   private PIDController m_xController; 
-  //private ProfiledPIDController m_xController; 
-  //private ProfiledPIDController m_yController;
 
   public TargetAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
     PoseEstimationSubsystem poseEstimationSubsystem,  

@@ -33,7 +33,7 @@ public final class Constants {
         public static final Pose2d BLUE_SOURCE_LEFT = new Pose2d(16.185134, .883666, new Rotation2d());
     }
 
-    public static class OperatorConstants {
+    public static class ControllerConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int OPERATOR_CONTROLLER_PORT = 1;
     }
@@ -42,6 +42,7 @@ public final class Constants {
         public static final double GOAL_RANGE_METERS = 5;
         public static final double APRIL_TAG_SD_X = 1.0; //base vision std dev values for pose estimator 
         public static final double APRIL_TAG_SD_Y = 1.0; 
+        public static final double APRIL_TAG_CUTOFF_DISTANCE = 4.0; //Distance (in meters) beyond which no april tag is folded in with Odometry
 
     }
 

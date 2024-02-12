@@ -4,9 +4,7 @@
 
 package frc.robot.subsystems;
 
-import java.util.Optional;
 
-import org.opencv.core.Point;
 
 // import org.photonvision.EstimatedRobotPose;
 // import org.photonvision.PhotonPoseEstimator;
@@ -18,7 +16,6 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -34,12 +31,8 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
   VisionSubsystem m_visionSubsystem;
   private final Field2d field2d = new Field2d();
   static SwerveDrivePoseEstimator m_swerveDrivePoseEst;
-  AHRS m_navX;
-  
-  private Double m_sdX; 
-  private Double m_sdY; 
-  private Double m_sdTheta; 
-
+  AHRS m_navX; 
+  private boolean m_aprilTagStatus;
   public frc.lib.util.SwerveModule[] mSwerveMods;
 
   /** Creates a new PoseEstimationSubsystem. */
@@ -60,7 +53,7 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
         ,VecBuilder.fill(0.1, 0.1, 0.1), //odometry std devs
         VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X, Constants.VisionConstants.APRIL_TAG_SD_Y, 0.9) //april tags std devs
         );
-    
+    m_aprilTagStatus = false;
         
   }
 
@@ -92,7 +85,6 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
 
   public Pose2d getPose() {
     return m_swerveDrivePoseEst.getEstimatedPosition();
-    //return new Pose2d(); 
   }
 
   public double getPitch() {
@@ -118,17 +110,20 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
   @Override
   public void periodic() {     // This method will be called once per scheduler run
     EstimatedRobotPose aprilTagPose = m_visionSubsystem.getAprilTagRobotPose().orElse(null);
-    DriverStation.refreshData(); 
+    DriverStation.refreshData();
+    m_aprilTagStatus = false; 
 
     if (aprilTagPose != null && (!DriverStation.isAutonomous())) {
       SmartDashboard.putNumber("MAGNITUDE", aprilTagPose.getMagnitude());
       //updates std values based on magnitude of the vector from camera to april tag (trusts it less as we go back more)
-      if (aprilTagPose.getMagnitude() < 4.0)
+      if (aprilTagPose.getMagnitude() < Constants.VisionConstants.APRIL_TAG_CUTOFF_DISTANCE)
       {
+        SmartDashboard.putBoolean("AprilTagUpdating", true);
          m_swerveDrivePoseEst.setVisionMeasurementStdDevs( 
         VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X * aprilTagPose.getMagnitude(),
         Constants.VisionConstants.APRIL_TAG_SD_Y * aprilTagPose.getMagnitude(), 
         1000));
+        m_aprilTagStatus = true;
       }
 
       m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
@@ -136,7 +131,7 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
     m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions());
     field2d.setRobotPose(m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions()));
 
-
+    SmartDashboard.putBoolean("AprilTagUpdating", m_aprilTagStatus);
     SmartDashboard.putNumber("RawGyroYaw", getGyroYaw().getDegrees());
     SmartDashboard.putNumber("SwervePoseEst x", m_swerveDrivePoseEst.getEstimatedPosition().getX());
     SmartDashboard.putNumber("SwervePoseEst y", m_swerveDrivePoseEst.getEstimatedPosition().getY());

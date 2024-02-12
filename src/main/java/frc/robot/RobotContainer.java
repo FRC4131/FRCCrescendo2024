@@ -4,13 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.commands.TargetAmpCommand;
-//import frc.robot.commands.TargetAmpCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
@@ -21,7 +20,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -33,7 +31,6 @@ import static frc.robot.Constants.Swerve.WHEEL_BASE;
 import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -51,13 +48,11 @@ public class RobotContainer {
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(); 
 
-  //private final SendableChooser<Command> autoChooser;
-
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
   private Pose2d m_ampPose; 
   private Pose2d m_sourcePose; 
-  private Pose2d m_stagePose; 
+  // private Pose2d m_stagePose; 
   private double m_directionInvert; 
   private double m_angleOffset; 
 
@@ -65,9 +60,9 @@ public class RobotContainer {
   
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  private final CommandXboxController m_operatorController = 
-      new CommandXboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
+      new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
+  // private final CommandXboxController m_operatorController = 
+  //     new CommandXboxController(ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

@@ -4,21 +4,16 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
-import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.EstimatedRobotPose;
@@ -28,15 +23,10 @@ import frc.lib.util.EstimatedRobotPose;
 public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Detection 
   private Optional<EstimatedRobotPose> m_estimatedRobotPose; 
 
-  private int m_numDetections = 3; //number of april tags we let the robot see at a time 
-  private int m_detectionThreshold = 9;
-  private ArrayList<Boolean> m_tagDetections = new ArrayList<Boolean>();
   private NetworkTable m_NetworkTableFront; 
   private NetworkTable m_NetworkTableBack; 
   private Vector m_targetVector; //holds vector from target to camera 
-  private double m_magnitude; //magnitude of vector above; used for vision std devs in PoseEstimationSubsystem
-
-
+  
   public VisionSubsystem() {
     m_NetworkTableFront = NetworkTableInstance.getDefault().getTable("limelight-front"); 
     m_NetworkTableBack = NetworkTableInstance.getDefault().getTable("limelight-back"); 
@@ -61,19 +51,18 @@ public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Det
     else{
       return Optional.empty(); 
     }
-
-
   }
 
   public Optional<EstimatedRobotPose> aprilTagUpdate() //updates estimated robot pose based on april tags seen
   {
     double rawBotPose[];
     Boolean validTargetsPresent = (1.0 == m_NetworkTableFront.getEntry("tv").getDouble(0)); 
-    SmartDashboard.putBoolean("valid targets", validTargetsPresent);
+    // SmartDashboard.putBoolean("valid targets", validTargetsPresent);
 
     if (validTargetsPresent) //returns bot pose if april tags are seen 
     {
-      rawBotPose = m_NetworkTableFront.getEntry("botpose_wpiblue").getDoubleArray(new double[7]); //gets blue pose (one coordinate system)
+      //gets blue pose (assuming a single coordinate system for both alliances)
+      rawBotPose = m_NetworkTableFront.getEntry("botpose_wpiblue").getDoubleArray(new double[7]); 
       // SmartDashboard.putNumber("pose x", rawBotPose[0]);
       // SmartDashboard.putNumber("pose y", rawBotPose [1]);
       // SmartDashboard.putNumber("pose z", rawBotPose [2]);
@@ -96,7 +85,6 @@ public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Det
   {
     return aprilTagUpdate().isPresent();
   }
-
 
   @Override
   public void periodic() {
