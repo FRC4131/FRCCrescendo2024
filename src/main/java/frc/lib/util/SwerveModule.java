@@ -24,8 +24,6 @@ import static frc.robot.Constants.Swerve.*;
 
 public class SwerveModule {
     public int moduleNumber;
-    private Rotation2d lastAngle;
-
     private CANSparkMax m_angleMotor;
     private CANSparkMax m_driveMotor;
     private RelativeEncoder m_driveEncoder;
@@ -49,15 +47,13 @@ public class SwerveModule {
         configAngleMotor();
         configDriveMotor();
 
-        // Create PID controller on ROBO RIO
+        // Create module angle PID controller (in SW)
         m_turningPidController = new ProfiledPIDController(kP
         , 0, 0,
                 new TrapezoidProfile.Constraints(20 * 2 * Math.PI, 20 * 2 * Math.PI));
-
-        // Tell PID controller that it is a *wheel*
+        
+        // Tell the angle PID controller that it is a *wheel* (i.e. that it wraps from -pi to pi)
         m_turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-
-        lastAngle = getState().angle;
 
         m_driveEncoder.setPosition(0);   
     }
@@ -104,7 +100,6 @@ public class SwerveModule {
     private void configAngleMotor() {
         m_angleMotor.setInverted(Constants.Swerve.ANGLE_MOTOR_INVERT);
     }
-
 
     private void configDriveMotor() {
         m_driveMotor.setInverted(Constants.Swerve.DRIVE_MOTOR_INVERT);
