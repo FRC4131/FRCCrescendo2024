@@ -43,7 +43,19 @@ public final class Constants {
         public static final double APRIL_TAG_SD_X = 1.0; //base vision std dev values for pose estimator 
         public static final double APRIL_TAG_SD_Y = 1.0; 
         public static final double APRIL_TAG_CUTOFF_DISTANCE = 4.0; //Distance (in meters) beyond which no april tag is folded in with Odometry
+    }
 
+    public static final class FeederConstants{
+        public static final int FEEDER_MOTOR_ID = 21;
+        public static final double FEEDER_MOTOR_POWER = 0.04;
+        public static enum FeederState {
+            READYINPUT,
+            FEED,
+            TRANSIT,
+            READYSHOOT,
+        }
+        public static final int INTAKE_BEAMBREAK_ID = 1;
+        public static final int SHOOTER_BEAMBREAK_ID = 2; 
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/
