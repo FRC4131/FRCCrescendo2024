@@ -50,7 +50,7 @@ public class FeederSubsystem extends SubsystemBase {
   }
 
   public boolean intakeAllowed() {
-    return (m_state == FeederState.READYINPUT) || (m_state == FeederState.FEED);
+    return (m_state == FeederState.READYINPUT) || (m_state == FeederState.INTAKE);
   }
 
   @Override
@@ -68,10 +68,10 @@ public class FeederSubsystem extends SubsystemBase {
         m_feederMotor.set(0.0);
         // if we're in the first beam, change state, making the process autonomous
         if (!m_intakeBreaker.get()) {
-          m_state = FeederState.FEED;
+          m_state = FeederState.INTAKE;
         }
         break;
-      case FEED:
+      case INTAKE:
         // the note is inside of the breaker beam light
         // turn on the feeder to feed it to TRANSIT, but driver should keep intake motor
         // on

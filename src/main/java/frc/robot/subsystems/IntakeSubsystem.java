@@ -6,21 +6,16 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax m_intakeMotor;
-  private DigitalInput firstBreaker;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
       m_intakeMotor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
-      firstBreaker = new DigitalInput(0);
   }
 
   public void setPower(double power)
@@ -33,21 +28,6 @@ public class IntakeSubsystem extends SubsystemBase {
       setPower(power);
     }, this);
   }
-
-
-  public boolean getFirstBreaker() {
-    return firstBreaker.get();
-  }
-
-  // public void setIntakePower(double power) {
-  //   m_intakeController.set(power);
-  // }
-
-  // public Command setIntakePowerCommand(double power) {
-  //   return new InstantCommand(() -> {
-  //     setIntakePower(power);
-  //   }, this);
-  // }
 
   @Override
   public void periodic() {

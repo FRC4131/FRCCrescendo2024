@@ -50,7 +50,7 @@ public final class Constants {
         public static final double FEEDER_MOTOR_POWER = 0.04;
         public static enum FeederState {
             READYINPUT,
-            FEED,
+            INTAKE,
             TRANSIT,
             READYSHOOT,
         }

@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.EstimatedRobotPose;
 
-
-
 public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Detection 
   private Optional<EstimatedRobotPose> m_estimatedRobotPose; 
 
