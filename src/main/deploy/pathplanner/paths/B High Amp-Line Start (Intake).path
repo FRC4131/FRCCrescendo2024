@@ -8,8 +8,13 @@
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< Updated upstream
         "x": 1.601165828973309,
         "y": 7.200461680473079
+=======
+        "x": 1.2238154307453082,
+        "y": 7.3544822511783865
+>>>>>>> Stashed changes
       },
       "isLocked": false,
       "linkedName": null
@@ -20,15 +25,30 @@
         "y": 7.0
       },
       "prevControl": {
+<<<<<<< Updated upstream
         "x": 2.292072229547836,
         "y": 7.053907199746858
+=======
+        "x": 2.301959425682454,
+        "y": 6.992533910020916
+>>>>>>> Stashed changes
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
+<<<<<<< Updated upstream
   "rotationTargets": [],
+=======
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
+>>>>>>> Stashed changes
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -43,7 +63,11 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Specific Starting Points",
+<<<<<<< Updated upstream
+  "folder": "Red Specific Starting Points",
+=======
+  "folder": "Blue Specific Starting Points",
+>>>>>>> Stashed changes
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0

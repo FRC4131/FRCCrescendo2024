@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77430354290908,
-      "y": 6.583808951093687
+      "x": 0.700145490347266,
+      "y": 6.715296882751364
     },
     "rotation": 59.53
   },
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 6"
+            "pathName": "B High 3 Shoot Path 2"
           }
         },
         {

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77430354290908,
-      "y": 6.583808951093687
+      "x": 1.17,
+      "y": 7.0
     },
-    "rotation": 59.53
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B High Speaker-Corner Start (Intake)"
+            "pathName": "V2 B High 3 Amp Path 1"
           }
         },
         {

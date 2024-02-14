@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< Updated upstream
         "x": 0.790365980646464,
         "y": 4.519278340402505
       },
@@ -10,6 +11,15 @@
       "nextControl": {
         "x": 1.2601287212976486,
         "y": 4.39606188383826
+=======
+        "x": 0.7078465188825315,
+        "y": 4.397287293636501
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.1776092595337162,
+        "y": 4.274070837072256
+>>>>>>> Stashed changes
       },
       "isLocked": false,
       "linkedName": null
@@ -30,7 +40,11 @@
   ],
   "rotationTargets": [
     {
+<<<<<<< Updated upstream
       "waypointRelativePos": 0.5,
+=======
+      "waypointRelativePos": 0.7,
+>>>>>>> Stashed changes
       "rotationDegrees": 180.0,
       "rotateFast": false
     }
@@ -49,7 +63,11 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Specific Starting Points",
+<<<<<<< Updated upstream
+  "folder": "Red Specific Starting Points",
+=======
+  "folder": "Blue Specific Starting Points",
+>>>>>>> Stashed changes
   "previewStartingState": {
     "rotation": -59.62087398863167,
     "velocity": 0

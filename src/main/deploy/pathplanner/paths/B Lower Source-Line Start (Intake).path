@@ -20,8 +20,13 @@
         "y": 4.1
       },
       "prevControl": {
+<<<<<<< Updated upstream
         "x": 2.1842578300541216,
         "y": 4.038391771717878
+=======
+        "x": 1.9015059418486568,
+        "y": 4.089246152225888
+>>>>>>> Stashed changes
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +54,11 @@
     "rotateFast": false
   },
   "reversed": false,
+<<<<<<< Updated upstream
   "folder": "Specific Starting Points",
+=======
+  "folder": "Blue Specific Starting Points",
+>>>>>>> Stashed changes
   "previewStartingState": {
     "rotation": 59.53445508054015,
     "velocity": 0

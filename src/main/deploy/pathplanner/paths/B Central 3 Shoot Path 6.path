@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< Updated upstream
         "x": 2.5,
         "y": 7.0
       },
@@ -10,6 +11,15 @@
       "nextControl": {
         "x": 2.4117326837655555,
         "y": 6.692193797145568
+=======
+        "x": 2.64,
+        "y": 6.72
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.4328769107819643,
+        "y": 6.422657798411281
+>>>>>>> Stashed changes
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +30,8 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.9477121130602488,
-        "y": 5.968297114830627
+        "x": 2.0786295981597593,
+        "y": 5.906688886548505
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +55,11 @@
   "reversed": false,
   "folder": "Blue Side Shoot",
   "previewStartingState": {
+<<<<<<< Updated upstream
     "rotation": 180.0,
+=======
+    "rotation": -131.84,
+>>>>>>> Stashed changes
     "velocity": 0
   },
   "useDefaultConstraints": false

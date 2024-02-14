@@ -3,35 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-<<<<<<< Updated upstream
-        "x": 0.77430354290908,
-        "y": 6.583808951093687
+        "x": 15.2,
+        "y": 7.277471965825733
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2132621694192038,
-        "y": 6.653118207911074
-=======
-        "x": 0.700145490347266,
-        "y": 6.715296882751364
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.1391041168573897,
-        "y": 6.784606139568751
->>>>>>> Stashed changes
+        "x": 15.07796576568763,
+        "y": 7.1465544807262225
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5,
+        "x": 14.37,
         "y": 7.0
       },
       "prevControl": {
-        "x": 2.1842578300541216,
-        "y": 6.938391771717878
+        "x": 14.171959425682454,
+        "y": 6.992533910020916
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.0,
       "rotationDegrees": 180.0,
       "rotateFast": false
     }
@@ -55,17 +45,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-<<<<<<< Updated upstream
-  "folder": "Specific Starting Points",
-=======
-  "folder": "Blue Specific Starting Points",
->>>>>>> Stashed changes
+  "folder": "Red Specific Starting Points",
   "previewStartingState": {
-    "rotation": 59.53445508054015,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
