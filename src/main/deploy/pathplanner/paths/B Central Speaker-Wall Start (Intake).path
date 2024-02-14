@@ -20,13 +20,8 @@
         "y": 4.1
       },
       "prevControl": {
-<<<<<<< Updated upstream
         "x": 2.2073240024650715,
         "y": 4.1
-=======
-        "x": 1.7936915423549424,
-        "y": 4.081545123690622
->>>>>>> Stashed changes
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,15 +30,9 @@
   ],
   "rotationTargets": [
     {
-<<<<<<< Updated upstream
       "waypointRelativePos": 0.5,
       "rotationDegrees": 180.0,
       "rotateFast": true
-=======
-      "waypointRelativePos": 0.35,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
->>>>>>> Stashed changes
     }
   ],
   "constraintZones": [],
@@ -55,20 +44,12 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-<<<<<<< Updated upstream
     "velocity": 0,
-=======
-    "velocity": 0.0,
->>>>>>> Stashed changes
     "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-<<<<<<< Updated upstream
-  "folder": "Red Specific Starting Points",
-=======
-  "folder": "Blue Specific Starting Points",
->>>>>>> Stashed changes
+  "folder": "Specific Starting Points",
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0

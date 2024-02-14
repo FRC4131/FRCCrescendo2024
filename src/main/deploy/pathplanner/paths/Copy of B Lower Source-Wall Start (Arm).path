@@ -20,8 +20,8 @@
         "y": 4.1
       },
       "prevControl": {
-        "x": 1.853340912047678,
-        "y": 3.750400896674214
+        "x": 1.8742578300541215,
+        "y": 4.038391771717878
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue Specific Starting Points",
+  "folder": "Specific Starting Points",
   "previewStartingState": {
     "rotation": 59.53445508054015,
     "velocity": 0
