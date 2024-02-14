@@ -20,31 +20,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 2"
+            "pathName": "B Central Spin 3 Shoot Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 3"
+            "pathName": "B Central Spin 3 Shoot Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 2 Amp + Shoot Path 6"
+            "pathName": "B Central Spin 3 Shoot Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 5"
+            "pathName": "B Central Spin 3 Shoot Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 6"
+            "pathName": "B Central Spin 3 Shoot Path 6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central Spin 4 Shoot Path 7"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "B Central Spin 4 Shoot Path 8"
           }
         }
       ]

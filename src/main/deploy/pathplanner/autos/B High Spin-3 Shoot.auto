@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.17,
-      "y": 7.0
+      "x": 0.700145490347266,
+      "y": 6.715296882751364
     },
-    "rotation": 0
+    "rotation": 59.53
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B High 2 Amp + Shoot Path 1"
+            "pathName": "B High Speaker-Corner Start (Intake)"
           }
         },
         {

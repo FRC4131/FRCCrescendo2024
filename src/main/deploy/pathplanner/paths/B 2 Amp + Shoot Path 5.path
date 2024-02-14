@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.1864439976534737,
+        "x": 2.5,
         "y": 4.089246152225888
       },
       "prevControl": {
-        "x": 2.0863306266950246,
-        "y": 4.751534606258706
+        "x": 1.6011658289733093,
+        "y": 3.77350398228001
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Blue Side Shoot",
   "previewStartingState": {
-    "rotation": 90.0,
+    "rotation": -90.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

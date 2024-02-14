@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0235886888284098,
-      "y": 1.024236795190289
+      "x": 0.7078465188825315,
+      "y": 4.397287293636501
     },
-    "rotation": 59.53
+    "rotation": -59.620000000000005
   },
   "command": {
     "type": "sequential",
@@ -14,37 +14,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B Lower Source-Wall Start (Grab)"
+            "pathName": "B Central Speaker-Corner Start (Intake)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 2 Amp + Shoot Path 2"
+            "pathName": "B Central Spin 3 Shoot Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 2 Amp + Shoot Path 3"
+            "pathName": "B Central Spin 3 Shoot Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 2 Amp + Shoot Path 4"
+            "pathName": "B Central Spin 3 Shoot Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 2 Amp + Shoot Path 5"
+            "pathName": "B Central Spin 3 Shoot Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 2 Amp + Shoot Path 6"
+            "pathName": "B Central Spin 3 Shoot Path 6"
           }
         }
       ]
