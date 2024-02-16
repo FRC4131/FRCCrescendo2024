@@ -110,22 +110,23 @@ public class RobotContainer {
   {
 
     Optional<Alliance> alliance = DriverStation.getAlliance(); 
-    if (alliance.get().equals(Alliance.Blue) || alliance.isEmpty()) //defaults to blue 
-    {
-      SmartDashboard.putString("Alliance", "blue");
-      m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
-      m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
-      m_ampPose = Constants.FieldConstants.BLUE_AMP; 
-      m_directionInvert = 1.0;
-      m_angleOffset = 0.0;
-    }
-    else{
-      SmartDashboard.putString("Alliance", "red");
-      m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
-      m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
-      m_ampPose = Constants.FieldConstants.RED_AMP; 
-      m_directionInvert = -1.0;
-      m_angleOffset = Math.PI; 
+    
+    SmartDashboard.putString("Alliance", "blue");
+    m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
+    m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
+    m_ampPose = Constants.FieldConstants.BLUE_AMP;
+    m_directionInvert = 1.0;
+    m_angleOffset = 0.0;
+
+    if (!alliance.isEmpty()) {
+      if (alliance.get().equals(Alliance.Red)) {
+        SmartDashboard.putString("Alliance", "red");
+        m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
+        m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
+        m_ampPose = Constants.FieldConstants.RED_AMP;
+        m_directionInvert = -1.0;
+        m_angleOffset = Math.PI;
+      }
     }
   }
 
