@@ -3,19 +3,22 @@
   "robotLength": 0.76,
   "holonomicMode": true,
   "pathFolders": [
+    "Primary Paths",
     "Blue Side Amp",
     "Blue Side Shoot",
     "Blue Specific Starting Points",
-    "Red Specific Starting Points",
     "Red Side Amp",
-    "Red Side Shoot"
+    "Red Side Shoot",
+    "Red Specific Starting Points"
   ],
   "autoFolders": [
+    "Archive",
     "Blue Amp Autons",
     "Blue Shoot Autons",
-    "Red Shoot Autons",
+    "Primary",
     "Original Autons",
     "Red Amp Autons",
+    "Red Shoot Autons",
     "Test Autons"
   ],
   "defaultMaxVel": 3.0,

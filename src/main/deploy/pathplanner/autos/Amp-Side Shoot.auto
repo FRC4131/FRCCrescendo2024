@@ -5,7 +5,7 @@
       "x": 0.77430354290908,
       "y": 6.583808951093687
     },
-    "rotation": 59.53
+    "rotation": -122.05662332244285
   },
   "command": {
     "type": "sequential",
@@ -14,42 +14,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B High Speaker-Corner Start (Intake)"
+            "pathName": "Amp-Side Start"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 6"
+            "pathName": "Amp-Side Shoot Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 3"
+            "pathName": "Amp-Side Shoot Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 2 Amp + Shoot Path 6"
+            "pathName": "Amp-Side Shoot Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B High 3 Shoot Path 5"
+            "pathName": "Amp-Side Shoot Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Shoot Path 2"
+            "pathName": "Amp-Side Shoot Path 6"
           }
         }
       ]
     }
   },
-  "folder": "Archive",
+  "folder": "Primary",
   "choreoAuto": false
 }

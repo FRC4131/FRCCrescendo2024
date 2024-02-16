@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.700145490347266,
-      "y": 6.715296882751364
+      "x": 0.790365980646464,
+      "y": 4.519278340402505
     },
-    "rotation": 59.53
+    "rotation": 120.01
   },
   "command": {
     "type": "sequential",
@@ -14,42 +14,36 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B High Speaker-Corner Start (Intake)"
+            "pathName": "Source-Side BLIP Start"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B High Spin 3 Shoot Path 2"
+            "pathName": "Source-Side BLIP Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B High Spin 3 Shoot Path 3"
+            "pathName": "Source-Side BLIP Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B High Spin 3 Shoot Path 4"
+            "pathName": "Source-Side BLIP Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B High Spin 3 Shoot Path 5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "B High Spin 3 Shoot Path 6"
+            "pathName": "Source-Side BLIP Path 5"
           }
         }
       ]
     }
   },
-  "folder": "Blue Shoot Autons",
+  "folder": "Primary",
   "choreoAuto": false
 }

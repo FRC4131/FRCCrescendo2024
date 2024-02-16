@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7078465188825315,
-      "y": 4.397287293636501
+      "x": 0.790365980646464,
+      "y": 4.519278340402505
     },
-    "rotation": -59.620000000000005
+    "rotation": 120.06084666521284
   },
   "command": {
     "type": "sequential",
@@ -14,37 +14,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Speaker-Corner Start (Intake)"
+            "pathName": "Source-Side Start"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Spin 3 Shoot Path 2"
+            "pathName": "Amp-Side Shoot Path 6"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Spin 3 Shoot Path 3"
+            "pathName": "Source-Side Shoot Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Spin 3 Shoot Path 4"
+            "pathName": "Amp-Side Shoot Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Spin 3 Shoot Path 5"
+            "pathName": "Source-Side Shoot Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central Spin 3 Shoot Path 6"
+            "pathName": "Source-Side Shoot Path 6"
           }
         },
         {
@@ -62,6 +62,6 @@
       ]
     }
   },
-  "folder": "Blue Shoot Autons",
+  "folder": "Archive",
   "choreoAuto": false
 }

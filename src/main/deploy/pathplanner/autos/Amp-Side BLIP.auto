@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1671773698157324,
-      "y": 4.1
+      "x": 0.77430354290908,
+      "y": 6.583808951093687
     },
-    "rotation": 0
+    "rotation": -120.00999999999999
   },
   "command": {
     "type": "sequential",
@@ -14,42 +14,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 1"
+            "pathName": "Amp-Side Start"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 2"
+            "pathName": "Amp-Side Shoot Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 5"
+            "pathName": "Amp-Side BLIP Path 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Central 3 Amp Path 6"
+            "pathName": "Amp-Side BLIP Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B General Dual Amp + Shoot Path 5"
+            "pathName": "Amp-Side BLIP Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B Mega Shoot Test Path"
+            "pathName": "Amp-Side BLIP Path 6"
           }
         }
       ]
     }
   },
-  "folder": "Blue Shoot Autons",
+  "folder": "Primary",
   "choreoAuto": false
 }
