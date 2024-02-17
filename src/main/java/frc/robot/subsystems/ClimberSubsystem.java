@@ -4,11 +4,31 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
+  private CANSparkMax m_climberMotor;
+
   /** Creates a new ClimberSubsystem. */
-  public ClimberSubsystem() {}
+  public ClimberSubsystem() {
+    m_climberMotor = new CANSparkMax(0, CANSparkLowLevel.MotorType.kBrushless);
+  }
+
+  public void setPower(double power)
+  {
+    m_climberMotor.set(power);
+  }
+
+  public Command setPowerCommand(double power){
+    return new InstantCommand(() -> {
+      setPower(power);
+    }, this);
+  }
 
   @Override
   public void periodic() {
