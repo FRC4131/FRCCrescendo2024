@@ -135,10 +135,10 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
     SmartDashboard.putNumber("RawGyroYaw", getGyroYaw().getDegrees());
     SmartDashboard.putNumber("SwervePoseEst x", m_swerveDrivePoseEst.getEstimatedPosition().getX());
     SmartDashboard.putNumber("SwervePoseEst y", m_swerveDrivePoseEst.getEstimatedPosition().getY());
-    SmartDashboard.putNumber("Odom Rotation", m_swerveDrivePoseEst.getEstimatedPosition().getRotation().getDegrees());
-    SmartDashboard.putNumber("Robot Pitch", getPitch());
-    SmartDashboard.putNumber("Robot Roll", getRoll());
-    SmartDashboard.putNumber("Robot Yaw", getYaw());
+    // SmartDashboard.putNumber("Odom Rotation", m_swerveDrivePoseEst.getEstimatedPosition().getRotation().getDegrees());
+    // SmartDashboard.putNumber("Robot Pitch", getPitch());
+    // SmartDashboard.putNumber("Robot Roll", getRoll());
+    // SmartDashboard.putNumber("Robot Yaw", getYaw());
     
     SmartDashboard.putData(field2d);
 

@@ -5,12 +5,15 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.FeederConstants;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.commands.TargetAmpCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -48,6 +51,8 @@ public class RobotContainer {
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(); 
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
+  private final FeederSubsystem m_feederSubsystem = new FeederSubsystem(); 
 
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
@@ -62,8 +67,8 @@ public class RobotContainer {
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
       new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER_PORT);
-  // private final CommandXboxController m_operatorController = 
-  //     new CommandXboxController(ControllerConstants.OPERATOR_CONTROLLER_PORT);
+  private final CommandXboxController m_operatorController = 
+      new CommandXboxController(ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -71,7 +76,7 @@ public class RobotContainer {
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
-    //configureOperatorBindings();  //Configure operator game controller bindings and Triggers
+    configureOperatorBindings();  //Configure operator game controller bindings and Triggers
   }
 
   /**
@@ -201,24 +206,6 @@ public class RobotContainer {
       () -> m_driverController.getLeftTriggerAxis(),
       false)); 
 
-    // m_driverController.b().whileTrue(new AutoAmpCommand(
-    //   m_drivetrainSubsystem, 
-    //   m_poseEstimationSubsystem,  
-    //   () -> -modifyAxis(m_driverController.getLeftY(), false) * MAX_VELOCITY_METERS_PER_SECOND,
-    //   () -> m_driverController.getLeftTriggerAxis(),
-    //   true,
-    //   m_speakerPose // Assuming this is the target AprilTag pose
-    // ));
-        
-    // m_driverController.b().whileTrue(new AutoAmpCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    // () -> -modifyAxis(m_driverController.getLeftY(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,
-    //     () -> -modifyAxis(m_driverController.getLeftX(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,
-    //      () -> m_driverController.getLeftTriggerAxis(),
-    //      true,
-    //       m_ampPose));
-
     m_driverController.b().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
        m_poseEstimationSubsystem,
       () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
@@ -235,9 +222,8 @@ public class RobotContainer {
 
     m_driverController.x().onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
     m_driverController.y().onTrue(m_intakeSubsystem.setPowerCommand(0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0));
-        
-
-    //m_driverController.b().whileTrue(new StdDevEstimatorCommand(m_visionSubsystem)); 
+    m_driverController.rightBumper().onTrue(m_feederSubsystem.setFeederPowerCommand(-0.7)).onFalse(m_feederSubsystem.setFeederPowerCommand(0));//feeder runs as intake runs (testing without beam breaks rn)
+    m_driverController.leftBumper().onTrue(m_feederSubsystem.setFeederPowerCommand(0.7)).onFalse(m_feederSubsystem.setFeederPowerCommand(0));
 
     new Trigger (() -> m_visionSubsystem.seesTargets()).whileTrue(new StdDevEstimatorCommand(m_visionSubsystem));
 
@@ -253,6 +239,20 @@ public class RobotContainer {
     //           () -> m_driverController.getLeftTriggerAxis(),
     //           true,
     //           m_speakerPose));
+
+  }
+
+  public void configureOperatorBindings()
+  {
+    m_operatorController.rightBumper().whileTrue(
+      m_armSubsystem.manualArmCommand(0.2)).onFalse(m_armSubsystem.manualArmCommand(0));
+
+        m_operatorController.leftBumper().whileTrue(
+      m_armSubsystem.manualArmCommand(-0.2)).onFalse(m_armSubsystem.manualArmCommand(0));
+
+      m_operatorController.x().onTrue(m_armSubsystem.rotateToAngleCommand(25));
+      m_operatorController.a().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
+      m_operatorController.back().onTrue(m_armSubsystem.resetArmEncoderCommand());
 
   }
 

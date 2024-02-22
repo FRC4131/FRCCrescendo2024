@@ -98,12 +98,14 @@ public class SwerveModule {
     }
 
     private void configAngleMotor() {
+        m_angleMotor.setSmartCurrentLimit(40); 
         m_angleMotor.setInverted(Constants.Swerve.ANGLE_MOTOR_INVERT);
     }
 
     private void configDriveMotor() {
         m_driveMotor.setInverted(Constants.Swerve.DRIVE_MOTOR_INVERT);
         m_driveMotor.setIdleMode(IdleMode.kBrake); 
+        m_driveMotor.setSmartCurrentLimit(40); 
         m_driveEncoder.setPositionConversionFactor(Constants.Swerve.DRIVE_ENCODER_ROT2METERS);
         m_driveEncoder.setVelocityConversionFactor(Constants.Swerve.DRIVE_ENCODER_RPM2METERSPERSEC);
         m_driveMotor.burnFlash();  //TODO: Do we need to flash these values into the encoder?

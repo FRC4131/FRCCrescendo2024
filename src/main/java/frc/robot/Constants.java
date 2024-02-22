@@ -46,8 +46,8 @@ public final class Constants {
     }
 
     public static final class FeederConstants{
-        public static final int FEEDER_MOTOR_ID = 21;
-        public static final double FEEDER_MOTOR_POWER = 0.04;
+        public static final int FEEDER_MOTOR_ID = 12;
+        public static final double FEEDER_MOTOR_POWER = -0.7;
         public static enum FeederState {
             READYINPUT,
             INTAKE,
@@ -56,6 +56,14 @@ public final class Constants {
         }
         public static final int INTAKE_BEAMBREAK_ID = 1;
         public static final int SHOOTER_BEAMBREAK_ID = 2; 
+    }
+
+    public static final class ArmConstants{
+        public static final int ARM_MOTOR_ID = 13;
+        public static final double ARM_MOTOR_GEAR_RATIO = (5.0 / 1.0) * (4.0 / 1.0) * (58.0 / 22.0); // two motor gear boxes + extra gearing
+        public static final double ARM_RESTING_POSITION_ANGLE = 0.0; 
+        public static final double ARM_AMP_ANGLE = 0.0;
+        public static final double ARM_ENCODER_SCALING_FACTOR = 360.0 / ARM_MOTOR_GEAR_RATIO; //360 degrees/(gear ratio) 
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/
