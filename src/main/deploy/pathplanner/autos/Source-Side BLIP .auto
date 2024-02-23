@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 0.790365980646464,
-      "y": 4.519278340402505
+      "y": 4.44
     },
     "rotation": 120.01
   },
@@ -12,9 +12,40 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Source-Side BLIP Start"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Off"
+                }
+              }
+            ]
           }
         },
         {
@@ -24,9 +55,40 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Source-Side BLIP Path 3"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Off"
+                }
+              }
+            ]
           }
         },
         {
@@ -36,9 +98,40 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Source-Side BLIP Path 5"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Off"
+                }
+              }
+            ]
           }
         }
       ]

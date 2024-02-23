@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77430354290908,
-      "y": 6.583808951093687
+      "x": 0.7632939243364416,
+      "y": 6.6598494772974535
     },
     "rotation": -122.05662332244285
   },
@@ -12,9 +12,40 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp-Side Start"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Off"
+                }
+              }
+            ]
           }
         },
         {
@@ -24,9 +55,40 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp-Side Shoot Path 3"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Off"
+                }
+              }
+            ]
           }
         },
         {
@@ -36,15 +98,52 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp-Side Shoot Path 5"
           }
         },
         {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Off"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp-Side Shoot Path 6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
           }
         }
       ]
