@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.fasterxml.jackson.annotation.JsonFormat.Feature;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,16 +20,16 @@ import frc.robot.Constants.FeederState;
 public class FeederSubsystem extends SubsystemBase {
   private CANSparkMax m_IntakeMotor;
   private CANSparkMax m_BeltMotor;
-  private DigitalInput m_IntakeBreaker;
-  private DigitalInput m_FeederBreaker;
+  private DigitalInput m_Breaker;
+  // private DigitalInput m_FeederBreaker;
 
   
   // machine states are located in the Constants file
 
     
-  private IntakeSubsystem m_intakeSubsystem;
-  private FeederSubsystem m_feederSubsystem;
-    private ShooterSubsystem m_shooterSubsystem;
+  //private IntakeSubsystem m_intakeSubsystem;
+  //private FeederSubsystem m_feederSubsystem;
+    //private ShooterSubsystem m_shooterSubsystem;
     private FeederState m_State;
     private int m_ShooterTicks = 0;
 
@@ -42,89 +42,77 @@ public class FeederSubsystem extends SubsystemBase {
   public FeederSubsystem() {
       m_IntakeMotor = new CANSparkMax(3, CANSparkLowLevel.MotorType.kBrushless);
       m_BeltMotor = new CANSparkMax(21, CANSparkLowLevel.MotorType.kBrushless);
-      m_IntakeBreaker = new DigitalInput(2); // beambreak
-      m_FeederBreaker = new DigitalInput(1); //switch 
-      m_State = FeederState.READYINPUT;
+      m_Breaker = new DigitalInput(2); // beambreak
+      m_State = FeederState.INPUT;
       m_ShooterTicks = 0;
       m_IntakeMotor.set(0.0);
       m_BeltMotor.set(0.0);
   }
 
-  public Command setIntakePowerCommand(double power) {
+
+  public void setIntakePower(double power) {
+    m_IntakeMotor.set(power);
+    m_BeltMotor.set(power);
+  }
+  public Command setPowerCommand(double power) {
     return new InstantCommand(() -> {
-      m_IntakeMotor.set(power);
+      setIntakePower(power);
     }, this);
+
   }
 
   public Command setFeederPowerCommand(double power) {
     return new InstantCommand(() -> {
       m_BeltMotor.set(power);
     }, this);
+  } 
+
+  public boolean getBreaker() {
+    return m_Breaker.get();
   }
 
-  public boolean getIntakeBreaker() {
-    return m_IntakeBreaker.get();
-  }
-
-  public boolean getFeederBreaker() { 
+  /*public boolean getFeederBreaker() { 
     return m_FeederBreaker.get();
-  }
+  } */
 
   public FeederState getFeederState() {
     return m_State;
   }
 
   public boolean intakeAllowed(){
-    return (m_State == FeederState.READYINPUT) || (m_State == FeederState.FEED);
+    return (m_State == FeederState.INPUT);
+    // the driver will just have to know that only one note can be in the robot at a time
+    // we don't have the first breaker so this is automated now!
+  }
+
+  public boolean shootAllowed() {
+    return (m_State == FeederState.SHOOT);
+    // this remains the same though ;)
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putString("FeederState", m_State.name());
-    SmartDashboard.putBoolean("FeederBeamBreak", m_FeederBreaker.get());
+    SmartDashboard.putBoolean("BeamBreak", m_Breaker.get());
 
     switch (m_State) {
 
-      case READYINPUT:
-          // keep the feeder motor off as driver controls intake motor until first beam is broken
-          m_BeltMotor.set(0.0);
-          // if we're in the first beam, change state, making the process autonomous
-          if (!m_IntakeBreaker.get()) {
-              m_State = FeederState.FEED;
+      case INPUT:
+          // only 1 beam break, so nothing happens here
+          if (m_Breaker.get()) {
+            // if the breaker at the shoot turns on then we should be in the shoot state
+              m_State = FeederState.SHOOT;
           }
           break;
-      case FEED:
-          // the note is inside of the breaker beam light
-          // turn on the feeder to feed it to TRANSIT, but driver should keep intake motor on
-          m_BeltMotor.set(0.04);
-          // bbbutt, if the note comes out of the first breaker, then begin TRANSIT
-          if (m_IntakeBreaker.get()) {
-              m_State = FeederState.TRANSIT;
-          }
-          break;
-      case TRANSIT:
-          // ok now we need to feed the note through the middle section
-          m_BeltMotor.set(0.04);
-          
-          // it won't fall, hardware said so :)
-          /*if (m_IntakeBreaker.get()) {
-              m_State = State.FEED;
-              m_feederSubsystem.setPower(0);
-          }*/
-
-          // if it hits the second breaker, change to READYSHOOT
-          if (!m_FeederBreaker.get()) {
-              m_State = FeederState.READYSHOOT;
-          }
-
-          break;
-      case READYSHOOT:
+    
+      case SHOOT:
           // stop feeding, keep note in the top of the feeder, so it is ready to shoot (it won't slide)
           m_BeltMotor.set(0.0);
-          if (m_FeederBreaker.get()) {
-              m_State = FeederState.READYINPUT;
+          if (!m_Breaker.get()) {
+              m_State = FeederState.INPUT;
           }
+          // once the breaker is false again (in other words, shoot has happened, then the states reset)
           // shooting is an external action which can be found in the shooter subsystem.
           break;
 

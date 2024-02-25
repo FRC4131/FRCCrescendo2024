@@ -4,15 +4,15 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ExampleCommand;
+// import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GrabNoteCommand;
 // import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
+// import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
@@ -65,7 +65,7 @@ public class RobotContainer {
   
   // Xbox Controllers (Replace with CommandPS4Controller or CommandJoystick if needed)
   private final CommandXboxController m_driverController =
-      new CommandXboxController( OperatorConstants.DRIVER_CONTROLLER_PORT);
+      new CommandXboxController(0);
 
       
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -165,7 +165,7 @@ public class RobotContainer {
     // m_grabNoteCommand = new GrabNoteCommand(m_intakeSubsystem, m_feederSubsystem, m_shooterSubsystem);
     Trigger intakeTrigger = new Trigger(m_feederSubsystem::intakeAllowed);
     m_driverController.x().and(intakeTrigger)
-      .onTrue(m_feederSubsystem.setIntakePowerCommand(0.04)).onFalse(m_feederSubsystem.setIntakePowerCommand(0.0));
+      .onTrue(m_feederSubsystem.setPowerCommand(0.04)).onFalse(m_feederSubsystem.setPowerCommand(0.0));
     
     // m_driverController.a().and().onTrue();
     // m_driverController.b()

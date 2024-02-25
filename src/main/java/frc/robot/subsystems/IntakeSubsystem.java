@@ -25,6 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void setPower(double power)
   {
     m_intakeMotor.set(power);
+
   }
 
   public Command setPowerCommand(double power) {
