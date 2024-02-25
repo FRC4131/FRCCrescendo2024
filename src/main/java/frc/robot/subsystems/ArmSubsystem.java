@@ -24,33 +24,59 @@ import frc.robot.Constants.ArmConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new SwivelArmSubsystem. */
-  private CANSparkMax m_armMotor;  
+  private CANSparkMax m_armMotorL;  //lead/left motor
+  private CANSparkMax m_armMotorR; //follower/right motor
   private RelativeEncoder m_armEncoder; 
   private PIDController m_armPidController; 
   private ArmFeedforward m_armFeedforward; 
-  private double m_angleSetpoint = 0.0;
+  private double m_angleSetpoint = 23.0;
+  private boolean m_isManualMode; 
 
   public ArmSubsystem() {
-    m_armMotor = new CANSparkMax(Constants.ArmConstants.ARM_MOTOR_ID, MotorType.kBrushless);
-    m_armEncoder = m_armMotor.getEncoder(); 
-    m_armPidController = new PIDController(0.01, 0, 0);
+    m_armMotorL = new CANSparkMax(Constants.ArmConstants.ARM_MOTOR_ID_LEFT, MotorType.kBrushless);
+    m_armMotorL.setSmartCurrentLimit(30); 
+    m_armMotorL.setIdleMode(IdleMode.kCoast);
+    m_armMotorL.setInverted(true);
+
+    m_armMotorR = new CANSparkMax(Constants.ArmConstants.ARM_MOTOR_ID_RIGHT, MotorType.kBrushless);
+    m_armMotorR.follow(m_armMotorL, true);
+    m_armMotorR.setSmartCurrentLimit(30); 
+    m_armMotorR.setIdleMode(IdleMode.kCoast);
+
+    m_armEncoder = m_armMotorL.getEncoder(); 
+
+    m_armPidController = new PIDController(0.02, 0, 0);
     m_armFeedforward = new ArmFeedforward(0, 0, 0, 0); 
 
-    m_armMotor.setSmartCurrentLimit(30); 
-    m_armMotor.setIdleMode(IdleMode.kCoast);
-    m_armMotor.setInverted(true);
     m_armEncoder.setPositionConversionFactor(Constants.ArmConstants.ARM_ENCODER_SCALING_FACTOR);
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
+
+    m_isManualMode = false; 
   }
 
   public void setPower(double power) {
-    m_armMotor.set(power);
+    m_armMotorL.set(power);
   }
 
   public Command setPowerCommand(double power) {
     return new InstantCommand(() -> {
       setPower(power);
     }, this);
+  }
+
+  public Command manualModeCommand(double power)
+  {
+    return new InstantCommand(() -> {
+      m_isManualMode = true; 
+      m_armMotorL.set(power);
+    }, this);
+  }
+
+  public Command manualModeOffCommand()
+  {
+    return new InstantCommand(() -> {
+      m_isManualMode = false; 
+    }); 
   }
 
   public Command rotateToAngleCommand(double angle) {
@@ -86,15 +112,6 @@ public class ArmSubsystem extends SubsystemBase {
     }); 
   }
 
-  public Command manualArmCommand(double power)
-  {
-    return new InstantCommand(() ->
-    {
-      m_armMotor.set(power);
-    }); 
-  }
-
-
   public void resetPosition() { //sends arm to 0 position and resets encoder to 0 
     this.goToRestAngleCommand(); 
     m_armEncoder.setPosition(0);
@@ -107,16 +124,18 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
-    double clampedPower = MathUtil.clamp(rawPower, -0.1, 0.7);
-
-    m_armMotor.set(clampedPower);
+    if (!m_isManualMode)
+    {
+        double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
+        double clampedPower = MathUtil.clamp(rawPower, -0.08, 0.08);
+        m_armMotorL.set(clampedPower);
+        SmartDashboard.putNumber("RawPower", rawPower);
+        SmartDashboard.putNumber("ClampedPower", clampedPower);
+    }
       
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Degrees", getArmAngle()); 
     SmartDashboard.putNumber("ArmSetpoint", m_angleSetpoint);
-    SmartDashboard.putNumber("RawPower", rawPower);
-    SmartDashboard.putNumber("ClampedPower", clampedPower);
     SmartDashboard.putData("ARM PID",m_armPidController);
   }
 }

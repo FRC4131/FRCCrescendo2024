@@ -59,11 +59,16 @@ public final class Constants {
     }
 
     public static final class ArmConstants{
-        public static final int ARM_MOTOR_ID = 13;
+        public static final int ARM_MOTOR_ID_LEFT = 13;
+        public static final int ARM_MOTOR_ID_RIGHT = 16; 
         public static final double ARM_MOTOR_GEAR_RATIO = (5.0 / 1.0) * (4.0 / 1.0) * (58.0 / 22.0); // two motor gear boxes + extra gearing
-        public static final double ARM_RESTING_POSITION_ANGLE = 0.0; 
+        public static final double ARM_RESTING_POSITION_ANGLE = 23.0; 
         public static final double ARM_AMP_ANGLE = 0.0;
         public static final double ARM_ENCODER_SCALING_FACTOR = 360.0 / ARM_MOTOR_GEAR_RATIO; //360 degrees/(gear ratio) 
+    }
+
+    public static final class ShooterConstants{
+        public static final int SHOOTER_MOTOR_ID = 14;
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/

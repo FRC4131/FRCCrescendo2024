@@ -25,7 +25,7 @@ public class FeederSubsystem extends SubsystemBase {
   /** Creates a new FeederSubsystem. */
   public FeederSubsystem() {
     m_feederMotor = new CANSparkMax(12, CANSparkLowLevel.MotorType.kBrushless);
-    m_intakeBreaker = new DigitalInput(FeederConstants.INTAKE_BEAMBREAK_ID); // beam break near intake
+    //m_intakeBreaker = new DigitalInput(FeederConstants.INTAKE_BEAMBREAK_ID); // beam break near intake
     m_shooterBreaker = new DigitalInput(FeederConstants.SHOOTER_BEAMBREAK_ID); // beam break near shooter
     m_state = FeederState.READYINPUT;
     m_feederMotor.set(0.0);
@@ -44,9 +44,9 @@ public class FeederSubsystem extends SubsystemBase {
     }, this);
   }
 
-  public boolean getIntakeBreaker() {
-    return m_intakeBreaker.get();
-  }
+  // public boolean getIntakeBreaker() {
+  //   return m_intakeBreaker.get();
+  // }
 
   public boolean getShooterBreaker() {
     return m_shooterBreaker.get();
@@ -64,50 +64,55 @@ public class FeederSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putString("FeederState", m_state.name());
-    SmartDashboard.putBoolean("Intake Beam Break", m_intakeBreaker.get());
+    //SmartDashboard.putBoolean("Intake Beam Break", m_intakeBreaker.get());
     SmartDashboard.putBoolean("Shooter Beam Break", m_shooterBreaker.get());
 
-    switch (m_state) {
+    // if (!m_shooterBreaker.get())
+    // {
+    //   m_feederMotor.set(0);
+    // }
 
-      case READYINPUT:
-        // keep the feeder motor off as driver controls intake motor until first beam is
-        // broken
-       // m_feederMotor.set(0.0);
-        // if we're in the first beam, change state, making the process autonomous
-        if (m_intakeBreaker.get()) {
-          m_state = FeederState.INTAKE;
-        }
-        break;
-      case INTAKE:
-        // the note is inside of the breaker beam light
-        // turn on the feeder to feed it to TRANSIT, but driver should keep intake motor
-        // on
-        m_feederMotor.set(FeederConstants.FEEDER_MOTOR_POWER);
-        // bbbutt, if the note comes out of the first breaker, then begin TRANSIT
-        if (!m_intakeBreaker.get()) {
-          m_state = FeederState.TRANSIT;
-        }
-        break;
-      case TRANSIT:
-        // ok now we need to feed the note through the middle section
-        m_feederMotor.set(FeederConstants.FEEDER_MOTOR_POWER);
+    // switch (m_state) {
 
-        // it won't fall, hardware said so :)
+    //   case READYINPUT:
+    //     // keep the feeder motor off as driver controls intake motor until first beam is
+    //     // broken
+    //     m_feederMotor.set(0.0);
+    //     // if we're in the first beam, change state, making the process autonomous
+    //     if (!m_intakeBreaker.get()) {
+    //       m_state = FeederState.INTAKE;
+    //     }
+    //     break;
+    //   case INTAKE:
+    //     // the note is inside of the breaker beam light
+    //     // turn on the feeder to feed it to TRANSIT, but driver should keep intake motor
+    //     // on
+    //     m_feederMotor.set(FeederConstants.FEEDER_MOTOR_POWER);
+    //     // bbbutt, if the note comes out of the first breaker, then begin TRANSIT
+    //     if (m_intakeBreaker.get()) {
+    //       m_state = FeederState.TRANSIT;
+    //     }
+    //     break;
+    //   case TRANSIT:
+    //     // ok now we need to feed the note through the middle section
+    //     m_feederMotor.set(FeederConstants.FEEDER_MOTOR_POWER);
 
-        // if it hits the second breaker, change to READYSHOOT
-        if (m_shooterBreaker.get()) {
-          m_state = FeederState.READYSHOOT;
-        }
-        break;
-      case READYSHOOT:
-        // stop feeding, keep note in the top of the feeder, so it is ready to shoot (it
-        // won't slide)
-        m_feederMotor.set(0.0);
-        if (!m_shooterBreaker.get()) {
-          m_state = FeederState.READYINPUT;
-        }
-        // shooting is an external action which can be found in the shooter subsystem.
-        break;
-    }
+    //     // it won't fall, hardware said so :)
+
+    //     // if it hits the second breaker, change to READYSHOOT
+    //     if (!m_shooterBreaker.get()) {
+    //       m_state = FeederState.READYSHOOT;
+    //     }
+    //     break;
+    //   case READYSHOOT:
+    //     // stop feeding, keep note in the top of the feeder, so it is ready to shoot (it
+    //     // won't slide)
+    //     m_feederMotor.set(0.0);
+    //     if (m_shooterBreaker.get()) {
+    //       m_state = FeederState.READYINPUT;
+    //     }
+    //     // shooting is an external action which can be found in the shooter subsystem.
+    //     break;
+    // }
   }
 }

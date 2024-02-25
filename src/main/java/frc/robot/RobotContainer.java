@@ -16,6 +16,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -53,6 +54,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(); 
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
   private final FeederSubsystem m_feederSubsystem = new FeederSubsystem(); 
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(); 
 
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
@@ -244,15 +246,22 @@ public class RobotContainer {
 
   public void configureOperatorBindings()
   {
-    m_operatorController.rightBumper().whileTrue(
-      m_armSubsystem.manualArmCommand(0.2)).onFalse(m_armSubsystem.manualArmCommand(0));
+    m_operatorController.b().onTrue(
+      m_armSubsystem.manualModeCommand(0.08)).onFalse(m_armSubsystem.setPowerCommand(0).alongWith(m_armSubsystem.manualModeOffCommand()));
 
-        m_operatorController.leftBumper().whileTrue(
-      m_armSubsystem.manualArmCommand(-0.2)).onFalse(m_armSubsystem.manualArmCommand(0));
+    m_operatorController.a().onTrue(
+      m_armSubsystem.manualModeCommand(-0.08)).onFalse(m_armSubsystem.setPowerCommand(0).alongWith(m_armSubsystem.manualModeOffCommand()));
 
       m_operatorController.x().onTrue(m_armSubsystem.rotateToAngleCommand(25));
-      m_operatorController.a().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
+      m_operatorController.y().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
       m_operatorController.back().onTrue(m_armSubsystem.resetArmEncoderCommand());
+
+      m_operatorController.leftBumper().onTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
+      ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+      m_operatorController.rightBumper().onTrue(m_shooterSubsystem.setPowerCommand(1.0)).onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
+
+    
+    
 
   }
 
