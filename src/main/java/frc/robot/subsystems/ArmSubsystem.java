@@ -90,7 +90,8 @@ public class ArmSubsystem extends SubsystemBase {
     });
   }
 
-  private void goToAngle(double angleDegrees) //sets arm to a specified angle 
+
+  public void goToAngle(double angleDegrees) //sets arm to a specified angle 
   {
     m_angleSetpoint = angleDegrees; 
   }

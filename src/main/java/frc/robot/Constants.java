@@ -31,6 +31,8 @@ public final class Constants {
         public static final Pose2d BLUE_AMP = new Pose2d(1.8415,8.2042, new Rotation2d());
         public static final Pose2d BLUE_SOURCE_RIGHT = new Pose2d(15.079472, .245872, new Rotation2d());
         public static final Pose2d BLUE_SOURCE_LEFT = new Pose2d(16.185134, .883666, new Rotation2d());
+
+        public static final double SPEAKER_HEIGHT_METERS = 2.1336; 
     }
 
     public static class ControllerConstants {

@@ -15,6 +15,11 @@ public class EstimatedRobotPose {
         m_targetPose = vector; 
     }
 
+    public void setPose(Pose2d pose)
+    {
+        m_pose = pose; 
+    }
+
     public Pose2d getPose()
     {
         return m_pose;
