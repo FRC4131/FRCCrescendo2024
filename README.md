@@ -3,9 +3,9 @@
 
 Implemented Subsystems  
 -----
-Swerve Drivebase  
-Arm  
-Feeder 
-Intake  
+Swerve Drivebase\
+Arm\
+Feeder\
+Intake\
+Climber\
 Shooter
-Climber 
