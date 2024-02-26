@@ -30,7 +30,7 @@ public class ArmSubsystem extends SubsystemBase {
   private RelativeEncoder m_armEncoder; 
   private PIDController m_armPidController; 
   //private ArmFeedforward m_armFeedforward; 
-  private double m_angleSetpoint = 23.0;
+  private double m_angleSetpoint = Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE;
   private boolean m_isManualMode; 
 
   public ArmSubsystem() {
@@ -76,12 +76,31 @@ public class ArmSubsystem extends SubsystemBase {
     }, this);
   }
 
-  public Command manualModeOffCommand() //takes arm out of manual mode and sets pid to its last angle
+  public Command manualModeOffCommand() //takes arm out of manual mode and sets pid to resting angle 
   {
     return new InstantCommand(() -> {
-      m_angleSetpoint = this.getArmAngle();
+      this.resetPosition();
       m_isManualMode = false; 
     }); 
+  }
+
+  public Command armJoyStickCommand(DoubleSupplier rotSupplier)
+  {
+    return new InstantCommand(() -> {
+      m_isManualMode = true; 
+      if (rotSupplier.getAsDouble() > -0.08 && rotSupplier.getAsDouble() < 0.08)
+      {
+        m_armMotorL.set(rotSupplier.getAsDouble());
+      }
+      else if (rotSupplier.getAsDouble() < -0.08)
+      {
+        m_armMotorL.set(-0.08);
+      }
+      else if (rotSupplier.getAsDouble() > 0.08)
+      {
+        m_armMotorL.set(0.08);
+      }
+    });
   }
 
   public Command rotateToAngleCommand(double angle) { 
@@ -103,10 +122,19 @@ public class ArmSubsystem extends SubsystemBase {
       m_armEncoder.setPosition(0.0);
     }); 
   }
+
+   public Command resetArmPositionCommand()
+  {
+    return new InstantCommand(() ->
+    {
+      resetPosition(); 
+    }, this); 
+  }
+  
   
   public void resetPosition() { 
     this.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
-    m_armEncoder.setPosition(23);
+    m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
   }
 
   public double getArmAngle() //returns current angle of the arm 

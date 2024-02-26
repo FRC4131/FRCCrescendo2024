@@ -29,6 +29,7 @@ public class FeederSubsystem extends SubsystemBase {
     m_shooterBreaker = new DigitalInput(FeederConstants.SHOOTER_BEAMBREAK_ID); // beam break near shooter
     m_state = FeederState.READYINPUT;
     m_feederMotor.set(0.0);
+    m_feederMotor.setInverted(true);
   }
 
   public Command setFeederPowerCommand(double power) {

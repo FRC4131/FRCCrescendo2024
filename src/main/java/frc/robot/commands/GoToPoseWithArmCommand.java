@@ -21,7 +21,7 @@ public class GoToPoseWithArmCommand extends Command {
   private PoseEstimationSubsystem m_poseEstimationSubsystem;
   private ArmSubsystem m_armSubsystem; 
   private Double m_desiredDriveAngle;
-  private Double m_desiredArmAngle; 
+  private Double m_desiredArmAngleDegrees; 
   private DoubleSupplier m_controllerX; 
   private DoubleSupplier m_controllerY; 
   private DoubleSupplier m_throttle; 
@@ -79,7 +79,7 @@ public class GoToPoseWithArmCommand extends Command {
 
     m_robotPose = m_poseEstimationSubsystem.getPose();
     m_desiredDriveAngle = Math.atan2(yDistance, xDistance); //angle computed for the bot driving 
-    m_desiredArmAngle = Math.atan2(Constants.FieldConstants.SPEAKER_HEIGHT_METERS, totalDistance); //angle computed for the arm 
+    m_desiredArmAngleDegrees = Math.atan2(Constants.FieldConstants.SPEAKER_HEIGHT_METERS, totalDistance) * (180/Math.PI); //angle computed for the arm 
     m_pidControllerDrive.setSetpoint(m_desiredDriveAngle);
     //m_pidControllerArm.setSetpoint(m_desiredArmAngle);
     Double desiredRotationDrive = m_pidControllerDrive.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
@@ -93,14 +93,17 @@ public class GoToPoseWithArmCommand extends Command {
         m_poseEstimationSubsystem.getPose().getRotation(),
         m_fieldRelative,
         true);
-
-    m_armSubsystem.goToAngle(m_desiredArmAngle); 
+    if (m_desiredArmAngleDegrees >= Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE && m_desiredArmAngleDegrees < 90)
+    {
+       m_armSubsystem.goToAngle(m_desiredArmAngleDegrees); 
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
+    m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
   }
 
   // Returns true when the command should end.
