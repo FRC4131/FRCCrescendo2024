@@ -79,8 +79,10 @@ public class ArmSubsystem extends SubsystemBase {
   public Command manualModeOffCommand() //takes arm out of manual mode and sets pid to resting angle 
   {
     return new InstantCommand(() -> {
-      this.resetPosition();
+      m_armPidController.setSetpoint(this.getArmAngle());
       m_isManualMode = false; 
+      //this.resetPosition();
+
     }); 
   }
 

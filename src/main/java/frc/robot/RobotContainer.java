@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FeederConstants;
+import frc.robot.commands.AutonIntakeCommand;
+import frc.robot.commands.AutonShootCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
@@ -172,6 +174,10 @@ public class RobotContainer {
     //Named Commands 
     NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(0.7));
     NamedCommands.registerCommand("Intake Off", m_intakeSubsystem.setPowerCommand(0.0));
+    
+    NamedCommands.registerCommand("Intake", new AutonIntakeCommand(m_intakeSubsystem, m_feederSubsystem)); 
+    NamedCommands.registerCommand("Shoot Speaker", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 1.0));
+    NamedCommands.registerCommand("Shoot Amp", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 0.7));
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
@@ -187,7 +193,7 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_driverController.getRightX(), false) *
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
+        () -> m_driverController.getRightTriggerAxis(),
         true));
 
   }
@@ -199,8 +205,11 @@ public class RobotContainer {
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(m_angleOffset)); 
 
     //a -- shoot
-    m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).alongWith(m_feederSubsystem.setFeederPowerCommand(1.0)))
-      .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
+    m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+      .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+
+    //x -- go to resting 
+    m_driverController.x().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)); 
 
     // m_driverController.rightBumper().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
     // () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
@@ -211,48 +220,57 @@ public class RobotContainer {
     //      true,
     //       m_speakerPose));
 
-    //right bumper -- go to pose speaker w arm movement 
-    m_driverController.rightBumper().whileTrue(new GoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem,
+    //left trigger -- go to pose speaker w arm movement 
+    m_driverController.leftTrigger().whileTrue(new GoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem,
       m_poseEstimationSubsystem, 0,  
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-         () -> m_driverController.getLeftTriggerAxis(),
+         () -> m_driverController.getRightTriggerAxis(),
          true,
           m_speakerPose));
 
-    //x -- go to note 
-    m_driverController.x().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
-       m_visionSubsystem,
-      m_intakeSubsystem, 
-      () -> m_driverController.getLeftTriggerAxis(),
-      false)); 
+    // //x -- go to note 
+    // m_driverController.x().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+    //    m_visionSubsystem,
+    //   m_intakeSubsystem, 
+    //   () -> m_driverController.getLeftTriggerAxis(),
+    //   false)); 
+
+    //down d-pad -- amp shoot
+    m_driverController.povDown().onTrue(m_shooterSubsystem.setPowerCommand(0.6).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+      .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
     //left bumper -- amp align 
     m_driverController.leftBumper().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
        m_poseEstimationSubsystem,
+       m_armSubsystem, 
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
       () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,   
-      () -> m_driverController.getLeftTriggerAxis(), 
+      () -> m_driverController.getRightTriggerAxis(), 
       true, 
        m_ampPose)); 
 
-    //right trigger -- intake 
-    m_driverController.rightTrigger().whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.7))
-      ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+    //b -- intake
+    m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
+    .whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
+    .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
+    
+    // m_driverController.rightTrigger().whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.7))
+      // ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
-    //b -- outake
-    m_driverController.b().whileTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
+    //y -- outake
+    m_driverController.y().whileTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
     //right arrow -- manual move arm up 
-    m_driverController.povRight().whileTrue(m_armSubsystem.manualModeCommand(0.08))
-      .onFalse(m_armSubsystem.setPowerCommand(0).alongWith(m_armSubsystem.manualModeOffCommand()));
+    m_driverController.povRight().whileTrue(m_armSubsystem.manualModeCommand(0.08)).onFalse(m_armSubsystem.manualModeOffCommand());
 
     //left arrow -- manual move arm down 
-    m_driverController.povLeft().whileTrue(m_armSubsystem.manualModeCommand(-0.08))
-      .onFalse(m_armSubsystem.setPowerCommand(0).alongWith(m_armSubsystem.manualModeOffCommand()));
+    m_driverController.povLeft().whileTrue(m_armSubsystem.manualModeCommand(-0.05)).onFalse(m_armSubsystem.manualModeOffCommand());
 
     //Only allow intake when the feeder state shows it's ready for more input AND the driver presses the button
     // Trigger intakeTrigger = new Trigger(m_feederSubsystem::intakeAllowed);

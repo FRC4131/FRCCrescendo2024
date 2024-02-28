@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -52,7 +53,6 @@ public class GoToPoseWithArmCommand extends Command {
     m_pidControllerDrive = new PIDController(4, 0, 0);
     m_pidControllerDrive.enableContinuousInput(-Math.PI, Math.PI);
 
-    //m_pidControllerArm = new PIDController(0.02, 0, 0);
     addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem, m_armSubsystem);
 
     m_controllerX = x; 

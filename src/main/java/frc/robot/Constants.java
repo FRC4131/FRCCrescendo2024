@@ -32,7 +32,7 @@ public final class Constants {
         public static final Pose2d BLUE_SOURCE_RIGHT = new Pose2d(15.079472, .245872, new Rotation2d());
         public static final Pose2d BLUE_SOURCE_LEFT = new Pose2d(16.185134, .883666, new Rotation2d());
 
-        public static final double SPEAKER_HEIGHT_METERS = 2.1336; 
+        public static final double SPEAKER_HEIGHT_METERS = 1.676; 
     }
 
     public static class ControllerConstants {
@@ -65,7 +65,7 @@ public final class Constants {
         public static final int ARM_MOTOR_ID_RIGHT = 16; 
         public static final double ARM_MOTOR_GEAR_RATIO = (5.0 / 1.0) * (4.0 / 1.0) * (58.0 / 22.0); // two motor gear boxes + extra gearing
         public static final double ARM_RESTING_POSITION_ANGLE = 23.0; 
-        public static final double ARM_AMP_ANGLE = 0.0;
+        public static final double ARM_AMP_ANGLE = 50.0;
         public static final double ARM_ENCODER_SCALING_FACTOR = 360.0 / ARM_MOTOR_GEAR_RATIO; //360 degrees/(gear ratio) 
     }
 
@@ -119,7 +119,7 @@ public final class Constants {
         
 
         /* NavX/gyro specific constants */
-        public static final boolean GYRO_INVERT = true; // Always ensure Gyro is CCW+ CW-
+        public static final boolean GYRO_INVERT = false; // Always ensure Gyro is CCW+ CW-
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */

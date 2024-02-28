@@ -10,8 +10,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 
@@ -19,9 +21,11 @@ public class TargetAmpCommand extends Command {
   /** Creates a new TargetAmpCommand. */
   private DrivetrainSubsystem m_drivetrainSubsystem;
   private PoseEstimationSubsystem m_poseEstimationSubsystem;
+  private ArmSubsystem m_armSubsystem; 
   
   Double m_desiredAngle;
   private DoubleSupplier m_controllerY; 
+  private DoubleSupplier m_controllerX; 
   private DoubleSupplier m_throttle; 
   private Boolean m_fieldRelative;
   private Pose2d m_robotPose; 
@@ -32,13 +36,16 @@ public class TargetAmpCommand extends Command {
 
   public TargetAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
     PoseEstimationSubsystem poseEstimationSubsystem,  
+    ArmSubsystem armSubsystem, 
     DoubleSupplier ySupplier,
+    DoubleSupplier xSupplier, 
     DoubleSupplier throttle, 
     Boolean fieldRelative,
     Pose2d targetPose) {
 
       m_drivetrainSubsystem = drivetrainSubsystem;
       m_poseEstimationSubsystem = poseEstimationSubsystem;
+      m_armSubsystem = armSubsystem; 
       m_targetPose = targetPose;
   
       m_pidControllerTheta = new PIDController(4, 0, 0);
@@ -52,6 +59,7 @@ public class TargetAmpCommand extends Command {
       addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem);
   
       m_controllerY = ySupplier;
+      m_controllerX = xSupplier; 
       m_throttle = throttle; 
       m_fieldRelative = fieldRelative; 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -62,7 +70,7 @@ public class TargetAmpCommand extends Command {
   public void initialize() {
     m_xController.reset(); 
     m_xController.setSetpoint(m_targetPose.getX());
-    m_pidControllerTheta.setSetpoint(-(Math.PI / 2));
+    m_pidControllerTheta.setSetpoint((Math.PI / 2));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -70,13 +78,17 @@ public class TargetAmpCommand extends Command {
   public void execute() {
     m_robotPose = m_poseEstimationSubsystem.getPose();
     double pidDesiredRotation = m_pidControllerTheta.calculate(m_robotPose.getRotation().getRadians());
-    double pidDesiredX = m_xController.calculate(m_robotPose.getX());
+    //double pidDesiredX = m_xController.calculate(m_robotPose.getX());
     //double pidDesiredY = m_yController.calculate(m_robotPose.getY(), m_targetPose.getY());
 
+    
+    m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_AMP_ANGLE);
     // Calculate the throttle scaling factor
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
+    SmartDashboard.putBoolean("amp field relative", m_fieldRelative); 
+    SmartDashboard.putNumber("amp rotation", m_poseEstimationSubsystem.getPose().getRotation().getDegrees());
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
-    m_drivetrainSubsystem.drive(new Translation2d(pidDesiredX,
+    m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
         m_controllerY.getAsDouble() * scale),
         pidDesiredRotation,
         m_poseEstimationSubsystem.getPose().getRotation(),
@@ -89,6 +101,7 @@ public class TargetAmpCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_drivetrainSubsystem.drive(new ChassisSpeeds());
+    m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
   }
 
   // Returns true when the command should end.

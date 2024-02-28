@@ -14,7 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Note"
+            "name": "Auto Speaker Alignment"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
           }
         },
         {
@@ -24,40 +30,35 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake On"
+                  "name": "Intake"
                 }
               },
               {
-                "type": "wait",
+                "type": "sequential",
                 "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Off"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Amp-Side Shoot Path 2"
+                      }
+                    }
+                  ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp-Side Shoot Path 2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Note"
           }
         },
         {
@@ -144,6 +145,12 @@
           "type": "named",
           "data": {
             "name": "Shoot Note"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": []
           }
         }
       ]
