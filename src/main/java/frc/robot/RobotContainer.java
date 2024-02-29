@@ -8,6 +8,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.commands.AutonIntakeCommand;
 import frc.robot.commands.AutonShootCommand;
+import frc.robot.commands.AutonSpeakerAlignmentCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
@@ -178,6 +179,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Intake", new AutonIntakeCommand(m_intakeSubsystem, m_feederSubsystem)); 
     NamedCommands.registerCommand("Shoot Speaker", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 1.0));
     NamedCommands.registerCommand("Shoot Amp", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 0.7));
+    NamedCommands.registerCommand("Auto Speaker Alignment", new AutonSpeakerAlignmentCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, m_armSubsystem, m_speakerPose));
+    
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
@@ -291,6 +294,9 @@ public class RobotContainer {
     //           () -> m_driverController.getLeftTriggerAxis(),
     //           true,
     //           m_speakerPose));
+
+    new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 1.5))
+      .and(new Trigger(() -> m_feederSubsystem.getShooterBreaker()).onTrue(m_shooterSubsystem.setPowerCommand(1.0)); 
 
   }
 

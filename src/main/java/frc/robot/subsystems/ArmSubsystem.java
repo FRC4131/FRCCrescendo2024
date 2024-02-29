@@ -149,7 +149,7 @@ public class ArmSubsystem extends SubsystemBase {
     if (!m_isManualMode)
     {
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
-        double clampedPower = MathUtil.clamp(rawPower, -0.08, 0.08); //clamp power to 8% 
+        double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.08); //clamp power to 8% 
         m_armMotorL.set(clampedPower);
         SmartDashboard.putNumber("RawPower", rawPower);
         SmartDashboard.putNumber("ClampedPower", clampedPower);
