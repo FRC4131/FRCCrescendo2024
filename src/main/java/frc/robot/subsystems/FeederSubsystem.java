@@ -64,7 +64,7 @@ public class FeederSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putString("FeederState", m_state.name());
+    //SmartDashboard.putString("FeederState", m_state.name());
     //SmartDashboard.putBoolean("Intake Beam Break", m_intakeBreaker.get());
     SmartDashboard.putBoolean("Shooter Beam Break", m_shooterBreaker.get());
 
