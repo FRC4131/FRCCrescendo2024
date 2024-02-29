@@ -142,14 +142,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
             ChassisSpeeds chassisSpeed = this.getChassisSpeed();
-            SmartDashboard.putNumber("Chassis x", chassisSpeed.vxMetersPerSecond);
-            SmartDashboard.putNumber("Chassis y", chassisSpeed.vyMetersPerSecond);
-            SmartDashboard.putNumber("Chassis rads/sec", chassisSpeed.omegaRadiansPerSecond);
+            // SmartDashboard.putNumber("Chassis x", chassisSpeed.vxMetersPerSecond);
+            // SmartDashboard.putNumber("Chassis y", chassisSpeed.vyMetersPerSecond);
+            // SmartDashboard.putNumber("Chassis rads/sec", chassisSpeed.omegaRadiansPerSecond);
 
-            SmartDashboard.putNumber("Mod " + m_SwerveMods[2].moduleNumber + " Turn Position", m_SwerveMods[2].getTurningPosition());
-            SmartDashboard.putNumber("Mod " + m_SwerveMods[0].moduleNumber + " Turn Position", m_SwerveMods[0].getTurningPosition());
-            SmartDashboard.putNumber("Mod " + m_SwerveMods[1].moduleNumber + " Turn Position", m_SwerveMods[1].getTurningPosition());
-            SmartDashboard.putNumber("Mod " + m_SwerveMods[3].moduleNumber + " Turn Position", m_SwerveMods[3].getTurningPosition());
+            // SmartDashboard.putNumber("Mod " + m_SwerveMods[2].moduleNumber + " Turn Position", m_SwerveMods[2].getTurningPosition());
+            // SmartDashboard.putNumber("Mod " + m_SwerveMods[0].moduleNumber + " Turn Position", m_SwerveMods[0].getTurningPosition());
+            // SmartDashboard.putNumber("Mod " + m_SwerveMods[1].moduleNumber + " Turn Position", m_SwerveMods[1].getTurningPosition());
+            // SmartDashboard.putNumber("Mod " + m_SwerveMods[3].moduleNumber + " Turn Position", m_SwerveMods[3].getTurningPosition());
             //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
 
 
