@@ -32,6 +32,8 @@ public class ArmSubsystem extends SubsystemBase {
   //private ArmFeedforward m_armFeedforward; 
   private double m_angleSetpoint = Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE;
   private boolean m_isManualMode; 
+  private DigitalInput m_frontLimit = new DigitalInput(0); 
+  private DigitalInpute m_backLimit = new DigitalInput(1); 
 
   public ArmSubsystem() {
 
@@ -150,14 +152,32 @@ public class ArmSubsystem extends SubsystemBase {
     {
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
         double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.08); //clamp power to 8% 
-        m_armMotorL.set(clampedPower);
-        SmartDashboard.putNumber("RawPower", rawPower);
-        SmartDashboard.putNumber("ClampedPower", clampedPower);
+        if (clampedPower > 0)
+        {
+          if (m_frontLimit.get())
+          {
+            m_armMotorL.set(0.0);
+          }
+          else {
+            m_armMotorL.set(clampedPower); 
+          }
+        } else {
+          if (m_backLimit.get())
+          {
+            m_armMotorL.set(0.0); 
+          }
+          else{
+            m_armMotorL.set(clampedPower); 
+          }
+        }
+        //m_armMotorL.set(clampedPower);
+        //SmartDashboard.putNumber("RawPower", rawPower);
+        //SmartDashboard.putNumber("ClampedPower", clampedPower);
     }
       
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Degrees", getArmAngle()); 
     SmartDashboard.putNumber("ArmSetpoint", m_angleSetpoint);
-    SmartDashboard.putData("ARM PID",m_armPidController);
+    //SmartDashboard.putData("ARM PID",m_armPidController);
   }
 }
