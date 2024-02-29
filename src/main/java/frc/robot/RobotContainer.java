@@ -245,6 +245,11 @@ public class RobotContainer {
     m_driverController.povDown().onTrue(m_shooterSubsystem.setPowerCommand(0.6).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
+    //up d-pad -- speaker shoot w/o the wait
+    m_driverController.povUp().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+      .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+
+
     //left bumper -- amp align 
     m_driverController.leftBumper().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
        m_poseEstimationSubsystem,
@@ -296,7 +301,7 @@ public class RobotContainer {
     //           m_speakerPose));
 
     new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 1.5))
-      .and(new Trigger(() -> m_feederSubsystem.getShooterBreaker()).onTrue(m_shooterSubsystem.setPowerCommand(1.0)); 
+      .and(new Trigger(() -> m_feederSubsystem.getShooterBreaker()).onTrue(m_shooterSubsystem.setPowerCommand(1.0)).onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
 
   }
 
