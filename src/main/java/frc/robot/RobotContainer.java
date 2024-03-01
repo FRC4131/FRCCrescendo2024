@@ -300,8 +300,10 @@ public class RobotContainer {
     //           true,
     //           m_speakerPose));
 
-    new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 1.5))
-      .and(new Trigger(() -> m_feederSubsystem.getShooterBreaker()).onTrue(m_shooterSubsystem.setPowerCommand(1.0)).onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
+    // new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 1.5))
+    //   .and(new Trigger(() -> !m_feederSubsystem.getShooterBreaker())).onTrue(m_shooterSubsystem.setPowerCommand(1.0)).onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
+
+    //new Trigger(() -> m_armSubsystem.frontLimitSwitch()).onTrue(m_armSubsystem.resetEncoderCommand()); 
 
   }
 
