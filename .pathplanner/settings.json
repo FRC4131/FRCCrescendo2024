@@ -4,9 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "Primary Paths",
-    "Test Paths"
+    "EXTRA Paths"
   ],
   "autoFolders": [
+    "EXTRA IDEAS",
     "Primary",
     "Primary TESTS"
   ],
