@@ -150,9 +150,22 @@ public class ArmSubsystem extends SubsystemBase {
     }, this); 
   }
 
+  public Command setEncodertoPropAngle()
+  {
+    return new InstantCommand(() -> 
+    {
+      m_armEncoder.setPosition(Constants.ArmConstants.ARM_PROP_ANGLE);
+    }, this ); 
+  }
+
   public boolean frontLimitSwitch()
   {
-    return m_frontLimit.get(); 
+    return !m_frontLimit.get(); 
+  }
+
+  public boolean backLimitSwitch()
+  {
+    return !m_backLimit.get(); 
   }
 
   public double getArmAngle() //returns current angle of the arm 
@@ -166,24 +179,24 @@ public class ArmSubsystem extends SubsystemBase {
     {
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
         double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.08); //clamp power to 8% 
-        // if (clampedPower > 0)
-        // {
-        //   if (m_frontLimit.get())
-        //   {
-        //     m_armMotorL.set(0.0);
-        //   }
-        //   else {
-        //     m_armMotorL.set(clampedPower); 
-        //   }
-        // } else {
-        //   if (m_backLimit.get())
-        //   {
-        //     m_armMotorL.set(0.0); 
-        //   }
-        //   else{
-        //     m_armMotorL.set(clampedPower); 
-        //   }
-        // }
+        if (clampedPower > 0)
+        {
+          if (frontLimitSwitch())
+          {
+            m_armMotorL.set(0.0);
+          }
+          else {
+            m_armMotorL.set(clampedPower); 
+          }
+        } else {
+          if (backLimitSwitch())
+          {
+            m_armMotorL.set(0.0); 
+          }
+          else{
+            m_armMotorL.set(clampedPower); 
+          }
+        }
 
         SmartDashboard.putBoolean("front limit", m_frontLimit.get()); 
         SmartDashboard.putBoolean("bakc ", m_backLimit.get()); 

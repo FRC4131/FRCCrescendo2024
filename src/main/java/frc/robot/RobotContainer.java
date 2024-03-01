@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -67,6 +68,7 @@ public class RobotContainer {
   // private Pose2d m_stagePose; 
   private double m_directionInvert; 
   private double m_angleOffset; 
+  private boolean m_shooterSpedUp; 
 
   private SendableChooser<Command> m_autoChooser; //for autons
   
@@ -180,6 +182,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot Speaker", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 1.0));
     NamedCommands.registerCommand("Shoot Amp", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 0.7));
     NamedCommands.registerCommand("Auto Speaker Alignment", new AutonSpeakerAlignmentCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, m_armSubsystem, m_speakerPose));
+    NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
+    NamedCommands.registerCommand("Arm off prop", m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_PROP_ANGLE + 5));
     
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
@@ -208,8 +212,15 @@ public class RobotContainer {
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(m_angleOffset)); 
 
     //a -- shoot
-    m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
-      .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+    // if (m_shooterSpedUp)
+    // {
+
+    // }
+    // else{
+      m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+        .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+    // }
+
 
     //x -- go to resting 
     m_driverController.x().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)); 
@@ -263,9 +274,11 @@ public class RobotContainer {
        m_ampPose)); 
 
     //b -- intake
-    m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
-    .whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
-    .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
+    // m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
+    // .whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
+    // .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
+
+    m_driverController.b().onTrue(new AutonIntakeCommand(m_intakeSubsystem, m_feederSubsystem)); 
     
     // m_driverController.rightTrigger().whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.7))
       // ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
@@ -300,10 +313,14 @@ public class RobotContainer {
     //           true,
     //           m_speakerPose));
 
-    // new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 1.5))
-    //   .and(new Trigger(() -> !m_feederSubsystem.getShooterBreaker())).onTrue(m_shooterSubsystem.setPowerCommand(1.0)).onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
+    // new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 1.0))
+    //   .and(new Trigger(() -> !m_feederSubsystem.getShooterBreaker())).whileTrue(m_shooterSubsystem.setPowerCommand(1.0))
+    //   .alongWith(new InstantCommand(() -> {
+    //     m_shooterSpedUp = true; 
+    //   }))
+    //   .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
 
-    //new Trigger(() -> m_armSubsystem.frontLimitSwitch()).onTrue(m_armSubsystem.resetEncoderCommand()); 
+    new Trigger(() -> m_armSubsystem.frontLimitSwitch()).onTrue(m_armSubsystem.resetEncoderCommand()); 
 
   }
 

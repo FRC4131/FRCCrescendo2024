@@ -30,7 +30,7 @@ public class AutonIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_feederSubsystem.getShooterBreaker())
+    while (m_feederSubsystem.getShooterBreaker())
     {
       m_intakeSubsystem.setPowerCommand(0.7); 
       m_feederSubsystem.setFeederPowerCommand(0.5); 

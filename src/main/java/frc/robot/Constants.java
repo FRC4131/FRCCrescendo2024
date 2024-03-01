@@ -67,6 +67,7 @@ public final class Constants {
         public static final double ARM_RESTING_POSITION_ANGLE = 23.0; 
         public static final double ARM_AMP_ANGLE = 50.0;
         public static final double ARM_ENCODER_SCALING_FACTOR = 360.0 / ARM_MOTOR_GEAR_RATIO; //360 degrees/(gear ratio) 
+        public static final double ARM_PROP_ANGLE = 61.85246276855469; 
     }
 
     public static final class ShooterConstants{
