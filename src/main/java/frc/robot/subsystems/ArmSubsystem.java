@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -33,7 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_angleSetpoint = Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE;
   private boolean m_isManualMode; 
   private DigitalInput m_frontLimit = new DigitalInput(0); 
-  private DigitalInpute m_backLimit = new DigitalInput(1); 
+  private DigitalInput m_backLimit = new DigitalInput(1); 
 
   public ArmSubsystem() {
 
@@ -141,6 +142,19 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
   }
 
+  public Command resetEncoderCommand() 
+  {
+    return new InstantCommand(() ->
+    {
+        m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
+    }, this); 
+  }
+
+  public boolean frontLimitSwitch()
+  {
+    return m_frontLimit.get(); 
+  }
+
   public double getArmAngle() //returns current angle of the arm 
   {
     return m_armEncoder.getPosition(); 
@@ -152,25 +166,28 @@ public class ArmSubsystem extends SubsystemBase {
     {
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
         double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.08); //clamp power to 8% 
-        if (clampedPower > 0)
-        {
-          if (m_frontLimit.get())
-          {
-            m_armMotorL.set(0.0);
-          }
-          else {
-            m_armMotorL.set(clampedPower); 
-          }
-        } else {
-          if (m_backLimit.get())
-          {
-            m_armMotorL.set(0.0); 
-          }
-          else{
-            m_armMotorL.set(clampedPower); 
-          }
-        }
-        //m_armMotorL.set(clampedPower);
+        // if (clampedPower > 0)
+        // {
+        //   if (m_frontLimit.get())
+        //   {
+        //     m_armMotorL.set(0.0);
+        //   }
+        //   else {
+        //     m_armMotorL.set(clampedPower); 
+        //   }
+        // } else {
+        //   if (m_backLimit.get())
+        //   {
+        //     m_armMotorL.set(0.0); 
+        //   }
+        //   else{
+        //     m_armMotorL.set(clampedPower); 
+        //   }
+        // }
+
+        SmartDashboard.putBoolean("front limit", m_frontLimit.get()); 
+        SmartDashboard.putBoolean("bakc ", m_backLimit.get()); 
+        m_armMotorL.set(clampedPower);
         //SmartDashboard.putNumber("RawPower", rawPower);
         //SmartDashboard.putNumber("ClampedPower", clampedPower);
     }
