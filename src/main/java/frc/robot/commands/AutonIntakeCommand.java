@@ -30,11 +30,8 @@ public class AutonIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while (m_feederSubsystem.getShooterBreaker())
-    {
       m_intakeSubsystem.setPowerCommand(0.7); 
       m_feederSubsystem.setFeederPowerCommand(0.5); 
-    }
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +45,13 @@ public class AutonIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    
+    if (m_feederSubsystem.getShooterBreaker())
+    {
+      return true;
+    } 
+    else{
+      return false; 
+    }
   }
 }

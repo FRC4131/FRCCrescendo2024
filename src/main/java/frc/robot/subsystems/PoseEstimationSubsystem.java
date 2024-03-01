@@ -124,9 +124,8 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
         Constants.VisionConstants.APRIL_TAG_SD_Y * aprilTagPose.getMagnitude(), 
         1000));
         m_aprilTagStatus = true;
-      }
-
-      m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
+        m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
+      }   
     }
     m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions());
     field2d.setRobotPose(m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions()));

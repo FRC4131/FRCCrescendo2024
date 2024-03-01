@@ -32,13 +32,13 @@ public class TargetAmpCommand extends Command {
   private Pose2d m_targetPose; 
 
   private PIDController m_pidControllerTheta;
-  private PIDController m_xController; 
+  // private PIDController m_xController; 
 
   public TargetAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
     PoseEstimationSubsystem poseEstimationSubsystem,  
     ArmSubsystem armSubsystem, 
-    DoubleSupplier ySupplier,
-    DoubleSupplier xSupplier, 
+    DoubleSupplier xSupplier,
+    DoubleSupplier ySupplier, 
     DoubleSupplier throttle, 
     Boolean fieldRelative,
     Pose2d targetPose) {
@@ -51,15 +51,15 @@ public class TargetAmpCommand extends Command {
       m_pidControllerTheta = new PIDController(4, 0, 0);
       m_pidControllerTheta.enableContinuousInput(-Math.PI, Math.PI);
 
-       m_xController = new PIDController(3, 0, 0); 
+      //  m_xController = new PIDController(3, 0, 0); 
 
         //m_yController = new ProfiledPIDController(3, 0, 0,
         //new Constraints(1.0, 1.0));
 
-      addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem);
+      addRequirements(m_drivetrainSubsystem, m_poseEstimationSubsystem, m_armSubsystem);
   
-      m_controllerY = ySupplier;
       m_controllerX = xSupplier; 
+      m_controllerY = ySupplier;
       m_throttle = throttle; 
       m_fieldRelative = fieldRelative; 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -68,8 +68,8 @@ public class TargetAmpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_xController.reset(); 
-    m_xController.setSetpoint(m_targetPose.getX());
+    // m_xController.reset(); 
+    // m_xController.setSetpoint(m_targetPose.getX());
     m_pidControllerTheta.setSetpoint((Math.PI / 2));
   }
 
@@ -87,6 +87,8 @@ public class TargetAmpCommand extends Command {
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
     SmartDashboard.putBoolean("amp field relative", m_fieldRelative); 
     SmartDashboard.putNumber("amp rotation", m_poseEstimationSubsystem.getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("m_controllerX", m_controllerX.getAsDouble());
+    SmartDashboard.putNumber("m_controllerY", m_controllerY.getAsDouble());
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
     m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
         m_controllerY.getAsDouble() * scale),
@@ -94,7 +96,6 @@ public class TargetAmpCommand extends Command {
         m_poseEstimationSubsystem.getPose().getRotation(),
         m_fieldRelative,
         true);
-
   }
 
   // Called once the command ends or is interrupted.

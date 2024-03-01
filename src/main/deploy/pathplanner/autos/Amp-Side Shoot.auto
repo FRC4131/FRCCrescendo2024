@@ -14,7 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Auto Speaker Alignment"
+            "name": "Set Arm Angle Prop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm off prop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm Start Angle"
           }
         },
         {
@@ -24,21 +36,33 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Stop Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm Rest Angle"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp-Side Start"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
@@ -68,21 +92,27 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Stop Shooter"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp-Side Shoot Path 3"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
@@ -97,6 +127,12 @@
                       "type": "named",
                       "data": {
                         "name": "Shoot Speaker"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stop Shooter"
                       }
                     }
                   ]

@@ -32,6 +32,11 @@ public class FeederSubsystem extends SubsystemBase {
     m_feederMotor.setInverted(true);
   }
 
+  public void setPower(double power)
+  {
+    m_feederMotor.set(power);
+  }
+
   public Command setFeederPowerCommand(double power) {
     return new InstantCommand(() -> {
       m_feederMotor.set(power);

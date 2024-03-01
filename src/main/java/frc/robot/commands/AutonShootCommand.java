@@ -30,7 +30,7 @@ public class AutonShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_shooterSubsystem.setPowerCommand(m_speed); 
+      m_shooterSubsystem.setPower(m_speed); 
       new WaitCommand(1.5); 
       m_feederSubsystem.setFeederPowerCommand(1.0);
   }
