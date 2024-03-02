@@ -150,7 +150,10 @@ public class ArmSubsystem extends SubsystemBase {
   
   
   public void resetPosition() { 
-    this.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
+    // while (!frontLimitSwitch())
+    // {
+    //   m_angleSetpoint = m_angleSetpoint-5;
+    // }
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
   }
 

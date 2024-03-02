@@ -301,13 +301,7 @@ public class RobotContainer {
     //b -- intake
     // m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker())).toggleOnTrue(Commands.startEnd(() -> m_intakeSubsystem.setPower(0.7), () -> m_intakeSubsystem.setPower(0.0), m_intakeSubsystem)
     // .alongWith(Commands.startEnd(() -> m_feederSubsystem.setPower(0.5), () -> m_feederSubsystem.setPower(0.0), m_feederSubsystem)));
-    
-
-    //HAVE NOT TESTED MAY NOT WORK!!! Try removing "!" from getShooterBreaker if not working. 
-    m_driverController.b().whileTrue(new ConditionalCommand(
-      m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)),
-      m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)),
-      ()-> m_feederSubsystem.getShooterBreaker()));
+  
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())
    //    .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
@@ -363,16 +357,23 @@ public class RobotContainer {
 
   public void configureOperatorBindings()
   {
-    m_operatorController.x().onTrue(m_armSubsystem.rotateToAngleCommand(25));
-    m_operatorController.y().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
+    m_operatorController.x().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
+    //m_operatorController.y().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
     m_operatorController.back().onTrue(m_armSubsystem.resetArmPositionCommand());
 
-    //b -- intake 
-    m_operatorController.b().onTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.7))
-      ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+    
+    //HAVE NOT TESTED MAY NOT WORK!!! Try removing "!" from getShooterBreaker if not working. 
+    m_operatorController.b().whileTrue(new ConditionalCommand(
+      m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)),
+      m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)),
+      ()-> m_feederSubsystem.getShooterBreaker()));
 
-    // a -- outtake 
-    m_operatorController.a().onTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
+    //b -- intake 
+    // m_operatorController.b().onTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.7))
+    //   ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+
+    // y -- outtake 
+    m_operatorController.y().onTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
     //right bumper -- arm joystick control 
