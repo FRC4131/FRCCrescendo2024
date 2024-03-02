@@ -242,10 +242,11 @@ public class RobotContainer {
 
     // }
     // else{
-      m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
-        .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+      // m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+      //   .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
     // }
 
+      m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
 
     //x -- go to resting 
     m_driverController.x().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)); 
@@ -268,7 +269,7 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
          () -> m_driverController.getRightTriggerAxis(),
          true,
-          m_speakerPose));
+          m_speakerPose).alongWith(m_shooterSubsystem.setPowerCommand(1.0))).onFalse(m_shooterSubsystem.setPowerCommand(0.0));
 
     // //x -- go to note 
     // m_driverController.x().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
@@ -278,7 +279,7 @@ public class RobotContainer {
     //   false)); 
 
     //down d-pad -- amp shoot
-    m_driverController.povDown().onTrue(m_shooterSubsystem.setPowerCommand(0.6).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+    m_driverController.x().onTrue(m_shooterSubsystem.setPowerCommand(0.6).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
     //up d-pad -- speaker shoot w/o the wait
@@ -362,11 +363,17 @@ public class RobotContainer {
     m_operatorController.back().onTrue(m_armSubsystem.resetArmPositionCommand());
 
     
-    //HAVE NOT TESTED MAY NOT WORK!!! Try removing "!" from getShooterBreaker if not working. 
-    m_operatorController.b().whileTrue(new ConditionalCommand(
-      m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)),
-      m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)),
-      ()-> m_feederSubsystem.getShooterBreaker()));
+    // //HAVE NOT TESTED MAY NOT WORK!!! Try removing "!" from getShooterBreaker if not working. 
+    // m_operatorController.b().whileHeld(new ConditionalCommand(
+    //   m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)),
+    //   m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)),
+    //   ()-> m_feederSubsystem.getShooterBreaker()))
+    //   .whileFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
+
+      m_operatorController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
+      .whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
+      .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
+
 
     //b -- intake 
     // m_operatorController.b().onTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.7))
