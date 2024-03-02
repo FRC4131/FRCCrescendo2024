@@ -17,7 +17,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
 
-public class GoToPoseWithArmCommand extends Command {
+public class AutonGoToPoseWithArmCommand extends Command {
   private DrivetrainSubsystem m_drivetrainSubsystem;
   private PoseEstimationSubsystem m_poseEstimationSubsystem;
   private ArmSubsystem m_armSubsystem; 
@@ -37,7 +37,7 @@ public class GoToPoseWithArmCommand extends Command {
   //PIDController m_pidControllerArm; 
 
   /** Creates a new FixateOnThing. */
-  public GoToPoseWithArmCommand(DrivetrainSubsystem drivetrainSubsystem, 
+  public AutonGoToPoseWithArmCommand(DrivetrainSubsystem drivetrainSubsystem, 
     ArmSubsystem armSubsystem,
     PoseEstimationSubsystem poseEstimationSubsystem, 
     double angle,
@@ -115,7 +115,7 @@ public class GoToPoseWithArmCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
-    m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
+    
   }
 
   // Returns true when the command should end.

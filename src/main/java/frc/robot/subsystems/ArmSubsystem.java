@@ -79,6 +79,12 @@ public class ArmSubsystem extends SubsystemBase {
     }, this);
   }
 
+  public void manualMode(double power) 
+  {
+    m_isManualMode = true; 
+    m_armMotorL.set(power); 
+  }
+
   public Command manualModeOffCommand() //takes arm out of manual mode and sets pid to resting angle 
   {
     return new InstantCommand(() -> {
@@ -89,24 +95,30 @@ public class ArmSubsystem extends SubsystemBase {
     }); 
   }
 
-  public Command armJoyStickCommand(DoubleSupplier rotSupplier)
+  public void manualModeOff()
   {
-    return new InstantCommand(() -> {
-      m_isManualMode = true; 
-      if (rotSupplier.getAsDouble() > -0.08 && rotSupplier.getAsDouble() < 0.08)
-      {
-        m_armMotorL.set(rotSupplier.getAsDouble());
-      }
-      else if (rotSupplier.getAsDouble() < -0.08)
-      {
-        m_armMotorL.set(-0.08);
-      }
-      else if (rotSupplier.getAsDouble() > 0.08)
-      {
-        m_armMotorL.set(0.08);
-      }
-    });
+    m_armPidController.setSetpoint(this.getArmAngle());
+    m_isManualMode = false; 
   }
+
+  // public Command armJoyStickCommand(DoubleSupplier rotSupplier)
+  // {
+  //   return new InstantCommand(() -> {
+  //     m_isManualMode = true; 
+  //     if (rotSupplier.getAsDouble() > -0.08 && rotSupplier.getAsDouble() < 0.08)
+  //     {
+  //       m_armMotorL.set(rotSupplier.getAsDouble());
+  //     }
+  //     else if (rotSupplier.getAsDouble() < -0.08)
+  //     {
+  //       m_armMotorL.set(-0.08);
+  //     }
+  //     else if (rotSupplier.getAsDouble() > 0.08)
+  //     {
+  //       m_armMotorL.set(0.08);
+  //     }
+  //   });
+  // }
 
   public Command rotateToAngleCommand(double angle) { 
     return runOnce(() -> {

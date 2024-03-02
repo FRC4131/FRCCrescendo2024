@@ -6,10 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FeederConstants;
+import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.commands.AutoArmCommand;
 import frc.robot.commands.AutonIntakeCommand;
 import frc.robot.commands.AutonShootCommand;
-import frc.robot.commands.AutonSpeakerAlignmentCommand;
+import frc.robot.commands.AutonGoToPoseWithArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
@@ -30,8 +31,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -53,6 +57,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
 public class RobotContainer {
   // The robot's subsystems:
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
@@ -177,10 +182,17 @@ public class RobotContainer {
     );
 
     //Named Commands 
-    // NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(0.7));
+    // NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)));
     // NamedCommands.registerCommand("Intake Off", m_intakeSubsystem.setPowerCommand(0.0));
     
-   NamedCommands.registerCommand("Intake", new AutonIntakeCommand(m_intakeSubsystem, m_feederSubsystem)); 
+  //  NamedCommands.registerCommand("Intake", new AutonIntakeCommand(m_intakeSubsystem, m_feederSubsystem));
+  NamedCommands.registerCommand("Intake", 
+    m_feederSubsystem.setFeederPowerCommand(0.5).alongWith(m_intakeSubsystem.setPowerCommand(0.7))
+   .andThen(new WaitUntilCommand(()-> !m_feederSubsystem.getShooterBreaker()))
+    // .andThen(new WaitCommand(3))
+    .andThen(m_feederSubsystem.setFeederPowerCommand(0.0).alongWith(m_intakeSubsystem.setPowerCommand(0.0)))
+    // .andThen(m_shooterSubsystem.setPowerCommand(0.5).andThen(new WaitCommand(3)).andThen(m_shooterSubsystem.setPowerCommand(0.0)))
+    ); 
     NamedCommands.registerCommand("Shoot Speaker", m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(1.0)));
     NamedCommands.registerCommand("Stop Shooter", m_shooterSubsystem.setPowerCommand(0.0).andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
@@ -189,8 +201,15 @@ public class RobotContainer {
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
     NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, 90.0).andThen(new WaitCommand(1)));
-    
-    
+
+
+    NamedCommands.registerCommand("Shoot", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
+    , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, m_speakerPose).withTimeout(1.5))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
+
+    NamedCommands.registerCommand("Arm Command", m_armSubsystem.rotateToAngleCommand(80));
+    NamedCommands.registerCommand("Reset Arm Encoder", m_armSubsystem.resetArmEncoderCommand());
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
@@ -280,11 +299,18 @@ public class RobotContainer {
        m_ampPose)); 
 
     //b -- intake
-    m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker())).toggleOnTrue(Commands.startEnd(() -> m_intakeSubsystem.setPower(0.7), () -> m_intakeSubsystem.setPower(0.0), m_intakeSubsystem)
-    .alongWith(Commands.startEnd(() -> m_feederSubsystem.setPower(0.5), () -> m_feederSubsystem.setPower(0.0), m_feederSubsystem)));
+    // m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker())).toggleOnTrue(Commands.startEnd(() -> m_intakeSubsystem.setPower(0.7), () -> m_intakeSubsystem.setPower(0.0), m_intakeSubsystem)
+    // .alongWith(Commands.startEnd(() -> m_feederSubsystem.setPower(0.5), () -> m_feederSubsystem.setPower(0.0), m_feederSubsystem)));
     
-    new Trigger(()-> m_feederSubsystem.getShooterBreaker())
-       .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
+
+    //HAVE NOT TESTED MAY NOT WORK!!! Try removing "!" from getShooterBreaker if not working. 
+    m_driverController.b().whileTrue(new ConditionalCommand(
+      m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)),
+      m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)),
+      ()-> m_feederSubsystem.getShooterBreaker()));
+
+   // new Trigger(()-> m_feederSubsystem.getShooterBreaker())
+   //    .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
     // m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
     // .whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
@@ -350,9 +376,12 @@ public class RobotContainer {
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
     //right bumper -- arm joystick control 
-    m_operatorController.rightBumper().whileTrue(
-      m_armSubsystem.armJoyStickCommand(() -> -modifyAxis(m_operatorController.getLeftY(), false))
-      ).onFalse(m_armSubsystem.setPowerCommand(0.0).alongWith(m_armSubsystem.manualModeOffCommand()));
+    // m_operatorController.rightBumper().whileTrue(
+    //   m_armSubsystem.armJoyStickCommand(() -> -modifyAxis(m_operatorController.getLeftY(), false))
+    //   ).onFalse(m_armSubsystem.setPowerCommand(0.0).alongWith(m_armSubsystem.manualModeOffCommand()));
+    m_operatorController.rightBumper().whileTrue(new ArmJoystickCommand(m_armSubsystem, 
+            () -> -modifyAxis(m_operatorController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND)); 
     
 
   }

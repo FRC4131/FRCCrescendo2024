@@ -19,26 +19,27 @@ public class AutonIntakeCommand extends Command {
     m_feederSubsystem = feederSubsystem; 
     m_intakeSubsystem = intakeSubsystem; 
 
-    addRequirements(intakeSubsystem, feederSubsystem);
+    addRequirements(m_intakeSubsystem);
+    addRequirements(m_feederSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+     m_intakeSubsystem.setPower(0.7); 
+      m_feederSubsystem.setPower(0.5); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_intakeSubsystem.setPowerCommand(0.7); 
-      m_feederSubsystem.setFeederPowerCommand(0.5); 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.setPowerCommand(0.0); 
-    m_feederSubsystem.setFeederPowerCommand(0.0); 
+    m_intakeSubsystem.setPower(0.0); 
+    m_feederSubsystem.setPower(0.0); 
 
   }
 
@@ -48,10 +49,11 @@ public class AutonIntakeCommand extends Command {
     
     if (m_feederSubsystem.getShooterBreaker())
     {
-      return true;
+      return false;
     } 
-    else{
-      return false; 
+    else
+    {
+      return true; 
     }
   }
 }

@@ -32,7 +32,7 @@ public class AutonShootCommand extends Command {
   public void execute() {
       m_shooterSubsystem.setPower(m_speed); 
       new WaitCommand(1.5); 
-      m_feederSubsystem.setFeederPowerCommand(1.0);
+      m_feederSubsystem.setPower(1.0);
   }
 
   // Called once the command ends or is interrupted.
