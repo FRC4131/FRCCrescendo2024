@@ -65,7 +65,14 @@ public class GoToNoteCommand extends Command {
     double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.2;
 
     //Robot is driven (in Robot-Centric frame) towards note
-    m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,
+    // m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,
+    //     0.0),
+    //     rotOutput,
+    //     new Rotation2d(),
+    //     m_fieldRelative,
+    //     true);
+
+    m_DrivetrainSubsystem.drive(new Translation2d(0.0,
         0.0),
         rotOutput,
         new Rotation2d(),

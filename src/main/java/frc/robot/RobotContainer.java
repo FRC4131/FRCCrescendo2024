@@ -18,6 +18,7 @@ import frc.robot.commands.GoToPoseWithArmCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
 import frc.robot.commands.TargetAmpCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -27,6 +28,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,6 +47,8 @@ import static frc.robot.Constants.Swerve.TRACK_WIDTH;
 import static frc.robot.Constants.Swerve.WHEEL_BASE;
 
 import java.util.Optional;
+import java.util.concurrent.locks.Condition;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -67,6 +71,7 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
   private final FeederSubsystem m_feederSubsystem = new FeederSubsystem(); 
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(); 
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(); 
 
   //set to color specific constants later on 
   private Pose2d m_speakerPose; 
@@ -76,6 +81,7 @@ public class RobotContainer {
   private double m_directionInvert; 
   private double m_angleOffset; 
   private boolean m_shooterSpedUp; 
+
 
   private SendableChooser<Command> m_autoChooser; //for autons
   
@@ -131,24 +137,31 @@ public class RobotContainer {
   {
 
     Optional<Alliance> alliance = DriverStation.getAlliance(); 
-    
-    SmartDashboard.putString("Alliance", "blue");
-    m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
-    m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
-    m_ampPose = Constants.FieldConstants.BLUE_AMP;
-    m_directionInvert = 1.0;
-    m_angleOffset = 0.0;
 
-    if (!alliance.isEmpty()) {
-      if (alliance.get().equals(Alliance.Red)) {
-        SmartDashboard.putString("Alliance", "red");
+    SmartDashboard.putString("Alliance", "red");
         m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
         m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
         m_ampPose = Constants.FieldConstants.RED_AMP;
         m_directionInvert = -1.0;
         m_angleOffset = Math.PI;
-      }
-    }
+    
+    // SmartDashboard.putString("Alliance", "blue");
+    // m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
+    // m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
+    // m_ampPose = Constants.FieldConstants.BLUE_AMP;
+    // m_directionInvert = 1.0;
+    // m_angleOffset = 0.0;
+
+    // if (!alliance.isEmpty()) {
+    //   if (alliance.get().equals(Alliance.Blue)) {
+    //     SmartDashboard.putString("Alliance", "red");
+    //     m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
+    //     m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
+    //     m_ampPose = Constants.FieldConstants.RED_AMP;
+    //     m_directionInvert = -1.0;
+    //     m_angleOffset = Math.PI;
+    //   }
+    // }
   }
 
   public void configureAutoBuilder() {
@@ -242,11 +255,11 @@ public class RobotContainer {
 
     // }
     // else{
-      // m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
-      //   .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
-    // }
+    //   m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+    //     .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+    // // }
 
-      m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
+    m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
 
     //x -- go to resting 
     m_driverController.x().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)); 
@@ -269,22 +282,25 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
          () -> m_driverController.getRightTriggerAxis(),
          true,
-          m_speakerPose).alongWith(m_shooterSubsystem.setPowerCommand(1.0))).onFalse(m_shooterSubsystem.setPowerCommand(0.0));
+          m_speakerPose));
 
-    // //x -- go to note 
-    // m_driverController.x().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
-    //    m_visionSubsystem,
-    //   m_intakeSubsystem, 
-    //   () -> m_driverController.getLeftTriggerAxis(),
-    //   false)); 
+    m_driverController.rightBumper().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+        .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
-    //down d-pad -- amp shoot
-    m_driverController.x().onTrue(m_shooterSubsystem.setPowerCommand(0.6).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+    //left bumper -- go to note 
+    m_driverController.leftBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+       m_visionSubsystem,
+      m_intakeSubsystem, 
+      () -> m_driverController.getRightTriggerAxis(),
+      false)); 
+
+    //down b -- amp shoot
+    m_driverController.b().onTrue(m_shooterSubsystem.setPowerCommand(0.8).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
-    //up d-pad -- speaker shoot w/o the wait
-    m_driverController.povUp().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
-      .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+    // up d-pad -- speaker shoot w/o the wait
+    // m_driverController.povUp().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+    //   .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
 
     //left bumper -- amp align 
@@ -319,11 +335,17 @@ public class RobotContainer {
     m_driverController.y().whileTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
-    //right arrow -- manual move arm up 
-    m_driverController.povRight().whileTrue(m_armSubsystem.manualModeCommand(0.08)).onFalse(m_armSubsystem.manualModeOffCommand());
+    //pov up/down -- adjusts offset for the auto speaker align by 1 INCH
+    m_driverController.povUp().onTrue(m_armSubsystem.setOffsetCommand(0.0254));
+    m_driverController.povDown().onTrue(m_armSubsystem.setOffsetCommand(-0.0254));
 
-    //left arrow -- manual move arm down 
-    m_driverController.povLeft().whileTrue(m_armSubsystem.manualModeCommand(-0.05)).onFalse(m_armSubsystem.manualModeOffCommand());
+    //rumble for shooter ready 
+    new Trigger(() -> m_shooterSubsystem.isSpunUp())
+      .whileTrue(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kBothRumble, 0.2); 
+      })).onFalse(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kBothRumble, 0.0); 
+      }));
 
     //Only allow intake when the feeder state shows it's ready for more input AND the driver presses the button
     // Trigger intakeTrigger = new Trigger(m_feederSubsystem::intakeAllowed);
@@ -362,7 +384,10 @@ public class RobotContainer {
     //m_operatorController.y().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
     m_operatorController.back().onTrue(m_armSubsystem.resetArmPositionCommand());
 
-    
+    // a -- climber motor 
+    m_operatorController.a().and(m_operatorController.leftBumper()).onTrue(m_climberSubsystem.setPowerCommand(1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    //m_operatorController.b().and(m_operatorController.rightBumper()).onTrue(m_climberSubsystem.setPowerCommand(-1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+
     // //HAVE NOT TESTED MAY NOT WORK!!! Try removing "!" from getShooterBreaker if not working. 
     // m_operatorController.b().whileHeld(new ConditionalCommand(
     //   m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)),
@@ -387,10 +412,17 @@ public class RobotContainer {
     // m_operatorController.rightBumper().whileTrue(
     //   m_armSubsystem.armJoyStickCommand(() -> -modifyAxis(m_operatorController.getLeftY(), false))
     //   ).onFalse(m_armSubsystem.setPowerCommand(0.0).alongWith(m_armSubsystem.manualModeOffCommand()));
-    m_operatorController.rightBumper().whileTrue(new ArmJoystickCommand(m_armSubsystem, 
-            () -> -modifyAxis(m_operatorController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND)); 
-    
+    // m_operatorController.rightBumper().whileTrue(new ArmJoystickCommand(m_armSubsystem, 
+    //         () -> -modifyAxis(m_operatorController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND)); 
+        //right arrow -- manual move arm up 
+    m_operatorController.povUp().whileTrue(m_armSubsystem.manualModeCommand(0.08)); 
+
+    //left arrow -- manual move arm down 
+    m_operatorController.povDown().whileTrue(m_armSubsystem.manualModeCommand(-0.08)); 
+
+    m_operatorController.leftTrigger().whileTrue(m_shooterSubsystem.setPowerCommand(1.0))
+      .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
 
   }
 

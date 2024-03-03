@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,8 +17,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
-    // m_climberMotor = new CANSparkMax(15, CANSparkLowLevel.MotorType.kBrushless);
-    // m_climberMotor.setSmartCurrentLimit(30); 
+    m_climberMotor = new CANSparkMax(15, CANSparkLowLevel.MotorType.kBrushless);
+    m_climberMotor.setSmartCurrentLimit(30); 
+    m_climberMotor.setIdleMode(IdleMode.kBrake); 
   }
 
   public void setPower(double power)

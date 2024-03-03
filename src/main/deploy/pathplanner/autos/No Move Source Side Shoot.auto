@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3473171105886368,
-      "y": 5.5196408968316515
+      "x": 0.7894774213563436,
+      "y": 4.4434934648480935
     },
-    "rotation": 179.34893961977056
+    "rotation": 122.95332428236486
   },
   "command": {
     "type": "sequential",
@@ -26,25 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center-Side Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "name": "Shooter"
           }
         }
       ]

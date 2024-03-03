@@ -28,24 +28,6 @@
           "data": {
             "name": "Shoot"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center-Side Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
         }
       ]
     }

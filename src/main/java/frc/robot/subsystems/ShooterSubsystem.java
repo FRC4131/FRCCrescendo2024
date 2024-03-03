@@ -23,6 +23,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private RelativeEncoder m_shooterEncoder; 
   public double m_speed = 0; 
   public double m_targetRPM = -1100; 
+  public boolean m_readyRumble; 
 
   public ShooterSubsystem() {
     m_shooterMotor = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
@@ -30,12 +31,19 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotor.setIdleMode(IdleMode.kCoast);
     m_shooterMotor.setInverted(true);
 
+    m_readyRumble = false; 
+
     m_shooterEncoder = m_shooterMotor.getEncoder(); 
 
   }
 
   public void setPower(double power) {
     m_shooterMotor.set(power);
+  }
+
+  public boolean isSpunUp()
+  {
+    return m_readyRumble; 
   }
 
   public Command setPowerCommand(double power) {
@@ -46,6 +54,14 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Shooter Velocity", m_shooterEncoder.getVelocity());
+    SmartDashboard.putNumber("Shooter Velocity", m_shooterEncoder.getVelocity());
+    if (m_shooterEncoder.getVelocity() > 5000)
+    {
+      m_readyRumble = true; 
+    }
+    else{
+      m_readyRumble = false; 
+    }
+    SmartDashboard.putBoolean("Rumble ready", m_readyRumble); 
   }
 }

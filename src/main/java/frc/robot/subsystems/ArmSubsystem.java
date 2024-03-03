@@ -30,6 +30,7 @@ public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax m_armMotorR; //follower/right motor
   private RelativeEncoder m_armEncoder; 
   private PIDController m_armPidController; 
+  private double m_speakerHeightOffset; 
   //private ArmFeedforward m_armFeedforward; 
   private double m_angleSetpoint = Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE;
   private boolean m_isManualMode; 
@@ -59,6 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
 
     m_isManualMode = false; 
+    m_speakerHeightOffset = 0.0; 
   }
 
   public void setPower(double power) {
@@ -74,15 +76,21 @@ public class ArmSubsystem extends SubsystemBase {
   public Command manualModeCommand(double power) //puts arm into manual mode 
   {
     return new InstantCommand(() -> {
-      m_isManualMode = true; 
-      m_armMotorL.set(power);
+      manualMode(power);
     }, this);
   }
 
   public void manualMode(double power) 
   {
-    m_isManualMode = true; 
-    m_armMotorL.set(power); 
+    //m_isManualMode = true; 
+    if (power > 0 && backLimitSwitch() == false)
+    {
+      m_angleSetpoint = m_angleSetpoint + 5;
+    }
+    else if (power < 0)
+    {
+      m_angleSetpoint = m_angleSetpoint - 5;
+    }
   }
 
   public Command manualModeOffCommand() //takes arm out of manual mode and sets pid to resting angle 
@@ -101,6 +109,22 @@ public class ArmSubsystem extends SubsystemBase {
     m_isManualMode = false; 
   }
 
+  public void setOffset(double increment)
+  {
+    m_speakerHeightOffset = m_speakerHeightOffset + increment; 
+  }
+
+  public Command setOffsetCommand(double increment)
+  {
+    return new InstantCommand(() -> {
+          this.setOffset(increment); 
+    }, this);
+
+  }
+  public double getOffset()
+  {
+    return m_speakerHeightOffset; 
+  }
   // public Command armJoyStickCommand(DoubleSupplier rotSupplier)
   // {
   //   return new InstantCommand(() -> {
@@ -150,12 +174,9 @@ public class ArmSubsystem extends SubsystemBase {
   
   
   public void resetPosition() { 
-    // while (!frontLimitSwitch())
-    // {
-    //   m_angleSetpoint = m_angleSetpoint-5;
-    // }
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
   }
+
 
   public Command resetEncoderCommand() 
   {
@@ -190,8 +211,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!m_isManualMode)
-    {
+    // if (!m_isManualMode)
+    // {
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
         double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.08); //clamp power to 8% 
         if (clampedPower > 0)
@@ -218,11 +239,12 @@ public class ArmSubsystem extends SubsystemBase {
         m_armMotorL.set(clampedPower);
         //SmartDashboard.putNumber("RawPower", rawPower);
         //SmartDashboard.putNumber("ClampedPower", clampedPower);
-    }
+    //}
       
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Degrees", getArmAngle()); 
     SmartDashboard.putNumber("ArmSetpoint", m_angleSetpoint);
+    SmartDashboard.putNumber("inch Height Offset", m_speakerHeightOffset / 0.0254); 
     //SmartDashboard.putData("ARM PID",m_armPidController);
   }
 }

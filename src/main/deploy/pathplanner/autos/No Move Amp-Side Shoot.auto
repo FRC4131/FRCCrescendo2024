@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3473171105886368,
-      "y": 5.5196408968316515
+      "x": 0.8,
+      "y": 6.65
     },
-    "rotation": 179.34893961977056
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -21,24 +21,6 @@
           "type": "named",
           "data": {
             "name": "Arm off prop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center-Side Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
           }
         },
         {

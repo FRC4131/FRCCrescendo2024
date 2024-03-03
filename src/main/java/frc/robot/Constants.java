@@ -32,7 +32,7 @@ public final class Constants {
         public static final Pose2d BLUE_SOURCE_RIGHT = new Pose2d(15.079472, .245872, new Rotation2d());
         public static final Pose2d BLUE_SOURCE_LEFT = new Pose2d(16.185134, .883666, new Rotation2d());
 
-        public static final double SPEAKER_HEIGHT_METERS = 1.676; 
+       public static final double SPEAKER_HEIGHT_METERS = 1.576; 
     }
 
     public static class ControllerConstants {
@@ -67,7 +67,7 @@ public final class Constants {
         public static final double ARM_RESTING_POSITION_ANGLE = 23.0; 
         public static final double ARM_AMP_ANGLE = 45.0;
         public static final double ARM_ENCODER_SCALING_FACTOR = 360.0 / ARM_MOTOR_GEAR_RATIO; //360 degrees/(gear ratio) 
-        public static final double ARM_PROP_ANGLE = 61.85246276855469; 
+        public static final double ARM_PROP_ANGLE = 59.57; 
     }
 
     public static final class ShooterConstants{

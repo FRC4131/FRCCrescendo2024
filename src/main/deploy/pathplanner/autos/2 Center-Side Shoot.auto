@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7632939243364416,
-      "y": 6.6598494772974535
+      "x": 1.3501122987236596,
+      "y": 5.546280751098089
     },
-    "rotation": -122.05662332244285
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -42,32 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp-Side Start"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Amp-Side Shoot Path 3"
+                  "pathName": "Copy of Center-Side Start"
                 }
               }
             ]

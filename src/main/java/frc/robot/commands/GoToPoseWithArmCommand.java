@@ -76,7 +76,7 @@ public class GoToPoseWithArmCommand extends Command {
 
     m_robotPose = m_poseEstimationSubsystem.getPose();
     m_desiredDriveAngle = Math.atan2(yDistance, xDistance); //angle computed for the bot driving 
-    m_desiredArmAngleDegrees = Math.atan2(Constants.FieldConstants.SPEAKER_HEIGHT_METERS, totalDistance) * (180/Math.PI); //angle computed for the arm 
+    m_desiredArmAngleDegrees = Math.atan2(Constants.FieldConstants.SPEAKER_HEIGHT_METERS + m_armSubsystem.getOffset(), totalDistance) * (180/Math.PI); //angle computed for the arm 
     m_pidControllerDrive.setSetpoint(m_desiredDriveAngle);
   }
 
@@ -91,7 +91,7 @@ public class GoToPoseWithArmCommand extends Command {
 
     m_robotPose = m_poseEstimationSubsystem.getPose();
     m_desiredDriveAngle = Math.atan2(yDistance, xDistance); //angle computed for the bot driving 
-    m_desiredArmAngleDegrees = Math.atan2(Constants.FieldConstants.SPEAKER_HEIGHT_METERS, totalDistance) * (180/Math.PI); //angle computed for the arm 
+    m_desiredArmAngleDegrees = Math.atan2(Constants.FieldConstants.SPEAKER_HEIGHT_METERS + m_armSubsystem.getOffset(), totalDistance) * (180/Math.PI); //angle computed for the arm 
     m_pidControllerDrive.setSetpoint(m_desiredDriveAngle);
     //m_pidControllerArm.setSetpoint(m_desiredArmAngle);
     Double desiredRotationDrive = m_pidControllerDrive.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
