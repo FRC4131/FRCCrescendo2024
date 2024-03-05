@@ -58,9 +58,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     //so arm doesn't slam down when disabled
-    new InstantCommand(() -> {
-      m_robotContainer.armToRest(); 
-    }); 
+    m_robotContainer.armToRest(); 
   }
 
   @Override
