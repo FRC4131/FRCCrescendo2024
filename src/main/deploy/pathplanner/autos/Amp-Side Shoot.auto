@@ -49,6 +49,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "Amp-Side Shoot Path 3"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Shoot"
@@ -59,15 +65,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Intake"
+                  "pathName": "Copy of Amp-Side Shoot Path 3"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Amp-Side Shoot Path 3"
+                  "name": "Intake"
                 }
               }
             ]

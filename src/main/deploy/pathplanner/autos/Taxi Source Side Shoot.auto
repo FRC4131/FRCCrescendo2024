@@ -5,7 +5,7 @@
       "x": 0.7894774213563436,
       "y": 4.4434934648480935
     },
-    "rotation": 122.95332428236486
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -26,19 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "Shoot"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Source-Side BLIP Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
           }
         }
       ]

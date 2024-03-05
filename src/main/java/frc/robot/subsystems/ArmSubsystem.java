@@ -36,20 +36,23 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_isManualMode; 
   private DigitalInput m_frontLimit = new DigitalInput(0); 
   private DigitalInput m_backLimit = new DigitalInput(1); 
+  private IntakeSubsystem m_IntakeSubsystem; 
 
-  public ArmSubsystem() {
+  public ArmSubsystem(IntakeSubsystem intakeSubsystem) {
+
+    m_IntakeSubsystem = intakeSubsystem; 
 
     //configures left motor (inverted) 
     m_armMotorL = new CANSparkMax(Constants.ArmConstants.ARM_MOTOR_ID_LEFT, MotorType.kBrushless); 
     m_armMotorL.setSmartCurrentLimit(30); 
-    m_armMotorL.setIdleMode(IdleMode.kCoast);
+    m_armMotorL.setIdleMode(IdleMode.kBrake);
     m_armMotorL.setInverted(true);
 
     //configures right motor (not inverted) 
     m_armMotorR = new CANSparkMax(Constants.ArmConstants.ARM_MOTOR_ID_RIGHT, MotorType.kBrushless);
     m_armMotorR.follow(m_armMotorL, true);
     m_armMotorR.setSmartCurrentLimit(30); 
-    m_armMotorR.setIdleMode(IdleMode.kCoast);
+    m_armMotorR.setIdleMode(IdleMode.kBrake);
 
     m_armEncoder = m_armMotorL.getEncoder(); 
 
@@ -222,7 +225,10 @@ public class ArmSubsystem extends SubsystemBase {
             m_armMotorL.set(0.0);
           }
           else {
-            m_armMotorL.set(clampedPower); 
+            if (!m_IntakeSubsystem.isIntaking())
+            {
+              m_armMotorL.set(clampedPower); 
+            }
           }
         } else {
           if (backLimitSwitch())
@@ -230,7 +236,10 @@ public class ArmSubsystem extends SubsystemBase {
             m_armMotorL.set(0.0); 
           }
           else{
-            m_armMotorL.set(clampedPower); 
+            if (!m_IntakeSubsystem.isIntaking())
+            {
+              m_armMotorL.set(clampedPower); 
+            }
           }
         }
 

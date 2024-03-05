@@ -68,7 +68,7 @@ public class RobotContainer {
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem(); 
   private final PoseEstimationSubsystem m_poseEstimationSubsystem = new PoseEstimationSubsystem(m_drivetrainSubsystem, m_visionSubsystem);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(); 
-  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(); 
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(m_intakeSubsystem); 
   private final FeederSubsystem m_feederSubsystem = new FeederSubsystem(); 
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(); 
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem(); 
@@ -80,7 +80,6 @@ public class RobotContainer {
   // private Pose2d m_stagePose; 
   private double m_directionInvert; 
   private double m_angleOffset; 
-  private boolean m_shooterSpedUp; 
 
 
   private SendableChooser<Command> m_autoChooser; //for autons
@@ -238,7 +237,7 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_driverController.getRightX(), false) *
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-        () -> m_driverController.getRightTriggerAxis(),
+        () -> m_driverController.getLeftTriggerAxis(),
         true));
 
   }
@@ -273,26 +272,20 @@ public class RobotContainer {
     //      true,
     //       m_speakerPose));
 
-    //left trigger -- go to pose speaker w arm movement 
-    m_driverController.leftTrigger().whileTrue(new GoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem,
+    //right trigger -- go to pose speaker w arm movement 
+    m_driverController.rightTrigger().whileTrue(new GoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem,
       m_poseEstimationSubsystem, 0,  
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-         () -> m_driverController.getRightTriggerAxis(),
+         () -> m_driverController.getLeftTriggerAxis(),
          true,
           m_speakerPose));
 
     m_driverController.rightBumper().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
         .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
-    //left bumper -- go to note 
-    m_driverController.leftBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
-       m_visionSubsystem,
-      m_intakeSubsystem, 
-      () -> m_driverController.getRightTriggerAxis(),
-      false)); 
 
     //down b -- amp shoot
     m_driverController.b().onTrue(m_shooterSubsystem.setPowerCommand(0.8).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
@@ -311,7 +304,7 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
       () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,   
-      () -> m_driverController.getRightTriggerAxis(), 
+      () -> m_driverController.getLeftTriggerAxis(), 
       true, 
        m_ampPose)); 
 
@@ -380,7 +373,8 @@ public class RobotContainer {
 
   public void configureOperatorBindings()
   {
-    m_operatorController.x().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
+    m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
+    m_operatorController.povLeft().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     //m_operatorController.y().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
     m_operatorController.back().onTrue(m_armSubsystem.resetArmPositionCommand());
 
@@ -396,7 +390,7 @@ public class RobotContainer {
     //   .whileFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
       m_operatorController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
-      .whileTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
+      .whileTrue(m_intakeSubsystem.setPowerCommand(1.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
       .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
 
@@ -423,6 +417,13 @@ public class RobotContainer {
 
     m_operatorController.leftTrigger().whileTrue(m_shooterSubsystem.setPowerCommand(1.0))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
+
+    //left bumper -- go to note 
+    m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+      m_visionSubsystem,
+       m_intakeSubsystem, 
+       () -> m_driverController.getLeftTriggerAxis(),
+       false)); 
 
   }
 

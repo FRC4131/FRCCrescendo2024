@@ -55,7 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Velocity", m_shooterEncoder.getVelocity());
-    if (m_shooterEncoder.getVelocity() > 5000)
+    if (m_shooterEncoder.getVelocity() > 5100)
     {
       m_readyRumble = true; 
     }
