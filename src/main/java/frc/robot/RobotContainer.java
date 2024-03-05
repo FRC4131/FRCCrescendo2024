@@ -92,7 +92,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    setAllianceSpecific(); //sets constants to be either blue or red 
+    //setAllianceSpecific(); //sets constants to be either blue or red 
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
@@ -137,30 +137,34 @@ public class RobotContainer {
 
     Optional<Alliance> alliance = DriverStation.getAlliance(); 
 
-    SmartDashboard.putString("Alliance", "red");
-        m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
-        m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
-        m_ampPose = Constants.FieldConstants.RED_AMP;
-        m_directionInvert = -1.0;
-        m_angleOffset = Math.PI;
-    
-    // SmartDashboard.putString("Alliance", "blue");
-    // m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
-    // m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
-    // m_ampPose = Constants.FieldConstants.BLUE_AMP;
-    // m_directionInvert = 1.0;
-    // m_angleOffset = 0.0;
-
-    // if (!alliance.isEmpty()) {
-    //   if (alliance.get().equals(Alliance.Blue)) {
-    //     SmartDashboard.putString("Alliance", "red");
+    // SmartDashboard.putString("Alliance", "red");
     //     m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
     //     m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
     //     m_ampPose = Constants.FieldConstants.RED_AMP;
     //     m_directionInvert = -1.0;
     //     m_angleOffset = Math.PI;
-    //   }
-    // }
+    SmartDashboard.putString("Alliance", "blue");
+    m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
+    m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
+    m_ampPose = Constants.FieldConstants.BLUE_AMP;
+    m_directionInvert = 1.0;
+    m_angleOffset = 0.0;
+
+    if (!alliance.isEmpty()) {
+      if (alliance.get().equals(Alliance.Blue)) {
+        SmartDashboard.putString("Alliance", "red");
+        m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
+        m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
+        m_ampPose = Constants.FieldConstants.RED_AMP;
+        m_directionInvert = -1.0;
+        m_angleOffset = Math.PI;
+      }
+    }
+  }
+
+  public Command armToRest()
+  {
+    return m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
   }
 
   public void configureAutoBuilder() {
@@ -237,7 +241,7 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_driverController.getRightX(), false) *
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
+        () -> m_driverController.getRightTriggerAxis(),
         true));
 
   }
@@ -258,31 +262,24 @@ public class RobotContainer {
     //     .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
     // // }
 
+    //a -- shoot 
     m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
 
     //x -- go to resting 
     m_driverController.x().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)); 
 
-    // m_driverController.rightBumper().whileTrue(new GoToPoseTeleopCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem, 0,  
-    // () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,
-    //     () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,
-    //      () -> m_driverController.getLeftTriggerAxis(),
-    //      true,
-    //       m_speakerPose));
-
-    //right trigger -- go to pose speaker w arm movement 
-    m_driverController.rightTrigger().whileTrue(new GoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem,
+    //left trigger -- go to pose speaker w arm movement 
+    m_driverController.leftTrigger().whileTrue(new GoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem,
       m_poseEstimationSubsystem, 0,  
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-         () -> m_driverController.getLeftTriggerAxis(),
+         () -> m_driverController.getRightTriggerAxis(),
          true,
           m_speakerPose));
 
+    //right bumper -- shoot with the wait 
     m_driverController.rightBumper().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
         .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
@@ -290,10 +287,6 @@ public class RobotContainer {
     //down b -- amp shoot
     m_driverController.b().onTrue(m_shooterSubsystem.setPowerCommand(0.8).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
-
-    // up d-pad -- speaker shoot w/o the wait
-    // m_driverController.povUp().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
-    //   .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
 
     //left bumper -- amp align 
@@ -304,14 +297,10 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
       () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,   
-      () -> m_driverController.getLeftTriggerAxis(), 
+      () -> m_driverController.getRightTriggerAxis(), 
       true, 
        m_ampPose)); 
 
-    //b -- intake
-    // m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker())).toggleOnTrue(Commands.startEnd(() -> m_intakeSubsystem.setPower(0.7), () -> m_intakeSubsystem.setPower(0.0), m_intakeSubsystem)
-    // .alongWith(Commands.startEnd(() -> m_feederSubsystem.setPower(0.5), () -> m_feederSubsystem.setPower(0.0), m_feederSubsystem)));
-  
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())
    //    .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
@@ -345,7 +334,7 @@ public class RobotContainer {
     // m_driverController.x().and(intakeTrigger)
         // .onTrue(m_intakeSubsystem.setPowerCommand(-0.7)).onFalse(m_intakeSubsystem.setPowerCommand(0.0));
 
-    new Trigger (() -> m_visionSubsystem.seesTargets()).whileTrue(new StdDevEstimatorCommand(m_visionSubsystem));
+    //new Trigger (() -> m_visionSubsystem.seesTargets()).whileTrue(new StdDevEstimatorCommand(m_visionSubsystem));
 
     //automatic spatial trigger
     // new Trigger (() -> m_poseEstimationSubsystem.isInRadius(new Pose2d(m_speakerPose.getX(), //blue speaker
@@ -356,7 +345,7 @@ public class RobotContainer {
     //               MAX_VELOCITY_METERS_PER_SECOND,
     //           () -> -modifyAxis(m_driverController.getLeftX(), false) *
     //               MAX_VELOCITY_METERS_PER_SECOND,
-    //           () -> m_driverController.getLeftTriggerAxis(),
+    //           () -> m_driverController.getRightTriggerAxis(),
     //           true,
     //           m_speakerPose));
 
@@ -375,21 +364,14 @@ public class RobotContainer {
   {
     m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
     m_operatorController.povLeft().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
-    //m_operatorController.y().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
     m_operatorController.back().onTrue(m_armSubsystem.resetArmPositionCommand());
 
     // a -- climber motor 
     m_operatorController.a().and(m_operatorController.leftBumper()).onTrue(m_climberSubsystem.setPowerCommand(1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
     //m_operatorController.b().and(m_operatorController.rightBumper()).onTrue(m_climberSubsystem.setPowerCommand(-1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
 
-    // //HAVE NOT TESTED MAY NOT WORK!!! Try removing "!" from getShooterBreaker if not working. 
-    // m_operatorController.b().whileHeld(new ConditionalCommand(
-    //   m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)),
-    //   m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)),
-    //   ()-> m_feederSubsystem.getShooterBreaker()))
-    //   .whileFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
-
-      m_operatorController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
+    //b -- intake
+    m_operatorController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
       .whileTrue(m_intakeSubsystem.setPowerCommand(1.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
       .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
@@ -402,27 +384,22 @@ public class RobotContainer {
     m_operatorController.y().onTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
-    //right bumper -- arm joystick control 
-    // m_operatorController.rightBumper().whileTrue(
-    //   m_armSubsystem.armJoyStickCommand(() -> -modifyAxis(m_operatorController.getLeftY(), false))
-    //   ).onFalse(m_armSubsystem.setPowerCommand(0.0).alongWith(m_armSubsystem.manualModeOffCommand()));
-    // m_operatorController.rightBumper().whileTrue(new ArmJoystickCommand(m_armSubsystem, 
-    //         () -> -modifyAxis(m_operatorController.getLeftY(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND)); 
-        //right arrow -- manual move arm up 
+
+    //right arrow -- manual move arm up 
     m_operatorController.povUp().whileTrue(m_armSubsystem.manualModeCommand(0.08)); 
 
     //left arrow -- manual move arm down 
     m_operatorController.povDown().whileTrue(m_armSubsystem.manualModeCommand(-0.08)); 
 
+    //left trigger -- spin up shooter 
     m_operatorController.leftTrigger().whileTrue(m_shooterSubsystem.setPowerCommand(1.0))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
 
-    //left bumper -- go to note 
+    //right bumper -- go to note 
     m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
       m_visionSubsystem,
        m_intakeSubsystem, 
-       () -> m_driverController.getLeftTriggerAxis(),
+       () -> m_driverController.getRightTriggerAxis(),
        false)); 
 
   }

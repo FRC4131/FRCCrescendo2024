@@ -45,14 +45,14 @@ public class ArmSubsystem extends SubsystemBase {
     //configures left motor (inverted) 
     m_armMotorL = new CANSparkMax(Constants.ArmConstants.ARM_MOTOR_ID_LEFT, MotorType.kBrushless); 
     m_armMotorL.setSmartCurrentLimit(30); 
-    m_armMotorL.setIdleMode(IdleMode.kBrake);
+    m_armMotorL.setIdleMode(IdleMode.kCoast);
     m_armMotorL.setInverted(true);
 
     //configures right motor (not inverted) 
     m_armMotorR = new CANSparkMax(Constants.ArmConstants.ARM_MOTOR_ID_RIGHT, MotorType.kBrushless);
     m_armMotorR.follow(m_armMotorL, true);
     m_armMotorR.setSmartCurrentLimit(30); 
-    m_armMotorR.setIdleMode(IdleMode.kBrake);
+    m_armMotorR.setIdleMode(IdleMode.kCoast);
 
     m_armEncoder = m_armMotorL.getEncoder(); 
 
