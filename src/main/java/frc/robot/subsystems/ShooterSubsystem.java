@@ -19,26 +19,26 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
-  private CANSparkMax m_shooterMotor; 
+  private CANSparkMax m_shooterMotorLead; 
   private RelativeEncoder m_shooterEncoder; 
   public double m_speed = 0; 
   public double m_targetRPM = -1100; 
   public boolean m_readyRumble; 
 
   public ShooterSubsystem() {
-    m_shooterMotor = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
-    m_shooterMotor.setSmartCurrentLimit(30); 
-    m_shooterMotor.setIdleMode(IdleMode.kCoast);
-    m_shooterMotor.setInverted(true);
+    m_shooterMotorLead = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
+    m_shooterMotorLead.setSmartCurrentLimit(30); 
+    m_shooterMotorLead.setIdleMode(IdleMode.kCoast);
+    m_shooterMotorLead.setInverted(true);
 
     m_readyRumble = false; 
 
-    m_shooterEncoder = m_shooterMotor.getEncoder(); 
+    m_shooterEncoder = m_shooterMotorLead.getEncoder(); 
 
   }
 
   public void setPower(double power) {
-    m_shooterMotor.set(power);
+    m_shooterMotorLead.set(power);
   }
 
   public boolean isSpunUp()
