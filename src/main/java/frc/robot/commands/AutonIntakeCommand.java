@@ -26,7 +26,7 @@ public class AutonIntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-     m_intakeSubsystem.setPower(0.7); 
+     m_intakeSubsystem.setPower(1.0); 
       m_feederSubsystem.setPower(0.5); 
   }
 
