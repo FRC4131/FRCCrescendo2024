@@ -20,16 +20,23 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private CANSparkMax m_shooterMotorLead; 
+  private CANSparkMax m_shooterMotorFollow; 
   private RelativeEncoder m_shooterEncoder; 
   public double m_speed = 0; 
   public double m_targetRPM = -1100; 
   public boolean m_readyRumble; 
 
   public ShooterSubsystem() {
-    m_shooterMotorLead = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
+    m_shooterMotorLead = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID_LEAD, CANSparkLowLevel.MotorType.kBrushless);
     m_shooterMotorLead.setSmartCurrentLimit(30); 
     m_shooterMotorLead.setIdleMode(IdleMode.kCoast);
     m_shooterMotorLead.setInverted(true);
+
+    m_shooterMotorFollow = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID_FOLLOW, CANSparkLowLevel.MotorType.kBrushless);
+    m_shooterMotorFollow.follow(m_shooterMotorLead, true); 
+    m_shooterMotorFollow.setSmartCurrentLimit(30); 
+    m_shooterMotorFollow.setIdleMode(IdleMode.kCoast); 
+    
 
     m_readyRumble = false; 
 
