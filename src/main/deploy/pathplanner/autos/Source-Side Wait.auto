@@ -2,21 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7632939243364416,
-      "y": 6.6598494772974535
+      "x": 0.79,
+      "y": 4.44
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp-Side Start"
-          }
-        },
         {
           "type": "sequential",
           "data": {
@@ -24,39 +18,45 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake On"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
+                  "name": "Set Arm Angle Prop"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Off"
+                  "name": "arm off prop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Amp-Side Shoot Path 2"
+            "waitTime": 3.0
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Note"
+            "pathName": "Source 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source 2"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Preload Shoot Autons (post GP)",
   "choreoAuto": false
 }

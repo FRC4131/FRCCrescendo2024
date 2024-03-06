@@ -1,0 +1,58 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.8,
+        "y": 6.65
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1325367979066168,
+        "y": 6.322544427452833
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.35,
+        "y": 6.25
+      },
+      "prevControl": {
+        "x": 1.647372000184901,
+        "y": 6.453461912552343
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 177.97874304564635,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Preload Shoot Auton Paths",
+  "previewStartingState": {
+    "rotation": -120.05297250984373,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
