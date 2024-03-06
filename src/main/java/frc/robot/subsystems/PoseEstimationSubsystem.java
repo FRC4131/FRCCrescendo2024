@@ -99,6 +99,10 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
     return m_navX.getYaw();
   }
 
+  public boolean getAprilTagStatus(){
+    return m_aprilTagStatus; 
+  }
+
   public boolean isInRadius(Pose2d targetPose, double radialThreshold) //used for spatial trigger, returns whether robot is in specific radius of a given target
   { 
       double dx = Math.pow(targetPose.getX() - m_swerveDrivePoseEst.getEstimatedPosition().getX(), 2); 
