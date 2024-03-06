@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1017326837655554,
-        "y": 5.383018946150463
+        "x": 2.4867841105288218,
+        "y": 4.944060319640339
       },
       "isLocked": false,
       "linkedName": null
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 2.5,
-        "y": 4.12005026636695
+        "y": 4.096947180761154
       },
       "prevControl": {
-        "x": 1.9169079989191875,
-        "y": 4.066143066620093
+        "x": 2.4867841105288218,
+        "y": 4.920957234034543
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 180.0,
+    "rotation": 177.2613673029451,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Primary Paths",
+  "folder": "Amp-Side Shoot",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0
