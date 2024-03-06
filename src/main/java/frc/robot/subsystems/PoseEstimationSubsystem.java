@@ -99,7 +99,7 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
     return m_navX.getYaw();
   }
 
-  public boolean getAprilTagStatus(){
+  public boolean aprilTagUpdating(){
     return m_aprilTagStatus; 
   }
 

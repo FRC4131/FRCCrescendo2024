@@ -324,9 +324,18 @@ public class RobotContainer {
     //rumble for shooter ready 
     new Trigger(() -> m_shooterSubsystem.isSpunUp())
       .whileTrue(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kBothRumble, 0.2); 
+        m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.2); 
       })).onFalse(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kBothRumble, 0.0); 
+        m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
+      }));
+
+    //trigger for april tag updating 
+    new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 3.0)
+      .and(m_poseEstimationSubsystem.aprilTagUpdating()))
+      .whileTrue(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.2); 
+      })).onFalse(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.0); 
       }));
 
     //Only allow intake when the feeder state shows it's ready for more input AND the driver presses the button
