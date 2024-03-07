@@ -40,28 +40,13 @@ public class TargetAmpCommand extends Command {
     DoubleSupplier xSupplier,
     DoubleSupplier ySupplier, 
     DoubleSupplier throttle, 
-    Boolean fieldRelative) {
+    Boolean fieldRelative, 
+    Pose2d targetPose) {
 
       m_drivetrainSubsystem = drivetrainSubsystem;
       m_poseEstimationSubsystem = poseEstimationSubsystem;
       m_armSubsystem = armSubsystem; 
-      DriverStation.refreshData();
-      Optional<Alliance> alliance = DriverStation.getAlliance(); 
-      if (alliance.isPresent())
-      {
-        if (alliance.get().equals(Alliance.Blue))
-        {
-          m_targetPose = Constants.FieldConstants.BLUE_AMP; 
-        }
-        else if (alliance.get().equals(Alliance.Red))
-        {
-          m_targetPose = Constants.FieldConstants.RED_AMP; 
-        }
-      }
-      else{
-        m_targetPose = Constants.FieldConstants.BLUE_AMP; 
-      }
-  
+      m_targetPose = targetPose;
       m_pidControllerTheta = new PIDController(4, 0, 0);
       m_pidControllerTheta.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -90,22 +75,6 @@ public class TargetAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    DriverStation.refreshData();
-      Optional<Alliance> alliance = DriverStation.getAlliance(); 
-      if (alliance.isPresent())
-      {
-        if (alliance.get().equals(Alliance.Blue))
-        {
-          m_targetPose = Constants.FieldConstants.BLUE_AMP; 
-        }
-        else if (alliance.get().equals(Alliance.Red))
-        {
-          m_targetPose = Constants.FieldConstants.RED_AMP; 
-        }
-      }
-      else{
-        m_targetPose = Constants.FieldConstants.BLUE_AMP; 
-      }
     m_robotPose = m_poseEstimationSubsystem.getPose();
     double pidDesiredRotation = m_pidControllerTheta.calculate(m_robotPose.getRotation().getRadians());
     double pidDesiredX = m_xController.calculate(m_robotPose.getX());
