@@ -40,13 +40,27 @@ public class TargetAmpCommand extends Command {
     DoubleSupplier xSupplier,
     DoubleSupplier ySupplier, 
     DoubleSupplier throttle, 
-    Boolean fieldRelative,
-    Pose2d targetPose) {
+    Boolean fieldRelative) {
 
       m_drivetrainSubsystem = drivetrainSubsystem;
       m_poseEstimationSubsystem = poseEstimationSubsystem;
       m_armSubsystem = armSubsystem; 
-      m_targetPose = targetPose;
+      DriverStation.refreshData();
+      Optional<Alliance> alliance = DriverStation.getAlliance(); 
+      if (alliance.isPresent())
+      {
+        if (alliance.get().equals(Alliance.Blue))
+        {
+          m_targetPose = Constants.FieldConstants.BLUE_AMP; 
+        }
+        else if (alliance.get().equals(Alliance.Red))
+        {
+          m_targetPose = Constants.FieldConstants.RED_AMP; 
+        }
+      }
+      else{
+        m_targetPose = Constants.FieldConstants.BLUE_AMP; 
+      }
   
       m_pidControllerTheta = new PIDController(4, 0, 0);
       m_pidControllerTheta.enableContinuousInput(-Math.PI, Math.PI);
@@ -68,34 +82,57 @@ public class TargetAmpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // m_xController.reset(); 
-    // m_xController.setSetpoint(m_targetPose.getX());
+    m_xController.reset(); 
+    m_xController.setSetpoint(m_targetPose.getX());
     m_pidControllerTheta.setSetpoint((Math.PI / 2));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    DriverStation.refreshData();
+      Optional<Alliance> alliance = DriverStation.getAlliance(); 
+      if (alliance.isPresent())
+      {
+        if (alliance.get().equals(Alliance.Blue))
+        {
+          m_targetPose = Constants.FieldConstants.BLUE_AMP; 
+        }
+        else if (alliance.get().equals(Alliance.Red))
+        {
+          m_targetPose = Constants.FieldConstants.RED_AMP; 
+        }
+      }
+      else{
+        m_targetPose = Constants.FieldConstants.BLUE_AMP; 
+      }
     m_robotPose = m_poseEstimationSubsystem.getPose();
     double pidDesiredRotation = m_pidControllerTheta.calculate(m_robotPose.getRotation().getRadians());
-    //double pidDesiredX = m_xController.calculate(m_robotPose.getX());
+    double pidDesiredX = m_xController.calculate(m_robotPose.getX());
     //double pidDesiredY = m_yController.calculate(m_robotPose.getY(), m_targetPose.getY());
 
     
     m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_AMP_ANGLE);
     // Calculate the throttle scaling factor
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
-    SmartDashboard.putBoolean("amp field relative", m_fieldRelative); 
-    SmartDashboard.putNumber("amp rotation", m_poseEstimationSubsystem.getPose().getRotation().getDegrees());
-    SmartDashboard.putNumber("m_controllerX", m_controllerX.getAsDouble());
-    SmartDashboard.putNumber("m_controllerY", m_controllerY.getAsDouble());
+    //SmartDashboard.putBoolean("amp field relative", m_fieldRelative); 
+    //SmartDashboard.putNumber("amp rotation", m_poseEstimationSubsystem.getPose().getRotation().getDegrees());
+    //SmartDashboard.putNumber("m_controllerX", m_controllerX.getAsDouble());
+    //SmartDashboard.putNumber("m_controllerY", m_controllerY.getAsDouble());
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
-    m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
+    m_drivetrainSubsystem.drive(new Translation2d(pidDesiredX,
         m_controllerY.getAsDouble() * scale),
         pidDesiredRotation,
         m_poseEstimationSubsystem.getPose().getRotation(),
         m_fieldRelative,
         true);
+
+        // m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
+    //     m_controllerY.getAsDouble() * scale),
+    //     pidDesiredRotation,
+    //     m_poseEstimationSubsystem.getPose().getRotation(),
+    //     m_fieldRelative,
+    //     true);
   }
 
   // Called once the command ends or is interrupted.

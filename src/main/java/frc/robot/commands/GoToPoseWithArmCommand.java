@@ -44,14 +44,28 @@ public class GoToPoseWithArmCommand extends Command {
     DoubleSupplier x,
     DoubleSupplier y, 
     DoubleSupplier throttle,
-    Boolean fieldRelative, 
-    Pose2d targetPose) {
+    Boolean fieldRelative) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_poseEstimationSubsystem = poseEstimationSubsystem;
     m_armSubsystem = armSubsystem;
     m_desiredDriveAngle = angle;
-    m_targetPose = targetPose;
+    DriverStation.refreshData();
+    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    if (alliance.isPresent())
+    {
+      if (alliance.get().equals(Alliance.Blue))
+      {
+        m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+      }
+      else if (alliance.get().equals(Alliance.Red))
+      {
+        m_targetPose = Constants.FieldConstants.RED_SPEAKER; 
+      }
+    }
+    else{
+      m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+    }
 
     m_pidControllerDrive = new PIDController(4, 0, 0);
     m_pidControllerDrive.enableContinuousInput(-Math.PI, Math.PI);
@@ -83,6 +97,22 @@ public class GoToPoseWithArmCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    DriverStation.refreshData();
+    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    if (alliance.isPresent())
+    {
+      if (alliance.get().equals(Alliance.Blue))
+      {
+        m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+      }
+      else if (alliance.get().equals(Alliance.Red))
+      {
+        m_targetPose = Constants.FieldConstants.RED_SPEAKER; 
+      }
+    }
+    else{
+      m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+    }
 
     //l2 norm for distance between bot and speaker 
     xDistance = m_targetPose.getX() - m_robotPose.getX();
