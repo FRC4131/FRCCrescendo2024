@@ -4,11 +4,17 @@
 
 package frc.robot;
 
+import java.sql.DriverPropertyInfo;
+import java.util.Optional;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -33,6 +39,86 @@ public final class Constants {
         public static final Pose2d BLUE_SOURCE_LEFT = new Pose2d(16.185134, .883666, new Rotation2d());
 
        public static final double SPEAKER_HEIGHT_METERS = 1.576; 
+
+
+        public static Pose2d getSpeakerLocation()
+        {
+            DriverStation.refreshData();
+            Optional<Alliance> alliance = DriverStation.getAlliance(); 
+            if (alliance.isPresent())
+            {
+                if (alliance.get().equals(DriverStation.Alliance.Red))
+                {
+                    SmartDashboard.putString("Alliance", "red");
+                    return RED_SPEAKER;
+                }
+                else
+                {
+                    SmartDashboard.putString("Alliance", "blue");
+                    return BLUE_SPEAKER; 
+
+                }
+            }
+            else{
+                return BLUE_SPEAKER; 
+            }
+        }
+
+        public static double getAngleOffset()
+        {
+            Optional<Alliance> alliance = DriverStation.getAlliance(); 
+            if (alliance.isPresent())
+            {
+                if (alliance.get().equals(DriverStation.Alliance.Red))
+                {
+                    //SmartDashboard.putString("Alliance", "red");
+                    return Math.PI;
+                }
+                else
+                {
+                    //SmartDashboard.putString("Alliance", "blue");
+                    return 0.0; 
+
+                }
+            }
+            else{
+                return 0.0; 
+            }
+        }
+
+        public static double getDirectionInvert()
+        {
+            Optional<Alliance> alliance = DriverStation.getAlliance(); 
+            if (alliance.isPresent())
+            {
+                if (alliance.get().equals(DriverStation.Alliance.Red))
+                {
+                    //SmartDashboard.putString("Alliance", "red");
+                    return -1.0;
+                }
+                else
+                {
+                    //SmartDashboard.putString("Alliance", "blue");
+                    return 1.0; 
+
+                }
+            }
+            else{
+                return 1.0; 
+            }
+        }
+
+        public static Pose2d getAmpPose()
+        {
+            if (DriverStation.getAlliance().equals(Alliance.Red))
+            {
+                return RED_AMP;
+            }
+            else
+            {
+                return BLUE_AMP; 
+            }
+        }
     }
 
     public static class ControllerConstants {
@@ -67,12 +153,12 @@ public final class Constants {
         public static final double ARM_RESTING_POSITION_ANGLE = 23.0; 
         public static final double ARM_AMP_ANGLE = 45.0;
         public static final double ARM_ENCODER_SCALING_FACTOR = 360.0 / ARM_MOTOR_GEAR_RATIO; //360 degrees/(gear ratio) 
-        public static final double ARM_PROP_ANGLE = 59.57; 
+        public static final double ARM_PROP_ANGLE = 58.11349868774414; 
     }
 
     public static final class ShooterConstants{
         public static final int SHOOTER_MOTOR_ID_LEAD = 14;
-        public static final int SHOOTER_MOTOR_ID_FOLLOW = 16; 
+        public static final int SHOOTER_MOTOR_ID_FOLLOW = 18; 
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/
@@ -171,4 +257,6 @@ public final class Constants {
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromRadians((0.75 * Math.PI) / 2);
         }
     }
+
+
 }

@@ -197,14 +197,14 @@ public class ArmSubsystem extends SubsystemBase {
     }, this ); 
   }
 
-  public boolean frontLimitSwitch()
+  public boolean frontLimitSwitch() //true == not hit, false == hit
   {
     return !m_frontLimit.get(); 
   }
 
-  public boolean backLimitSwitch()
+  public boolean backLimitSwitch() //false == not hit, true == hit 
   {
-    return !m_backLimit.get(); 
+    return m_backLimit.get(); 
   }
 
   public double getArmAngle() //returns current angle of the arm 

@@ -132,10 +132,10 @@ public class RobotContainer {
     return value;
   }
 
-  public void setAllianceSpecific()
+  public void setAllianceSpecific(Alliance alliance)
   {
 
-    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    // Optional<Alliance> alliance = DriverStation.getAlliance(); 
 
     // SmartDashboard.putString("Alliance", "red");
     //     m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
@@ -143,24 +143,44 @@ public class RobotContainer {
     //     m_ampPose = Constants.FieldConstants.RED_AMP;
     //     m_directionInvert = -1.0;
     //     m_angleOffset = Math.PI;
-    SmartDashboard.putString("Alliance", "blue");
-    m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
-    m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
-    m_ampPose = Constants.FieldConstants.BLUE_AMP;
-    m_directionInvert = 1.0;
-    m_angleOffset = 0.0;
-
-    if (!alliance.isEmpty()) {
-      if (alliance.get().equals(Alliance.Blue)) {
-        SmartDashboard.putString("Alliance", "red");
+    if (alliance.equals(Alliance.Blue))
+    {
+      SmartDashboard.putString("Alliance", "blue");
+      m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
+      m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
+      m_ampPose = Constants.FieldConstants.BLUE_AMP;
+      m_directionInvert = 1.0;
+      m_angleOffset = 0.0;
+    }
+    else
+    {
+      SmartDashboard.putString("Alliance", "red");
         m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
         m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
         m_ampPose = Constants.FieldConstants.RED_AMP;
         m_directionInvert = -1.0;
         m_angleOffset = Math.PI;
-      }
     }
+
+    SmartDashboard.putNumber("XLoc", m_speakerPose.getX());
+
+    // if (!alliance.isEmpty()) {
+    //   if (alliance.get().equals(Alliance.Red)) {
+    //     SmartDashboard.putString("Alliance", "red");
+    //     m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
+    //     m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
+    //     m_ampPose = Constants.FieldConstants.RED_AMP;
+    //     m_directionInvert = -1.0;
+    //     m_angleOffset = Math.PI;
+    //   }
+    // }
   }
+
+  public Pose2d getSpeakerLocation()
+  {
+    return this.m_speakerPose;
+  }
+  
 
   public Command armToRest()
   {
@@ -203,24 +223,24 @@ public class RobotContainer {
     
   //  NamedCommands.registerCommand("Intake", new AutonIntakeCommand(m_intakeSubsystem, m_feederSubsystem));
   NamedCommands.registerCommand("Intake", 
-    m_feederSubsystem.setFeederPowerCommand(0.5).alongWith(m_intakeSubsystem.setPowerCommand(0.7))
+    m_feederSubsystem.setFeederPowerCommand(0.5).alongWith(m_intakeSubsystem.setPowerCommand(1.0))
    .andThen(new WaitUntilCommand(()-> !m_feederSubsystem.getShooterBreaker()))
     // .andThen(new WaitCommand(3))
     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0).alongWith(m_intakeSubsystem.setPowerCommand(0.0)))
     // .andThen(m_shooterSubsystem.setPowerCommand(0.5).andThen(new WaitCommand(3)).andThen(m_shooterSubsystem.setPowerCommand(0.0)))
     ); 
-    NamedCommands.registerCommand("Shoot Speaker", m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5))
+    NamedCommands.registerCommand("Shoot Speaker", m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(0.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(1.0)));
     NamedCommands.registerCommand("Stop Shooter", m_shooterSubsystem.setPowerCommand(0.0).andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
    // NamedCommands.registerCommand("Shoot Amp", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 0.7));
     NamedCommands.registerCommand("Arm Start Angle", new AutoArmCommand(m_armSubsystem, 43.0));
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
-    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, 90.0).andThen(new WaitCommand(1)));
+    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, 90.0).andThen(new WaitCommand(0.25)));
 
 
     NamedCommands.registerCommand("Shoot", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
-    , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, m_speakerPose).withTimeout(1.5))
+    , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, Constants.FieldConstants.getSpeakerLocation()).withTimeout(1.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
 
@@ -235,9 +255,9 @@ public class RobotContainer {
 
     //drive w joysticks + boost left trigger 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem,
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+        () -> Constants.FieldConstants.getDirectionInvert() * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+        () -> Constants.FieldConstants.getDirectionInvert() * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_driverController.getRightX(), false) *
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
@@ -250,7 +270,7 @@ public class RobotContainer {
     // Schedule Triggers 
 
     //back -- reset heading 
-    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(m_angleOffset)); 
+    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(Constants.FieldConstants.getAngleOffset())); 
 
     //a -- shoot
     // if (m_shooterSpedUp)
@@ -258,12 +278,12 @@ public class RobotContainer {
 
     // }
     // else{
-    //   m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
-    //     .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+      m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(0.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+        .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
     // // }
 
     //a -- shoot 
-    m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
+    // m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
 
     //x -- go to resting 
     m_driverController.x().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)); 
@@ -271,13 +291,12 @@ public class RobotContainer {
     //left trigger -- go to pose speaker w arm movement 
     m_driverController.leftTrigger().whileTrue(new GoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem,
       m_poseEstimationSubsystem, 0,  
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+        () -> Constants.FieldConstants.getDirectionInvert() * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-        () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+        () -> Constants.FieldConstants.getDirectionInvert() * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
          () -> m_driverController.getRightTriggerAxis(),
-         true,
-          m_speakerPose));
+         true));
 
     //right bumper -- shoot with the wait 
     m_driverController.rightBumper().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
@@ -293,13 +312,13 @@ public class RobotContainer {
     m_driverController.leftBumper().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
        m_poseEstimationSubsystem,
        m_armSubsystem, 
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+      () -> Constants.FieldConstants.getDirectionInvert() * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+      () -> Constants.FieldConstants.getDirectionInvert() * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,   
       () -> m_driverController.getRightTriggerAxis(), 
       true, 
-       m_ampPose)); 
+       Constants.FieldConstants.getAmpPose())); 
 
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())
@@ -329,14 +348,14 @@ public class RobotContainer {
         m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
       }));
 
-    //trigger for april tag updating 
-    new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 3.0)
-      .and(m_poseEstimationSubsystem.aprilTagUpdating()))
-      .whileTrue(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.2); 
-      })).onFalse(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.0); 
-      }));
+    // //trigger for april tag updating 
+    // new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 3.0)
+    //   .and(m_poseEstimationSubsystem.aprilTagUpdating()))
+    //   .whileTrue(new InstantCommand (() -> {
+    //     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.2); 
+    //   })).onFalse(new InstantCommand (() -> {
+    //     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.0); 
+    //   }));
 
     //Only allow intake when the feeder state shows it's ready for more input AND the driver presses the button
     // Trigger intakeTrigger = new Trigger(m_feederSubsystem::intakeAllowed);

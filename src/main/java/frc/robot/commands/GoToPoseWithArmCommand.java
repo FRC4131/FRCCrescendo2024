@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.sql.Driver;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -11,6 +13,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -44,14 +48,28 @@ public class GoToPoseWithArmCommand extends Command {
     DoubleSupplier x,
     DoubleSupplier y, 
     DoubleSupplier throttle,
-    Boolean fieldRelative, 
-    Pose2d targetPose) {
+    Boolean fieldRelative) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_poseEstimationSubsystem = poseEstimationSubsystem;
     m_armSubsystem = armSubsystem;
     m_desiredDriveAngle = angle;
-    m_targetPose = targetPose;
+    DriverStation.refreshData();
+    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    if (alliance.isPresent())
+    {
+      if (alliance.get().equals(Alliance.Blue))
+      {
+        m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+      }
+      else if (alliance.get().equals(Alliance.Red))
+      {
+        m_targetPose = Constants.FieldConstants.RED_SPEAKER; 
+      }
+    }
+    else{
+      m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+    }
 
     m_pidControllerDrive = new PIDController(4, 0, 0);
     m_pidControllerDrive.enableContinuousInput(-Math.PI, Math.PI);
@@ -83,16 +101,36 @@ public class GoToPoseWithArmCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    if (alliance.isPresent())
+    {
+      if (alliance.get().equals(Alliance.Blue))
+      {
+        m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+      }
+      else if (alliance.get().equals(Alliance.Red))
+      {
+        m_targetPose = Constants.FieldConstants.RED_SPEAKER; 
+      }
+    }
+    else{
+      m_targetPose = Constants.FieldConstants.BLUE_SPEAKER; 
+    }
     //l2 norm for distance between bot and speaker 
     xDistance = m_targetPose.getX() - m_robotPose.getX();
+    SmartDashboard.putNumber("Target Pose", m_targetPose.getX());
+    SmartDashboard.putNumber("Robot pose", m_robotPose.getX());
+    SmartDashboard.putNumber("xDistance", xDistance);
     yDistance = m_targetPose.getY() - m_robotPose.getY(); 
+    SmartDashboard.putNumber("yDistance", yDistance);
     totalDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2)); 
+        SmartDashboard.putNumber("totalDistance", totalDistance);
 
     m_robotPose = m_poseEstimationSubsystem.getPose();
     m_desiredDriveAngle = Math.atan2(yDistance, xDistance); //angle computed for the bot driving 
     m_desiredArmAngleDegrees = Math.atan2(Constants.FieldConstants.SPEAKER_HEIGHT_METERS + m_armSubsystem.getOffset(), totalDistance) * (180/Math.PI); //angle computed for the arm 
     m_pidControllerDrive.setSetpoint(m_desiredDriveAngle);
+    SmartDashboard.putNumber("Desired ARm Angle", m_desiredArmAngleDegrees);
     //m_pidControllerArm.setSetpoint(m_desiredArmAngle);
     Double desiredRotationDrive = m_pidControllerDrive.calculate(m_poseEstimationSubsystem.getPose().getRotation().getRadians());
     //Double desiredRotationArm = m_pidControllerArm.calculate(m_armSubsystem.getArmAngle()); 
