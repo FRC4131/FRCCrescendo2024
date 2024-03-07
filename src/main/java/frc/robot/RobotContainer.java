@@ -276,7 +276,7 @@ public class RobotContainer {
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
          () -> m_driverController.getRightTriggerAxis(),
-         true));
+         true, m_speakerPose));
 
     //a -- shoot with the wait 
     m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(0.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
@@ -297,7 +297,7 @@ public class RobotContainer {
       () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,   
       () -> m_driverController.getRightTriggerAxis(), 
-      true)); 
+      true, m_ampPose)); 
 
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())
