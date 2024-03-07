@@ -32,7 +32,7 @@ public class TargetAmpCommand extends Command {
   private Pose2d m_targetPose; 
 
   private PIDController m_pidControllerTheta;
-  // private PIDController m_xController; 
+  private PIDController m_xController; 
 
   public TargetAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
     PoseEstimationSubsystem poseEstimationSubsystem,  
@@ -50,7 +50,7 @@ public class TargetAmpCommand extends Command {
       m_pidControllerTheta = new PIDController(4, 0, 0);
       m_pidControllerTheta.enableContinuousInput(-Math.PI, Math.PI);
 
-      //  m_xController = new PIDController(3, 0, 0); 
+      m_xController = new PIDController(3, 0, 0); 
 
         //m_yController = new ProfiledPIDController(3, 0, 0,
         //new Constraints(1.0, 1.0));

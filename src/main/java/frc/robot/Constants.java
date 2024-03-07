@@ -72,7 +72,7 @@ public final class Constants {
 
     public static final class ShooterConstants{
         public static final int SHOOTER_MOTOR_ID_LEAD = 14;
-        public static final int SHOOTER_MOTOR_ID_FOLLOW = 16; 
+        public static final int SHOOTER_MOTOR_ID_FOLLOW = 18; 
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/
