@@ -33,7 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotorLead.setInverted(true);
 
     m_shooterMotorFollow = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID_FOLLOW, CANSparkLowLevel.MotorType.kBrushless);
-    m_shooterMotorFollow.follow(m_shooterMotorLead, true); 
+    m_shooterMotorFollow.follow(m_shooterMotorLead, false); 
     m_shooterMotorFollow.setSmartCurrentLimit(30); 
     m_shooterMotorFollow.setIdleMode(IdleMode.kCoast); 
     
