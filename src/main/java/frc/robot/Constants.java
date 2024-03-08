@@ -52,7 +52,6 @@ public final class Constants {
 
     public static final class FeederConstants{
         public static final int FEEDER_MOTOR_ID = 12;
-        public static final int INTAKE_MOTOR_ID = 10;
         public static final double FEEDER_MOTOR_POWER = -0.7;
         public static enum FeederState {
             READYINPUT,
