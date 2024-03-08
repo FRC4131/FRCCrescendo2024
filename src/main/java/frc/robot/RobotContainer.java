@@ -94,6 +94,7 @@ public class RobotContainer {
   public RobotContainer() {
     //setAllianceSpecific(); //sets constants to be either blue or red 
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
+    setAllianceSpecific();
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
     configureOperatorBindings();  //Configure operator game controller bindings and Triggers
@@ -134,6 +135,7 @@ public class RobotContainer {
 
   public void setAllianceSpecific()
   {
+    DriverStation.refreshData();
 
     Optional<Alliance> alliance = DriverStation.getAlliance(); 
 
@@ -326,6 +328,12 @@ public class RobotContainer {
       })).onFalse(new InstantCommand (() -> {
         m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
       }));
+
+    m_driverController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+      m_visionSubsystem,
+       m_intakeSubsystem, 
+       () -> m_driverController.getRightTriggerAxis(),
+       false)); 
 
     //trigger for april tag updating 
     // new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 3.0)
