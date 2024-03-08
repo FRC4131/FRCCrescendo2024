@@ -145,7 +145,7 @@ public class RobotContainer {
       m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
     });
     m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
-    m_armSubsystem.resetEncoderCommand(); 
+    //m_armSubsystem.resetEncoderCommand(); 
   }
 
   public void initializeAuton()
