@@ -46,6 +46,9 @@ public final class Constants {
         public static final double APRIL_TAG_SD_Y = 1.0; 
         public static final double APRIL_TAG_CUTOFF_DISTANCE = 4.0; //Distance (in meters) beyond which no april tag is folded in with Odometry
     }
+    public static final class IntakeConstants{
+        public static final int INTAKE_MOTOR_ID = 10; 
+    }
 
     public static final class FeederConstants{
         public static final int FEEDER_MOTOR_ID = 12;
@@ -73,6 +76,10 @@ public final class Constants {
     public static final class ShooterConstants{
         public static final int SHOOTER_MOTOR_ID_LEAD = 14;
         public static final int SHOOTER_MOTOR_ID_FOLLOW = 18; 
+    }
+
+    public static final class ClimberConstants{
+        public static final int CLIMBER_MOTOR_ID = 15;
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/

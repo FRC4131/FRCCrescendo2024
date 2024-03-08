@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     //m_robotContainer.setAllianceSpecific();
+    m_robotContainer.initializeAuton();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 
@@ -83,6 +84,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    m_robotContainer.initializeTeleop();
     //m_robotContainer.setAllianceSpecific();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

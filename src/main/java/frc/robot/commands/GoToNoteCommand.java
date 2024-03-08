@@ -22,13 +22,18 @@ public class GoToNoteCommand extends Command {
   private DrivetrainSubsystem m_DrivetrainSubsystem;
   private IntakeSubsystem m_IntakeSubsystem;
   private PIDController m_angleController;
+  private DoubleSupplier m_xSupplier; 
+  private DoubleSupplier m_ySupplier;
   private DoubleSupplier m_throttle;
+
   private Boolean m_fieldRelative;
 
   /** Creates a new GoToNoteCommand. */
   public GoToNoteCommand(DrivetrainSubsystem drivetrainSubsystem,
       VisionSubsystem visionSubsystem,
       IntakeSubsystem intakeSubsystem,
+      DoubleSupplier xSupplier, 
+      DoubleSupplier ySupplier,
       DoubleSupplier throttle,
       Boolean fieldRelative) {
     m_visionSubsystem = visionSubsystem;
@@ -61,7 +66,6 @@ public class GoToNoteCommand extends Command {
 
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; // Throttle control
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL;
-
     double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.2;
 
     //Robot is driven (in Robot-Centric frame) towards note
@@ -72,8 +76,8 @@ public class GoToNoteCommand extends Command {
     //     m_fieldRelative,
     //     true);
 
-    m_DrivetrainSubsystem.drive(new Translation2d(0.0,
-        0.0),
+    m_DrivetrainSubsystem.drive(new Translation2d(m_xSupplier.getAsDouble() * scale, 
+        m_ySupplier.getAsDouble() * scale),
         rotOutput,
         new Rotation2d(),
         m_fieldRelative,

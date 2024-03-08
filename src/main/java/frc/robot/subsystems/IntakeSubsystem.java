@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax m_intakeMotor;
@@ -19,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-      m_intakeMotor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+      m_intakeMotor = new CANSparkMax(Constants.IntakeConstants.INTAKE_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
       m_intakeMotor.setSmartCurrentLimit(30);
       m_intakeMotor.setInverted(true);
       m_intakeEncoder = m_intakeMotor.getEncoder();
@@ -45,7 +46,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (m_intakeEncoder.getVelocity() > 10)
+    if (m_intakeEncoder.getVelocity() > 50)
     {
       m_intaking = true; 
     }

@@ -31,9 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
   private RelativeEncoder m_armEncoder; 
   private PIDController m_armPidController; 
   private double m_speakerHeightOffset; 
-  //private ArmFeedforward m_armFeedforward; 
   private double m_angleSetpoint = Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE;
-  private boolean m_isManualMode; 
   private DigitalInput m_frontLimit = new DigitalInput(0); 
   private DigitalInput m_backLimit = new DigitalInput(1); 
   private IntakeSubsystem m_IntakeSubsystem; 
@@ -61,8 +59,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_armEncoder.setPositionConversionFactor(Constants.ArmConstants.ARM_ENCODER_SCALING_FACTOR);
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
-
-    m_isManualMode = false; 
     m_speakerHeightOffset = 0.0; 
   }
 
@@ -96,21 +92,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public Command manualModeOffCommand() //takes arm out of manual mode and sets pid to resting angle 
-  {
-    return new InstantCommand(() -> {
-      m_armPidController.setSetpoint(this.getArmAngle());
-      m_isManualMode = false; 
-      //this.resetPosition();
-
-    }); 
-  }
-
-  public void manualModeOff()
-  {
-    m_armPidController.setSetpoint(this.getArmAngle());
-    m_isManualMode = false; 
-  }
 
   public void setOffset(double increment)
   {
@@ -159,21 +140,21 @@ public class ArmSubsystem extends SubsystemBase {
     m_angleSetpoint = angleDegrees; 
   }
 
-  public Command resetArmEncoderCommand()
-  {
-    return new InstantCommand(() ->
-    {
-      m_armEncoder.setPosition(0.0);
-    }); 
-  }
+  // public Command resetArmEncoderCommand()
+  // {
+  //   return new InstantCommand(() ->
+  //   {
+  //     m_armEncoder.setPosition(0.0);
+  //   }); 
+  // }
 
-   public Command resetArmPositionCommand()
-  {
-    return new InstantCommand(() ->
-    {
-      resetPosition(); 
-    }, this); 
-  }
+  //  public Command resetArmPositionCommand()
+  // {
+  //   return new InstantCommand(() ->
+  //   {
+  //     resetPosition(); 
+  //   }, this); 
+  // }
   
   
   public void resetPosition() { 
@@ -185,7 +166,7 @@ public class ArmSubsystem extends SubsystemBase {
   {
     return new InstantCommand(() ->
     {
-        m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
+        resetPosition(); 
     }, this); 
   }
 
