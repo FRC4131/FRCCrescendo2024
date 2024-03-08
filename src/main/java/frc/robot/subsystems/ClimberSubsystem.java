@@ -11,13 +11,14 @@ import com.revrobotics.CANSparkLowLevel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   private CANSparkMax m_climberMotor;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
-    m_climberMotor = new CANSparkMax(15, CANSparkLowLevel.MotorType.kBrushless);
+    m_climberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
     m_climberMotor.setSmartCurrentLimit(30); 
     m_climberMotor.setIdleMode(IdleMode.kBrake); 
   }

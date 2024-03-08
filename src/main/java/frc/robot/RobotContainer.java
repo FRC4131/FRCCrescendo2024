@@ -26,6 +26,8 @@ import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -95,6 +97,7 @@ public class RobotContainer {
   public RobotContainer() {
     setAllianceSpecific(); //sets constants to be either blue or red 
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
+    setAllianceSpecific();
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
     configureOperatorBindings();  //Configure operator game controller bindings and Triggers
@@ -133,6 +136,24 @@ public class RobotContainer {
     return value;
   }
 
+  public void initializeTeleop()
+  {
+    m_intakeSubsystem.setPowerCommand(0.0);
+    m_feederSubsystem.setFeederPowerCommand(0.0); 
+    m_shooterSubsystem.setPowerCommand(0.0);
+    m_climberSubsystem.setPowerCommand(0.0);
+    new InstantCommand(() -> {
+      m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
+    });
+    m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
+    //m_armSubsystem.resetEncoderCommand(); 
+  }
+
+  public void initializeAuton()
+  {
+    m_armSubsystem.setEncodertoPropAngle(); 
+  }
+
   public void setAllianceSpecific()
   {
     DriverStation.refreshData();
@@ -157,9 +178,9 @@ public class RobotContainer {
     }
   }
 
-  public Command armToRest()
+  public void armToRest()
   {
-    return m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
+     m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
   }
 
   public void configureAutoBuilder() {
@@ -220,7 +241,7 @@ public class RobotContainer {
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
 
     NamedCommands.registerCommand("Arm Command", m_armSubsystem.rotateToAngleCommand(80));
-    NamedCommands.registerCommand("Reset Arm Encoder", m_armSubsystem.resetArmEncoderCommand());
+    //NamedCommands.registerCommand("Reset Arm Encoder", m_armSubsystem.resetArmEncoderCommand());
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
@@ -247,17 +268,8 @@ public class RobotContainer {
     //back -- reset heading 
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(() -> m_angleOffset)); 
 
-    //a -- shoot
-    // if (m_shooterSpedUp)
-    // {
 
-    // }
-    // else{
-    //   m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(1.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
-    //     .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
-    // // }
-
-    // //a -- shoot 
+    // //shoot w/o wait 
     // m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
 
     //x -- go to resting 
@@ -322,6 +334,7 @@ public class RobotContainer {
         m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
       }));
 
+
     //trigger for april tag updating 
     // new Trigger(() -> m_poseEstimationSubsystem.isInRadius(m_speakerPose, 3.0)
     //   .and(m_poseEstimationSubsystem.aprilTagUpdating()))
@@ -366,7 +379,7 @@ public class RobotContainer {
   {
     m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
     m_operatorController.povLeft().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
-    m_operatorController.back().onTrue(m_armSubsystem.resetArmPositionCommand());
+    m_operatorController.back().onTrue(m_armSubsystem.resetEncoderCommand());
 
     // a -- climber motor 
     m_operatorController.a().and(m_operatorController.leftBumper()).onTrue(m_climberSubsystem.setPowerCommand(1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
@@ -401,7 +414,11 @@ public class RobotContainer {
     m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
       m_visionSubsystem,
        m_intakeSubsystem, 
-       () -> m_driverController.getRightTriggerAxis(),
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,   
+      () -> m_driverController.getRightTriggerAxis(),
        false)); 
 
   }

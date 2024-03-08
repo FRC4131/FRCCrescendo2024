@@ -46,7 +46,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (m_intakeEncoder.getVelocity() > 10)
+    if (m_intakeEncoder.getVelocity() > 50)
     {
       m_intaking = true; 
     }
