@@ -46,6 +46,7 @@ import static frc.robot.Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND;
 import static frc.robot.Constants.Swerve.TRACK_WIDTH;
 import static frc.robot.Constants.Swerve.WHEEL_BASE;
 
+import java.sql.Driver;
 import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 
@@ -92,7 +93,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    //setAllianceSpecific(); //sets constants to be either blue or red 
+    setAllianceSpecific(); //sets constants to be either blue or red 
     configureAutoBuilder(); // Configure PathPlanner AutonBuilder 
     setDefaultCommands();  // Set/Bind the default commands for subsystems (i.e. commands that will run if the SS isn't actively running a command)
     configureDriverBindings();  // Configure driver game controller bindings and Triggers
@@ -134,15 +135,9 @@ public class RobotContainer {
 
   public void setAllianceSpecific()
   {
-
+    DriverStation.refreshData();
     Optional<Alliance> alliance = DriverStation.getAlliance(); 
 
-    // SmartDashboard.putString("Alliance", "red");
-    //     m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
-    //     m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
-    //     m_ampPose = Constants.FieldConstants.RED_AMP;
-    //     m_directionInvert = -1.0;
-    //     m_angleOffset = Math.PI;
     SmartDashboard.putString("Alliance", "blue");
     m_speakerPose = Constants.FieldConstants.BLUE_SPEAKER;
     m_sourcePose = Constants.FieldConstants.BLUE_SOURCE_RIGHT;
@@ -151,7 +146,7 @@ public class RobotContainer {
     m_angleOffset = 0.0;
 
     if (!alliance.isEmpty()) {
-      if (alliance.get().equals(Alliance.Blue)) {
+      if (alliance.get().equals(Alliance.Red)) {
         SmartDashboard.putString("Alliance", "red");
         m_speakerPose = Constants.FieldConstants.RED_SPEAKER;
         m_sourcePose = Constants.FieldConstants.RED_SOURCE_RIGHT;
@@ -220,7 +215,7 @@ public class RobotContainer {
 
 
     NamedCommands.registerCommand("Shoot", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
-    , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, m_speakerPose).withTimeout(1.5))
+    , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
 
@@ -250,7 +245,7 @@ public class RobotContainer {
     // Schedule Triggers 
 
     //back -- reset heading 
-    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(m_angleOffset)); 
+    m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(() -> m_angleOffset)); 
 
     //a -- shoot
     // if (m_shooterSpedUp)
@@ -276,7 +271,7 @@ public class RobotContainer {
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
          () -> m_driverController.getRightTriggerAxis(),
-         true, m_speakerPose));
+         true, () -> m_speakerPose));
 
     //a -- shoot with the wait 
     m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(0.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
@@ -297,7 +292,7 @@ public class RobotContainer {
       () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,   
       () -> m_driverController.getRightTriggerAxis(), 
-      true, m_ampPose)); 
+      true, () -> m_ampPose)); 
 
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -29,10 +30,10 @@ public class TargetAmpCommand extends Command {
   private DoubleSupplier m_throttle; 
   private Boolean m_fieldRelative;
   private Pose2d m_robotPose; 
-  private Pose2d m_targetPose; 
+  private Supplier<Pose2d> m_targetPose; 
 
   private PIDController m_pidControllerTheta;
-  // private PIDController m_xController; 
+  private PIDController m_xController; 
 
   public TargetAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
     PoseEstimationSubsystem poseEstimationSubsystem,  
@@ -41,7 +42,7 @@ public class TargetAmpCommand extends Command {
     DoubleSupplier ySupplier, 
     DoubleSupplier throttle, 
     Boolean fieldRelative, 
-    Pose2d targetPose) {
+    Supplier<Pose2d> targetPose) {
 
       m_drivetrainSubsystem = drivetrainSubsystem;
       m_poseEstimationSubsystem = poseEstimationSubsystem;
@@ -50,7 +51,7 @@ public class TargetAmpCommand extends Command {
       m_pidControllerTheta = new PIDController(4, 0, 0);
       m_pidControllerTheta.enableContinuousInput(-Math.PI, Math.PI);
 
-      //  m_xController = new PIDController(3, 0, 0); 
+       m_xController = new PIDController(3, 0, 0); 
 
         //m_yController = new ProfiledPIDController(3, 0, 0,
         //new Constraints(1.0, 1.0));
@@ -67,8 +68,9 @@ public class TargetAmpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Pose2d targetPose = m_targetPose.get();
     m_xController.reset(); 
-    m_xController.setSetpoint(m_targetPose.getX());
+    m_xController.setSetpoint(targetPose.getX());
     m_pidControllerTheta.setSetpoint((Math.PI / 2));
   }
 

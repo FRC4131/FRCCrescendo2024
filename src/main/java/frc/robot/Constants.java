@@ -49,6 +49,7 @@ public final class Constants {
 
     public static final class FeederConstants{
         public static final int FEEDER_MOTOR_ID = 12;
+        public static final int INTAKE_MOTOR_ID = 10;
         public static final double FEEDER_MOTOR_POWER = -0.7;
         public static enum FeederState {
             READYINPUT,
@@ -72,7 +73,7 @@ public final class Constants {
 
     public static final class ShooterConstants{
         public static final int SHOOTER_MOTOR_ID_LEAD = 14;
-        public static final int SHOOTER_MOTOR_ID_FOLLOW = 16; 
+        public static final int SHOOTER_MOTOR_ID_FOLLOW = 18; 
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/

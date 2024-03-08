@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -28,7 +28,7 @@ public class AutonGoToPoseWithArmCommand extends Command {
   private DoubleSupplier m_throttle; 
   private Boolean m_fieldRelative;
   private Pose2d m_robotPose; 
-  private Pose2d m_targetPose; 
+  private Supplier<Pose2d> m_targetPose; 
 
     Double xDistance;
     Double yDistance;
@@ -45,7 +45,7 @@ public class AutonGoToPoseWithArmCommand extends Command {
     DoubleSupplier y, 
     DoubleSupplier throttle,
     Boolean fieldRelative, 
-    Pose2d targetPose) {
+    Supplier<Pose2d> targetPose) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrainSubsystem = drivetrainSubsystem;
     m_poseEstimationSubsystem = poseEstimationSubsystem;
@@ -70,8 +70,9 @@ public class AutonGoToPoseWithArmCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    xDistance = m_targetPose.getX() - m_robotPose.getX();
-    yDistance = m_targetPose.getY() - m_robotPose.getY(); 
+    Pose2d targetPose = m_targetPose.get();
+    xDistance = targetPose.getX() - m_robotPose.getX();
+    yDistance = targetPose.getY() - m_robotPose.getY(); 
     totalDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2)); 
 
     m_robotPose = m_poseEstimationSubsystem.getPose();
@@ -84,9 +85,10 @@ public class AutonGoToPoseWithArmCommand extends Command {
   @Override
   public void execute() {
 
-    //l2 norm for distance between bot and speaker 
-    xDistance = m_targetPose.getX() - m_robotPose.getX();
-    yDistance = m_targetPose.getY() - m_robotPose.getY(); 
+    //l2 norm for distance between bot and speaker
+    Pose2d targetPose = m_targetPose.get(); 
+    xDistance = targetPose.getX() - m_robotPose.getX();
+    yDistance = targetPose.getY() - m_robotPose.getY(); 
     totalDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2)); 
 
     m_robotPose = m_poseEstimationSubsystem.getPose();

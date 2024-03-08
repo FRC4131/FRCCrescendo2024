@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 
 
+import java.util.function.DoubleSupplier;
+
 // import org.photonvision.EstimatedRobotPose;
 // import org.photonvision.PhotonPoseEstimator;
 // import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -66,8 +68,8 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
     m_swerveDrivePoseEst.resetPosition(getGyroYaw(), m_drivetrainSubsystem.getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d(angleOffset)));
   }
 
-  public Command zeroAngleCommand(double angleOffset){
-    return new InstantCommand(()->this.zeroAngle(angleOffset));
+  public Command zeroAngleCommand(DoubleSupplier angleOffset){
+    return new InstantCommand(()->this.zeroAngle(angleOffset.getAsDouble()));
   }
 
   public void setAngleAdjustment(double adjustment){
