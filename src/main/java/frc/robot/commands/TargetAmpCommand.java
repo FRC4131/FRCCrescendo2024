@@ -91,19 +91,19 @@ public class TargetAmpCommand extends Command {
     //SmartDashboard.putNumber("m_controllerX", m_controllerX.getAsDouble());
     //SmartDashboard.putNumber("m_controllerY", m_controllerY.getAsDouble());
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
-    m_drivetrainSubsystem.drive(new Translation2d(pidDesiredX,
-        m_controllerY.getAsDouble() * scale),
-        pidDesiredRotation,
-        m_poseEstimationSubsystem.getPose().getRotation(),
-        m_fieldRelative,
-        true);
-
-        // m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
+    // m_drivetrainSubsystem.drive(new Translation2d(pidDesiredX,
     //     m_controllerY.getAsDouble() * scale),
     //     pidDesiredRotation,
     //     m_poseEstimationSubsystem.getPose().getRotation(),
     //     m_fieldRelative,
     //     true);
+
+        m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
+        m_controllerY.getAsDouble() * scale),
+        pidDesiredRotation,
+        m_poseEstimationSubsystem.getPose().getRotation(),
+        m_fieldRelative,
+        true);
   }
 
   // Called once the command ends or is interrupted.

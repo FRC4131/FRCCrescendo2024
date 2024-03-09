@@ -55,8 +55,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder = m_armMotorL.getEncoder(); 
 
     m_armPidController = new PIDController(0.02, 0, 0);
-    //m_armFeedforward = new ArmFeedforward(0, 0, 0, 0); 
-
     m_armEncoder.setPositionConversionFactor(Constants.ArmConstants.ARM_ENCODER_SCALING_FACTOR);
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
     m_speakerHeightOffset = 0.0; 
@@ -81,7 +79,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void manualMode(double power) 
   {
-    //m_isManualMode = true; 
     if (power > 0 && backLimitSwitch() == false)
     {
       m_angleSetpoint = m_angleSetpoint + 5;
@@ -109,24 +106,6 @@ public class ArmSubsystem extends SubsystemBase {
   {
     return m_speakerHeightOffset; 
   }
-  // public Command armJoyStickCommand(DoubleSupplier rotSupplier)
-  // {
-  //   return new InstantCommand(() -> {
-  //     m_isManualMode = true; 
-  //     if (rotSupplier.getAsDouble() > -0.08 && rotSupplier.getAsDouble() < 0.08)
-  //     {
-  //       m_armMotorL.set(rotSupplier.getAsDouble());
-  //     }
-  //     else if (rotSupplier.getAsDouble() < -0.08)
-  //     {
-  //       m_armMotorL.set(-0.08);
-  //     }
-  //     else if (rotSupplier.getAsDouble() > 0.08)
-  //     {
-  //       m_armMotorL.set(0.08);
-  //     }
-  //   });
-  // }
 
   public Command rotateToAngleCommand(double angle) { 
     return runOnce(() -> {
@@ -139,23 +118,6 @@ public class ArmSubsystem extends SubsystemBase {
   {
     m_angleSetpoint = angleDegrees; 
   }
-
-  // public Command resetArmEncoderCommand()
-  // {
-  //   return new InstantCommand(() ->
-  //   {
-  //     m_armEncoder.setPosition(0.0);
-  //   }); 
-  // }
-
-  //  public Command resetArmPositionCommand()
-  // {
-  //   return new InstantCommand(() ->
-  //   {
-  //     resetPosition(); 
-  //   }, this); 
-  // }
-  
   
   public void resetPosition() { 
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
@@ -195,8 +157,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // if (!m_isManualMode)
-    // {
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
         double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.08); //clamp power to 8% 
         if (clampedPower > 0)

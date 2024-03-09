@@ -140,14 +140,14 @@ public class RobotContainer {
 
   public void initializeTeleop()
   {
-    m_intakeSubsystem.setPowerCommand(0.0);
-    m_feederSubsystem.setFeederPowerCommand(0.0); 
-    m_shooterSubsystem.setPowerCommand(0.0);
-    m_climberSubsystem.setPowerCommand(0.0);
+    m_intakeSubsystem.setPower(0.0);
+    m_feederSubsystem.setPower(0.0); 
+    m_shooterSubsystem.setPower(0.0);
+    m_climberSubsystem.setPower(0.0);
     new InstantCommand(() -> {
       m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
     });
-    m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
+    m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
     //m_armSubsystem.resetEncoderCommand(); 
   }
 
@@ -292,8 +292,8 @@ public class RobotContainer {
         .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
 
-    //down b -- amp shoot
-    m_driverController.b().onTrue(m_shooterSubsystem.setPowerCommand(0.8).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+    //b -- amp shoot
+    m_driverController.b().onTrue(m_shooterSubsystem.setPowerCommand(0.4).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
 
