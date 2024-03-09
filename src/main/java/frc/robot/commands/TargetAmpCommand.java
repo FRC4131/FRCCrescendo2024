@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -17,11 +18,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.PoseEstimationSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 public class TargetAmpCommand extends Command {
   /** Creates a new TargetAmpCommand. */
   private DrivetrainSubsystem m_drivetrainSubsystem;
   private PoseEstimationSubsystem m_poseEstimationSubsystem;
+  private VisionSubsystem m_visionSubsystem; 
   private ArmSubsystem m_armSubsystem; 
   
   Double m_desiredAngle;
@@ -38,6 +41,7 @@ public class TargetAmpCommand extends Command {
   public TargetAmpCommand(DrivetrainSubsystem drivetrainSubsystem, 
     PoseEstimationSubsystem poseEstimationSubsystem,  
     ArmSubsystem armSubsystem, 
+    VisionSubsystem visionSubsystem, 
     DoubleSupplier xSupplier,
     DoubleSupplier ySupplier, 
     DoubleSupplier throttle, 
@@ -47,6 +51,7 @@ public class TargetAmpCommand extends Command {
       m_drivetrainSubsystem = drivetrainSubsystem;
       m_poseEstimationSubsystem = poseEstimationSubsystem;
       m_armSubsystem = armSubsystem; 
+      m_visionSubsystem = visionSubsystem; 
       m_targetPose = targetPose;
       m_pidControllerTheta = new PIDController(4, 0, 0);
       m_pidControllerTheta.enableContinuousInput(-Math.PI, Math.PI);
@@ -77,12 +82,18 @@ public class TargetAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Optional<Double> txOffset = m_visionSubsystem.getAmpOffset(); 
     m_robotPose = m_poseEstimationSubsystem.getPose();
     double pidDesiredRotation = m_pidControllerTheta.calculate(m_robotPose.getRotation().getRadians());
     double pidDesiredX = m_xController.calculate(m_robotPose.getX());
     //double pidDesiredY = m_yController.calculate(m_robotPose.getY(), m_targetPose.getY());
 
-    
+    if (txOffset.isPresent()) // if the robot sees a note
+    {
+      m_xController.setSetpoint(0.0); // goal: tx == 0
+      pidDesiredX = m_xController.calculate(txOffset.get() * (Math.PI / 180)); // gets tx and converts to radians
+    }
+
     m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_AMP_ANGLE);
     // Calculate the throttle scaling factor
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 

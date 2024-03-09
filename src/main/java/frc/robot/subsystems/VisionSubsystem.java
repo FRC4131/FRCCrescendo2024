@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import java.sql.Driver;
 import java.util.Optional;
 
+import javax.swing.text.html.Option;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -79,6 +81,18 @@ public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Det
   {
     if (seesNote()){
       double tx = m_NetworkTableBack.getEntry("tx").getDouble(0); 
+      return Optional.of(tx); 
+    }
+    else{
+      return Optional.empty(); 
+    }
+  }
+
+  public Optional<Double> getAmpOffset()
+  {
+    if (seesAmpTags())
+    {
+      double tx = m_NetworkTableFront.getEntry("tx").getDouble(0);
       return Optional.of(tx); 
     }
     else{

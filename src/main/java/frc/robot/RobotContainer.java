@@ -8,6 +8,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.commands.AutoArmCommand;
+import frc.robot.commands.AutonGoToNoteCommand;
 import frc.robot.commands.AutonIntakeCommand;
 import frc.robot.commands.AutonShootCommand;
 import frc.robot.commands.AutonGoToPoseWithArmCommand;
@@ -235,7 +236,7 @@ public class RobotContainer {
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
     NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, 90.0).andThen(new WaitCommand(0.25)));
-
+    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem));
 
     NamedCommands.registerCommand("Shoot", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
     , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5))
@@ -297,16 +298,16 @@ public class RobotContainer {
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
 
-    //left bumper -- amp align 
-    m_driverController.leftBumper().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
-       m_poseEstimationSubsystem,
-       m_armSubsystem, 
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,   
-      () -> m_driverController.getRightTriggerAxis(), 
-      true, () -> m_ampPose)); 
+    // //left bumper -- amp align 
+    // m_driverController.leftBumper().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
+    //    m_poseEstimationSubsystem,
+    //    m_armSubsystem, 
+    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,   
+    //   () -> m_driverController.getRightTriggerAxis(), 
+    //   true, () -> m_ampPose)); 
 
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())
