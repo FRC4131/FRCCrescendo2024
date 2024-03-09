@@ -298,16 +298,17 @@ public class RobotContainer {
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
 
-    // //left bumper -- amp align 
-    // m_driverController.leftBumper().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
-    //    m_poseEstimationSubsystem,
-    //    m_armSubsystem, 
-    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,
-    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,   
-    //   () -> m_driverController.getRightTriggerAxis(), 
-    //   true, () -> m_ampPose)); 
+    //left bumper -- amp align 
+    m_driverController.leftBumper().whileTrue(new TargetAmpCommand(m_drivetrainSubsystem,
+       m_poseEstimationSubsystem,
+       m_armSubsystem, 
+       m_visionSubsystem,
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,   
+      () -> m_driverController.getRightTriggerAxis(), 
+      true, () -> m_ampPose)); 
 
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())

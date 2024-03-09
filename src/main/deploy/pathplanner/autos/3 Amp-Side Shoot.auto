@@ -30,19 +30,19 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Go To Note"
-                }
-              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "Copy of Amp-Side Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Go To Note"
                 }
               }
             ]
@@ -67,7 +67,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -79,10 +79,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go To Note"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
           }
         },
         {
