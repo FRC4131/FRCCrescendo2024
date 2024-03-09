@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.sql.Driver;
 import java.util.Optional;
 
 import edu.wpi.first.math.VecBuilder;
@@ -13,7 +14,9 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.EstimatedRobotPose;
@@ -38,6 +41,38 @@ public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Det
   public boolean seesNote()
   {
     return (1.0 == m_NetworkTableBack.getEntry("tv").getDouble(0)); 
+  }
+
+  public boolean seesSpeakerTags(){
+    DriverStation.refreshData();
+    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    boolean seesSpeaker = false; 
+    if (alliance.get().equals(Alliance.Blue))
+    {
+      seesSpeaker = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 8 
+        || m_NetworkTableFront.getEntry("tid").getDouble(0) == 7);
+    }
+    else if (alliance.get().equals(Alliance.Red)){
+      seesSpeaker = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 3 
+        || m_NetworkTableFront.getEntry("tid").getDouble(0) == 4);
+    }
+
+    return seesSpeaker;
+  }
+
+  public boolean seesAmpTags(){
+    DriverStation.refreshData();
+    Optional<Alliance> alliance = DriverStation.getAlliance(); 
+    boolean seesAmp = false; 
+    if (alliance.get().equals(Alliance.Blue))
+    {
+      seesAmp = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 5);
+    }
+    else if (alliance.get().equals(Alliance.Red)){
+      seesAmp = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 4);
+    }
+
+    return seesAmp;
   }
 
   public Optional<Double> getNoteOffset()

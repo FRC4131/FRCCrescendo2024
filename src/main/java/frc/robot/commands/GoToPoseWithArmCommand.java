@@ -87,6 +87,7 @@ public class GoToPoseWithArmCommand extends Command {
   @Override
   public void execute() {
 
+    SmartDashboard.putNumber("Speaker x", m_targetPose.get().getX()); 
     //l2 norm for distance between bot and speaker 
     Pose2d targetPose = m_targetPose.get();
     xDistance = targetPose.getX() - m_robotPose.getX();

@@ -125,6 +125,7 @@ public class RobotContainer {
     }
   }
 
+
   private static double modifyAxis(double value, boolean squareAxis) {
     // Deadband
     value = deadband(value, 0.075);
@@ -135,6 +136,7 @@ public class RobotContainer {
     }
     return value;
   }
+
 
   public void initializeTeleop()
   {
@@ -332,6 +334,13 @@ public class RobotContainer {
         m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.2); 
       })).onFalse(new InstantCommand (() -> {
         m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
+      }));
+
+    new Trigger(() -> m_visionSubsystem.seesSpeakerTags())
+            .whileTrue(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.2); 
+      })).onFalse(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.0); 
       }));
 
 
