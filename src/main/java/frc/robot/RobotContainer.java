@@ -147,7 +147,7 @@ public class RobotContainer {
     new InstantCommand(() -> {
       m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
     });
-    m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
+    //m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
     //m_armSubsystem.resetEncoderCommand(); 
   }
 

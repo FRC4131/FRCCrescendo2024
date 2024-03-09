@@ -36,22 +36,28 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go To Note"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp-Side Start"
+                  "pathName": "Copy of Amp-Side Start"
                 }
               }
             ]
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Amp-Side Shoot Path 3"
+            "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
           }
         },
         {
@@ -77,6 +83,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of Copy of Amp-Side Shoot Path 3"
           }
         },
         {

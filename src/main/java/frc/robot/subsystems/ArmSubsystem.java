@@ -147,7 +147,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean backLimitSwitch()
   {
-    return !m_backLimit.get(); 
+    return m_backLimit.get(); 
   }
 
   public double getArmAngle() //returns current angle of the arm 
