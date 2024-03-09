@@ -53,7 +53,7 @@ public class AutonGoToNoteCommand extends Command {
       rotOutput = m_angleController.calculate(noteTx.get() * (Math.PI / 180)); // gets tx and converts to radians
     }
 
-    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.15;
+    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.2;
 
     //Robot is driven (in Robot-Centric frame) towards note
     // m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,
@@ -62,7 +62,7 @@ public class AutonGoToNoteCommand extends Command {
     //     new Rotation2d(),
     //     m_fieldRelative,
     //     true);
-    m_IntakeSubsystem.setPower(0.7);
+    m_IntakeSubsystem.setPower(1.0);
     m_DrivetrainSubsystem.drive(new Translation2d(vel_x, 
         0.0),
         rotOutput,

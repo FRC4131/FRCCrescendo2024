@@ -235,8 +235,14 @@ public class RobotContainer {
     NamedCommands.registerCommand("Arm Start Angle", new AutoArmCommand(m_armSubsystem, 43.0));
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
-    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, 90.0).andThen(new WaitCommand(0.25)));
+    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, 90.0).andThen(new WaitCommand(0.5)));
     NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem));
+
+    NamedCommands.registerCommand("Spin up Shooter", m_shooterSubsystem.setPowerCommand(1.0));
+    NamedCommands.registerCommand("Shoot (No Wait)", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
+    , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.0)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
 
     NamedCommands.registerCommand("Shoot", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
     , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5))
