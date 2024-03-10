@@ -8,7 +8,9 @@ import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +27,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private PowerDistribution m_PDH; 
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,6 +38,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_PDH = new PowerDistribution(1, ModuleType.kRev); 
     //m_robotContainer.setAllianceSpecific();
   }
 
@@ -47,11 +51,20 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Total Current", m_PDH.getTotalCurrent());
+    SmartDashboard.putNumber("Intake Current", m_PDH.getCurrent(6));
+    SmartDashboard.putNumber("Shooter 1 Current", m_PDH.getCurrent(10)); //arb
+    SmartDashboard.putNumber("Shooter 2 Current", m_PDH.getCurrent(11)); //arb
+    SmartDashboard.putNumber("Feeder Current", 13); //arb
+    SmartDashboard.putNumber("Arm 1 Current", m_PDH.getCurrent(10)); //arb
+    SmartDashboard.putNumber("Arm 2 Current", m_PDH.getCurrent(11)); //arb
+
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

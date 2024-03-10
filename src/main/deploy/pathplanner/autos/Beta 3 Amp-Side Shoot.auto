@@ -18,15 +18,34 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Arm off prop"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm off prop"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": " Amp-Side Start Away"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -36,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Amp-Side Start"
+                  "pathName": " Amp-Side Start Away Pt 2"
                 }
               },
               {
@@ -55,15 +74,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -86,21 +118,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Intake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of Copy of Amp-Side Shoot Path 3"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         }
       ]

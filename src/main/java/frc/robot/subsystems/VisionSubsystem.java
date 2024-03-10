@@ -68,10 +68,10 @@ public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Det
     boolean seesAmp = false; 
     if (alliance.get().equals(Alliance.Blue))
     {
-      seesAmp = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 5);
+      seesAmp = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 6);
     }
     else if (alliance.get().equals(Alliance.Red)){
-      seesAmp = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 4);
+      seesAmp = (m_NetworkTableFront.getEntry("tid").getDouble(0) == 5);
     }
 
     return seesAmp;
@@ -137,7 +137,7 @@ public class VisionSubsystem extends SubsystemBase { //handles LL3 April Tag Det
   public void periodic() {
     m_estimatedRobotPose = aprilTagUpdate(); //constantly updates bot pose
     SmartDashboard.putBoolean("sees note", seesNote()); 
-    
+    SmartDashboard.putBoolean("sees amp", seesAmpTags()); 
     if (m_estimatedRobotPose.isPresent()) { //if optional contains a value 
       SmartDashboard.putNumber( "April Tag X", m_estimatedRobotPose.get().getPose().getX()); //returns robot x and y values + heading 
       SmartDashboard.putNumber("April Tag Y", m_estimatedRobotPose.get().getPose().getY());

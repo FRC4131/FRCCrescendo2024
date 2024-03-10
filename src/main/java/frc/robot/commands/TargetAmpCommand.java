@@ -75,39 +75,28 @@ public class TargetAmpCommand extends Command {
   public void initialize() {
     Pose2d targetPose = m_targetPose.get();
     m_xController.reset(); 
-    m_xController.setSetpoint(targetPose.getX());
+    //m_xController.setSetpoint(targetPose.getX());
     m_pidControllerTheta.setSetpoint((Math.PI / 2));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Optional<Double> txOffset = m_visionSubsystem.getAmpOffset(); 
+    //Optional<Double> txOffset = m_visionSubsystem.getAmpOffset(); 
     m_robotPose = m_poseEstimationSubsystem.getPose();
     double pidDesiredRotation = m_pidControllerTheta.calculate(m_robotPose.getRotation().getRadians());
-    double pidDesiredX = m_xController.calculate(m_robotPose.getX());
-    //double pidDesiredY = m_yController.calculate(m_robotPose.getY(), m_targetPose.getY());
-
-    if (txOffset.isPresent()) // if the robot sees a note
-    {
-      m_xController.setSetpoint(0.0); // goal: tx == 0
-      pidDesiredX = m_xController.calculate(txOffset.get() * (Math.PI / 180)); // gets tx and converts to radians
-    }
-
-    m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_AMP_ANGLE);
+    //double pidDesiredX = m_xController.calculate(m_robotPose.getX());
+    // double pidDesiredX = 0.0; 
+    // if (txOffset.isPresent()) // if the robot sees a note
+    // {
+    //   m_xController.setSetpoint(0.0); // goal: tx == 0
+    //   pidDesiredX = m_xController.calculate(txOffset.get()); // gets tx and converts to radians
+    // }
     // Calculate the throttle scaling factor
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; //controls throttle 
-    //SmartDashboard.putBoolean("amp field relative", m_fieldRelative); 
-    //SmartDashboard.putNumber("amp rotation", m_poseEstimationSubsystem.getPose().getRotation().getDegrees());
-    //SmartDashboard.putNumber("m_controllerX", m_controllerX.getAsDouble());
-    //SmartDashboard.putNumber("m_controllerY", m_controllerY.getAsDouble());
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL; 
-    // m_drivetrainSubsystem.drive(new Translation2d(pidDesiredX,
-    //     m_controllerY.getAsDouble() * scale),
-    //     pidDesiredRotation,
-    //     m_poseEstimationSubsystem.getPose().getRotation(),
-    //     m_fieldRelative,
-    //     true);
+
+        m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_AMP_ANGLE);
 
         m_drivetrainSubsystem.drive(new Translation2d(m_controllerX.getAsDouble() * scale,
         m_controllerY.getAsDouble() * scale),

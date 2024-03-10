@@ -33,9 +33,10 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotorLead.setInverted(true);
 
     m_shooterMotorFollow = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ID_FOLLOW, CANSparkLowLevel.MotorType.kBrushless);
-    m_shooterMotorFollow.follow(m_shooterMotorLead, false); 
+   m_shooterMotorFollow.follow(m_shooterMotorLead, false); 
     m_shooterMotorFollow.setSmartCurrentLimit(30); 
     m_shooterMotorFollow.setIdleMode(IdleMode.kCoast); 
+    //m_shooterMotorFollow.setInverted(true);
     
 
     m_readyRumble = false; 
@@ -45,7 +46,22 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setPower(double power) {
-    m_shooterMotorLead.set(power);
+  
+      m_shooterMotorLead.set(power);
+  }
+
+  public Command setUpPowerCommand(double power)
+  {
+    return new InstantCommand(() -> {
+          m_shooterMotorLead.set(power);
+    }, this);
+  }
+
+  public Command setDownPowerCommand(double power)
+  {
+    return new InstantCommand(() -> {
+          m_shooterMotorFollow.set(power);
+    }, this);
   }
 
   public boolean isSpunUp()
@@ -58,11 +74,15 @@ public class ShooterSubsystem extends SubsystemBase {
       setPower(power);
     }, this);
   }
+
+  //   public Command setPowerCommand(double power) {
+  //   return setDownPowerCommand(power).andThen(setUpPowerCommand(power)); 
+  // }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Velocity", m_shooterEncoder.getVelocity());
-    if (m_shooterEncoder.getVelocity() > 5100)
+    if (m_shooterEncoder.getVelocity() > 2600)
     {
       m_readyRumble = true; 
     }
