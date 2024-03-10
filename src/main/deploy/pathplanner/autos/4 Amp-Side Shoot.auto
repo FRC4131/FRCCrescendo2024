@@ -30,22 +30,28 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "Amp-Side Start"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Go To Note"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
           }
         },
         {
@@ -61,22 +67,28 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Amp-Side Shoot Path 3"
+                  "pathName": "Copy #1 Amp-Side Shoot Path 3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go To Note"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
           }
         },
         {
@@ -86,28 +98,34 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Amp-Side Shoot Path 4"
+                  "pathName": "Copy #1 Amp-Side Shoot Path 4"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go To Note"
                 }
               }
             ]
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Copy of Amp-Side Shoot Path 5"
+            "pathName": "Copy #2 Amp-Side Shoot Path 4"
           }
         },
         {

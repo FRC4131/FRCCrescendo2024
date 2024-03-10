@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3501122987236596,
-      "y": 5.546280751098089
+      "x": 0.7632939243364416,
+      "y": 6.6598494772974535
     },
-    "rotation": 180.0
+    "rotation": -122.05662332244285
   },
   "command": {
     "type": "sequential",
@@ -36,38 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Center-Side Start"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Go To Note"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy #1 Amp-Side Shoot Path 4"
+                  "pathName": "Copy #1 Amp-Side Start"
                 }
               },
               {
@@ -88,7 +57,44 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy #2 Amp-Side Shoot Path 4"
+            "pathName": "Copy #3 Amp-Side Shoot Path 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy #1 Amp-Side Shoot Path 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Go To Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy #2 Amp-Side Shoot Path 3"
           }
         },
         {
