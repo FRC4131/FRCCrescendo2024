@@ -24,13 +24,7 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -42,10 +36,22 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Go To Note"
+                  "name": "Spin up Shooter"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
           }
         },
         {
@@ -55,15 +61,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Amp-Side Shoot Path 3"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp-Side Shoot Path 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -81,6 +100,12 @@
                 "data": {
                   "name": "Go To Note"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
               }
             ]
           }
@@ -88,13 +113,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake"
+            "name": "Spin up Shooter"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -123,15 +148,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Copy #2 Amp-Side Shoot Path 4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy #2 Amp-Side Shoot Path 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         }
       ]
