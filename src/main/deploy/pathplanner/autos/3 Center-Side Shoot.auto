@@ -18,15 +18,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Arm off prop"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm off prop"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -57,7 +70,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -67,7 +80,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy #1 Amp-Side Shoot Path 4"
+                  "pathName": "Beta #1 Amp-Side Shoot Path 4"
                 }
               },
               {
@@ -88,18 +101,24 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy #2 Amp-Side Shoot Path 4"
+            "pathName": "Beta #2 Amp-Side Shoot Path 4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
           }
         }
       ]
     }
   },
-  "folder": "Primary",
+  "folder": "3 notes",
   "choreoAuto": false
 }

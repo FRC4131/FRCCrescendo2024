@@ -52,12 +52,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Total Current", m_PDH.getTotalCurrent());
-    SmartDashboard.putNumber("Intake Current", m_PDH.getCurrent(6));
-    SmartDashboard.putNumber("Shooter 1 Current", m_PDH.getCurrent(10)); //arb
-    SmartDashboard.putNumber("Shooter 2 Current", m_PDH.getCurrent(11)); //arb
-    SmartDashboard.putNumber("Feeder Current", 13); //arb
-    SmartDashboard.putNumber("Arm 1 Current", m_PDH.getCurrent(10)); //arb
-    SmartDashboard.putNumber("Arm 2 Current", m_PDH.getCurrent(11)); //arb
+    // SmartDashboard.putNumber("Intake Current", m_PDH.getCurrent(6));
+    // SmartDashboard.putNumber("Shooter 1 Current", m_PDH.getCurrent(10)); //arb
+    // SmartDashboard.putNumber("Shooter 2 Current", m_PDH.getCurrent(11)); //arb
+    // SmartDashboard.putNumber("Feeder Current", m_PDH.getCurrent(0)); //arb
+    // SmartDashboard.putNumber("Arm 1 Current", m_PDH.getCurrent(10)); //arb
+    // SmartDashboard.putNumber("Arm 2 Current", m_PDH.getCurrent(11)); //arb
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,

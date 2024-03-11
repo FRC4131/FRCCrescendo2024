@@ -229,21 +229,22 @@ public class RobotContainer {
    // NamedCommands.registerCommand("Shoot Amp", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 0.7));
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
-    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, 90.0).andThen(new WaitCommand(0.5)));
+    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_PROP_ANGLE+20).andThen(new WaitCommand(0.5)));
     NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem).withTimeout(1.5));
 
     NamedCommands.registerCommand("Spin up Shooter", m_shooterSubsystem.setPowerCommand(1.0));
     NamedCommands.registerCommand("Shoot (No Wait)", new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem, 
     m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5)
     .andThen(new WaitUntilCommand(() -> m_shooterSubsystem.isSpunUp()))
-     .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.25)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
-
+    
     NamedCommands.registerCommand("Shoot", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
     , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
 
+    NamedCommands.registerCommand("Shooter off", m_shooterSubsystem.setPowerCommand(0.0));
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
   }
@@ -396,7 +397,7 @@ public class RobotContainer {
 
   public void configureOperatorBindings()
   {
-    m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(90.0));
+    m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_BACK_ANGLE));
     m_operatorController.povLeft().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     m_operatorController.back().onTrue(m_armSubsystem.resetEncoderCommand());
 

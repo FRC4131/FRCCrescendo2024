@@ -18,28 +18,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm off prop"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": " Amp-Side Start Away"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spin up Shooter"
-                }
-              }
-            ]
+            "name": "Spin up Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm off prop"
           }
         },
         {
@@ -55,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": " Amp-Side Start Away Pt 2"
+                  "pathName": "Copy #1 Amp-Side Start"
                 }
               },
               {
@@ -68,25 +55,32 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+                  "name": "Intake"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "Spin up Shooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
                 }
               }
             ]
@@ -140,6 +134,44 @@
           "type": "named",
           "data": {
             "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Beta #1 Amp-Side Shoot Path 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Go To Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         }
       ]

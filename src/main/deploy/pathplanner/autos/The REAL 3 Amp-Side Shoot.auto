@@ -20,13 +20,19 @@
         {
           "type": "named",
           "data": {
+            "name": "Spin up Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Arm off prop"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -49,21 +55,16 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Copy #3 Amp-Side Shoot Path 3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
@@ -73,7 +74,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy #1 Amp-Side Shoot Path 3"
+                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of Amp-Side Shoot Path 3"
                 }
               },
               {
@@ -86,26 +106,33 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Intake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Copy #2 Amp-Side Shoot Path 3"
+            "name": "Shoot (No Wait)"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shooter off"
           }
         }
       ]
     }
   },
-  "folder": "Primary",
+  "folder": "3 notes",
   "choreoAuto": false
 }

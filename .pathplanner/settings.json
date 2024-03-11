@@ -8,10 +8,11 @@
   ],
   "autoFolders": [
     "EXTRA IDEAS",
+    "3 notes",
     "Primary",
     "Primary TESTS"
   ],
-  "defaultMaxVel": 1.7,
+  "defaultMaxVel": 1.5,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

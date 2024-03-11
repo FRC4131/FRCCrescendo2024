@@ -50,19 +50,6 @@ public class ShooterSubsystem extends SubsystemBase {
       m_shooterMotorLead.set(power);
   }
 
-  public Command setUpPowerCommand(double power)
-  {
-    return new InstantCommand(() -> {
-          m_shooterMotorLead.set(power);
-    }, this);
-  }
-
-  public Command setDownPowerCommand(double power)
-  {
-    return new InstantCommand(() -> {
-          m_shooterMotorFollow.set(power);
-    }, this);
-  }
 
   public boolean isSpunUp()
   {
@@ -82,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Velocity", m_shooterEncoder.getVelocity());
-    if (m_shooterEncoder.getVelocity() > 2600)
+    if (m_shooterEncoder.getVelocity() > 5100)
     {
       m_readyRumble = true; 
     }
