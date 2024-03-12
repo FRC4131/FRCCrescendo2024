@@ -26,7 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Spin up Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -55,14 +61,26 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "Mid Center-Side 1"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
           }
         }
       ]
     }
   },
-  "folder": "Primary",
+  "folder": "2 notes",
   "choreoAuto": false
 }

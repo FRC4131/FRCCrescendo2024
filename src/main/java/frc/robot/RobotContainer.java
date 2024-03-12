@@ -141,6 +141,7 @@ public class RobotContainer {
 
   public void initializeTeleop()
   {
+    m_armSubsystem.resetOffset();
     m_intakeSubsystem.setPower(0.0);
     m_feederSubsystem.setPower(0.0); 
     m_shooterSubsystem.setPower(0.0);
@@ -239,14 +240,23 @@ public class RobotContainer {
      .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
     
+    NamedCommands.registerCommand("Shoot (No Align)", (m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
+
     NamedCommands.registerCommand("Shoot", m_shooterSubsystem.setPowerCommand(1.0).andThen(new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem
     , m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5))
      .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(0.5)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)));
 
     NamedCommands.registerCommand("Shooter off", m_shooterSubsystem.setPowerCommand(0.0));
+
+    NamedCommands.registerCommand("Offset up", m_armSubsystem.setOffsetCommand(0.254));
+    NamedCommands.registerCommand("Offset down", m_armSubsystem.setOffsetCommand(-0.254));
+    NamedCommands.registerCommand("Reset Offset", m_armSubsystem.hardSetOffsetCommand(0.0));
+
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
+    
   }
 
   public void setDefaultCommands() {
@@ -402,8 +412,8 @@ public class RobotContainer {
     m_operatorController.back().onTrue(m_armSubsystem.resetEncoderCommand());
 
     // a and left bumper -- climber motor 
-    m_operatorController.a().and(m_operatorController.leftBumper()).onTrue(m_climberSubsystem.setPowerCommand(1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
-    m_operatorController.a().and(m_operatorController.b()).onTrue(m_climberSubsystem.setPowerCommand(-1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    m_operatorController.leftBumper().onTrue(m_climberSubsystem.setPowerCommand(0.5)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    m_operatorController.rightBumper().onTrue(m_climberSubsystem.setPowerCommand(-0.5)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
     //m_operatorController.b().and(m_operatorController.rightBumper()).onTrue(m_climberSubsystem.setPowerCommand(-1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
 
     //b -- intake
@@ -431,16 +441,16 @@ public class RobotContainer {
     m_operatorController.leftTrigger().whileTrue(m_shooterSubsystem.setPowerCommand(1.0))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
 
-    //right bumper -- go to note 
-    m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
-      m_visionSubsystem,
-       m_intakeSubsystem, 
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,   
-      () -> m_driverController.getRightTriggerAxis(),
-       false)); 
+    // //right bumper -- go to note 
+    // m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+    //   m_visionSubsystem,
+    //    m_intakeSubsystem, 
+    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,   
+    //   () -> m_driverController.getRightTriggerAxis(),
+    //    false)); 
 
   }
 

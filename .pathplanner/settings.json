@@ -3,12 +3,17 @@
   "robotLength": 0.889,
   "holonomicMode": true,
   "pathFolders": [
-    "Primary Paths",
-    "EXTRA Paths"
+    "EXTRA Paths",
+    "Blips",
+    "Primary Paths"
   ],
   "autoFolders": [
-    "EXTRA IDEAS",
+    "2 notes",
     "3 notes",
+    "Blips",
+    "EXTRA IDEAS",
+    "Taxi",
+    "No Moves",
     "Primary",
     "Primary TESTS"
   ],

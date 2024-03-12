@@ -14,7 +14,19 @@
         {
           "type": "named",
           "data": {
+            "name": "Reset Offset"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Set Arm Angle Prop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spin up Shooter"
           }
         },
         {
@@ -26,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -49,21 +61,34 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp-Side Shoot Path 3"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Intake"
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Amp-Side Shoot Path 3"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -94,7 +119,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -104,7 +129,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy #1 Amp-Side Shoot Path 4"
+                  "pathName": "Beta #1 Amp-Side Shoot Path 4"
                 }
               },
               {
@@ -131,7 +156,25 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
           }
         }
       ]

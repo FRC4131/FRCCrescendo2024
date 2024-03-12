@@ -102,9 +102,22 @@ public class ArmSubsystem extends SubsystemBase {
     }, this);
 
   }
+
+  public Command hardSetOffsetCommand (double offset)
+  {
+       return new InstantCommand(() -> {
+          m_speakerHeightOffset = offset; 
+    }, this);
+  }
+
   public double getOffset()
   {
     return m_speakerHeightOffset; 
+  }
+
+  public void resetOffset()
+  {
+    m_speakerHeightOffset = 0; 
   }
 
   public Command rotateToAngleCommand(double angle) { 

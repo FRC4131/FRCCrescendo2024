@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7894774213563436,
-      "y": 4.4434934648480935
+      "x": 0.7632939243364416,
+      "y": 6.6598494772974535
     },
-    "rotation": 120.0
+    "rotation": -122.05662332244285
   },
   "command": {
     "type": "sequential",
@@ -26,12 +26,12 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot "
           }
         }
       ]
     }
   },
-  "folder": "No Moves",
+  "folder": "Taxi",
   "choreoAuto": false
 }
