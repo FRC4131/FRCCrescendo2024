@@ -280,10 +280,6 @@ public class RobotContainer {
     //back -- reset heading 
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(() -> m_angleOffset)); 
 
-
-    // //shoot w/o wait 
-    // m_driverController.a().onTrue(m_feederSubsystem.setFeederPowerCommand(1.0)).onFalse(m_feederSubsystem.setFeederPowerCommand(0.0));
-
     //x -- go to resting 
     m_driverController.x().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE)); 
 
@@ -407,13 +403,20 @@ public class RobotContainer {
 
   public void configureOperatorBindings()
   {
+    //right arrow -- arm go to back stop
     m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_BACK_ANGLE));
+
+    //left arrow -- arm go to front stop 
     m_operatorController.povLeft().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
+
+    //back -- reset encoder
     m_operatorController.back().onTrue(m_armSubsystem.resetEncoderCommand());
 
-    // a and left bumper -- climber motor 
-    m_operatorController.leftBumper().onTrue(m_climberSubsystem.setPowerCommand(0.5)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
-    m_operatorController.rightBumper().onTrue(m_climberSubsystem.setPowerCommand(-0.5)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    // right bumper -- climb
+    m_operatorController.rightBumper().onTrue(m_climberSubsystem.setPowerCommand(0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+
+    //right trigger -- undo climb 
+    m_operatorController.rightTrigger().onTrue(m_climberSubsystem.setPowerCommand(-0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
     //m_operatorController.b().and(m_operatorController.rightBumper()).onTrue(m_climberSubsystem.setPowerCommand(-1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
 
     //b -- intake
@@ -421,36 +424,35 @@ public class RobotContainer {
       .whileTrue(m_intakeSubsystem.setPowerCommand(1.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
       .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
-
-    //b -- intake 
-    // m_operatorController.b().onTrue(m_intakeSubsystem.setPowerCommand(0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(0.7))
-    //   ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
-
+    //a -- shoot no wait 
+    m_operatorController.a().whileTrue(m_shooterSubsystem.setPowerCommand(1.0)).onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
+    
     // y -- outtake 
     m_operatorController.y().onTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
+    //right bumper -- go to note 
+    m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+      m_visionSubsystem,
+       m_intakeSubsystem, 
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,   
+      () -> m_driverController.getRightTriggerAxis(),
+       false)); 
 
-    //right arrow -- manual move arm up 
+    //up arrow -- manual move arm up 
     m_operatorController.povUp().whileTrue(m_armSubsystem.manualModeCommand(0.08)); 
 
-    //left arrow -- manual move arm down 
+    //down arrow -- manual move arm down 
     m_operatorController.povDown().whileTrue(m_armSubsystem.manualModeCommand(-0.08)); 
 
     //left trigger -- spin up shooter 
     m_operatorController.leftTrigger().whileTrue(m_shooterSubsystem.setPowerCommand(1.0))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
 
-    // //right bumper -- go to note 
-    // m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
-    //   m_visionSubsystem,
-    //    m_intakeSubsystem, 
-    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,
-    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-    //         MAX_VELOCITY_METERS_PER_SECOND,   
-    //   () -> m_driverController.getRightTriggerAxis(),
-    //    false)); 
+
 
   }
 

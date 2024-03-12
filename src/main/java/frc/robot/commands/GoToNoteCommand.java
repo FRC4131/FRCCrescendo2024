@@ -40,7 +40,7 @@ public class GoToNoteCommand extends Command {
     m_DrivetrainSubsystem = drivetrainSubsystem;
     m_IntakeSubsystem = intakeSubsystem;
     m_throttle = throttle;
-    m_angleController = new PIDController(6.0, 0, 0);
+    m_angleController = new PIDController(4.0, 0, 0);
     m_angleController.enableContinuousInput(-Math.PI, Math.PI);
     m_fieldRelative = fieldRelative;
     addRequirements(m_DrivetrainSubsystem, m_visionSubsystem, m_IntakeSubsystem);
@@ -75,8 +75,8 @@ public class GoToNoteCommand extends Command {
     //     new Rotation2d(),
     //     m_fieldRelative,
     //     true);
-
-    m_DrivetrainSubsystem.drive(new Translation2d(m_xSupplier.getAsDouble() * scale, 
+    m_IntakeSubsystem.setPower(1.0); 
+    m_DrivetrainSubsystem.drive(new Translation2d(vel_x, 
         m_ySupplier.getAsDouble() * scale),
         rotOutput,
         new Rotation2d(),
@@ -88,11 +88,18 @@ public class GoToNoteCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_DrivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
+    m_IntakeSubsystem.setPower(0.0); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (!m_visionSubsystem.seesNote())
+    {
+      return true; 
+    }
+    else{
+       return false;
+    }
   }
 }
