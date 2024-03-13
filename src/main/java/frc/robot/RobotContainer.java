@@ -231,7 +231,7 @@ public class RobotContainer {
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
     NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_PROP_ANGLE+20).andThen(new WaitCommand(0.5)));
-    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem).withTimeout(1.5));
+    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem).withTimeout(1.5));
 
     NamedCommands.registerCommand("Spin up Shooter", m_shooterSubsystem.setPowerCommand(1.0));
     NamedCommands.registerCommand("Shoot (No Wait)", new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem, 
@@ -276,6 +276,9 @@ public class RobotContainer {
 
   private void configureDriverBindings() {
     // Schedule Triggers 
+
+      m_driverController.y().onTrue(m_shooterSubsystem.setPowerCommand(0.77).andThen(new WaitCommand(0.5)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+        .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
     //back -- reset heading 
     m_driverController.back().onTrue(m_poseEstimationSubsystem.zeroAngleCommand(() -> m_angleOffset)); 
@@ -331,8 +334,8 @@ public class RobotContainer {
       // ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
     //y -- outake
-    m_driverController.y().whileTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
-      ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
+    // m_driverController.y().whileTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
+    //   ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
     //pov up/down -- adjusts offset for the auto speaker align by 1 INCH
     m_driverController.povUp().onTrue(m_armSubsystem.setOffsetCommand(0.0254));
@@ -346,19 +349,19 @@ public class RobotContainer {
     //     m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
     //   }));
 
-    new Trigger(() -> m_visionSubsystem.seesSpeakerTags())
-            .whileTrue(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.2); 
-      })).onFalse(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.0); 
-      }));
+    // new Trigger(() -> m_visionSubsystem.seesSpeakerTags().and(()-> Dri)
+    //         .whileTrue(new InstantCommand (() -> {
+    //     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.2); 
+    //   })).onFalse(new InstantCommand (() -> {
+    //     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.0); 
+    //   }));
 
-    new Trigger(() -> m_visionSubsystem.seesAmpTags())
-            .whileTrue(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.2); 
-      })).onFalse(new InstantCommand (() -> {
-        m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
-      }));
+    // new Trigger(() -> m_visionSubsystem.seesAmpTags())
+    //         .whileTrue(new InstantCommand (() -> {
+    //     m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.2); 
+    //   })).onFalse(new InstantCommand (() -> {
+    //     m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
+    //   }));
 
 
     //trigger for april tag updating 
@@ -426,13 +429,13 @@ public class RobotContainer {
 
     //a -- shoot no wait 
     m_operatorController.a().whileTrue(m_shooterSubsystem.setPowerCommand(1.0)).onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
-    
+
     // y -- outtake 
     m_operatorController.y().onTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
     //right bumper -- go to note 
-    m_operatorController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+    m_operatorController.leftBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
       m_visionSubsystem,
        m_intakeSubsystem, 
       () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *

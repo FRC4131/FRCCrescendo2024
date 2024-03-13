@@ -36,15 +36,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Copy of Center-Side Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of Center-Side Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Go To Note"
+                }
+              }
+            ]
           }
         },
         {

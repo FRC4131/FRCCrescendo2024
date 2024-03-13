@@ -121,6 +121,12 @@
         {
           "type": "named",
           "data": {
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot (No Wait)"
           }
         },

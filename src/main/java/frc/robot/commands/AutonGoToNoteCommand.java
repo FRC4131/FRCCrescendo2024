@@ -13,26 +13,25 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+
 import frc.robot.subsystems.VisionSubsystem;
 
 //targets notes using Google Coral and LL3 Detection Pipeline -- rotates and drives towards notes 
 public class AutonGoToNoteCommand extends Command {
   private VisionSubsystem m_visionSubsystem;
   private DrivetrainSubsystem m_DrivetrainSubsystem;
-  private IntakeSubsystem m_IntakeSubsystem;
+
   private PIDController m_angleController;
 
   /** Creates a new GoToNoteCommand. */
   public AutonGoToNoteCommand(DrivetrainSubsystem drivetrainSubsystem,
-      VisionSubsystem visionSubsystem,
-      IntakeSubsystem intakeSubsystem) {
+      VisionSubsystem visionSubsystem) {
     m_visionSubsystem = visionSubsystem;
     m_DrivetrainSubsystem = drivetrainSubsystem;
-    m_IntakeSubsystem = intakeSubsystem;
+    
     m_angleController = new PIDController(5.0, 0, 0);
     m_angleController.enableContinuousInput(-Math.PI, Math.PI);
-    addRequirements(m_DrivetrainSubsystem, m_visionSubsystem, m_IntakeSubsystem);
+    addRequirements(m_DrivetrainSubsystem, m_visionSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -62,7 +61,7 @@ public class AutonGoToNoteCommand extends Command {
     //     new Rotation2d(),
     //     m_fieldRelative,
     //     true);
-    m_IntakeSubsystem.setPower(1.0);
+    //m_IntakeSubsystem.setPower(1.0);
     m_DrivetrainSubsystem.drive(new Translation2d(vel_x, 
         0.0),
         rotOutput,

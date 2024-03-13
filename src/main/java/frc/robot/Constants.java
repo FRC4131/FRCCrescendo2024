@@ -33,7 +33,7 @@ public final class Constants {
         public static final Pose2d BLUE_SOURCE_RIGHT = new Pose2d(15.079472, .245872, new Rotation2d());
         public static final Pose2d BLUE_SOURCE_LEFT = new Pose2d(16.185134, .883666, new Rotation2d());
 
-       public static final double SPEAKER_HEIGHT_METERS = 1.576 - (5*0.0254); 
+       public static final double SPEAKER_HEIGHT_METERS = 1.576 - (7*0.0254); 
     }
 
     public static class ControllerConstants {

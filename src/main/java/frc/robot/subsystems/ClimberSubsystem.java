@@ -23,6 +23,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public ClimberSubsystem() {
     m_climberMotor = new CANSparkMax(Constants.ClimberConstants.CLIMBER_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
     m_climberMotor.setSmartCurrentLimit(30); 
+    m_climberMotor.setInverted(true);
     m_climberMotor.setIdleMode(IdleMode.kBrake); 
     m_encoder = m_climberMotor.getEncoder(); 
     m_encoder.setPosition(0.0);
