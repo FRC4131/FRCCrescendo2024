@@ -7,6 +7,7 @@ package frc.robot;
 import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -40,6 +41,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_PDH = new PowerDistribution(1, ModuleType.kRev); 
     //m_robotContainer.setAllianceSpecific();
+    DataLogManager.start(); 
   }
 
   /**
@@ -71,7 +73,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     //so arm doesn't slam down when disabled
-    m_robotContainer.armToRest(); 
+    //m_robotContainer.armToRest(); 
   }
 
   @Override

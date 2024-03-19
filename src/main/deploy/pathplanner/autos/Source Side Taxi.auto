@@ -26,13 +26,25 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Spin up Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Source-Side BLIP Start"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
           }
         }
       ]

@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -48,6 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setPower(double power) {
   
       m_shooterMotorLead.set(power);
+      DataLogManager.log("SHOOTER POWER: " + power);
   }
 
 

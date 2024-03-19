@@ -182,7 +182,7 @@ public class RobotContainer {
 
   public void armToRest()
   {
-     m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
+     m_armSubsystem.goToAngle(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE); 
   }
 
   public void configureAutoBuilder() {
@@ -230,9 +230,13 @@ public class RobotContainer {
    // NamedCommands.registerCommand("Shoot Amp", new AutonShootCommand(m_feederSubsystem, m_shooterSubsystem, 0.7));
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
-    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_PROP_ANGLE+20).andThen(new WaitCommand(0.5)));
-    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem).withTimeout(1.5));
+    NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_OFF_PROP).andThen(new WaitCommand(0.5)));
+    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem).withTimeout(1.5));
+    NamedCommands.registerCommand("Slow Shoot (No Wait)", (m_feederSubsystem.setFeederPowerCommand(1))
+      .andThen(new WaitCommand(0.25)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
+    NamedCommands.registerCommand("Slow spin up", m_shooterSubsystem.setPowerCommand(0.05));
     NamedCommands.registerCommand("Spin up Shooter", m_shooterSubsystem.setPowerCommand(1.0));
     NamedCommands.registerCommand("Shoot (No Wait)", new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem, 
     m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5)
@@ -407,7 +411,7 @@ public class RobotContainer {
   public void configureOperatorBindings()
   {
     //right arrow -- arm go to back stop
-    m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_BACK_ANGLE));
+    m_operatorController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_STRAIGHT_UP));
 
     //left arrow -- arm go to front stop 
     m_operatorController.povLeft().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
@@ -415,11 +419,11 @@ public class RobotContainer {
     //back -- reset encoder
     m_operatorController.back().onTrue(m_armSubsystem.resetEncoderCommand());
 
-    // right bumper -- climb
-    m_operatorController.rightBumper().onTrue(m_climberSubsystem.setPowerCommand(0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    // right trigger -- climb
+    m_operatorController.rightTrigger().onTrue(m_climberSubsystem.setPowerCommand(0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
 
-    //right trigger -- undo climb 
-    m_operatorController.rightTrigger().onTrue(m_climberSubsystem.setPowerCommand(-0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    //right bumper -- undo climb 
+    m_operatorController.rightBumper().onTrue(m_climberSubsystem.setPowerCommand(-0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
     //m_operatorController.b().and(m_operatorController.rightBumper()).onTrue(m_climberSubsystem.setPowerCommand(-1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
 
     //b -- intake

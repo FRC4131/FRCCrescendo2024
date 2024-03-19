@@ -76,6 +76,7 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
     return seesAmp;
   }
 
+
   public Optional<Double> getNoteOffset() {
     if (seesNote()) {
       double tx = m_NetworkTableBack.getEntry("tx").getDouble(0);

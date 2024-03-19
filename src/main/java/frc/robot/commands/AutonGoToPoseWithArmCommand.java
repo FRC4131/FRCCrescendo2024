@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -70,6 +71,7 @@ public class AutonGoToPoseWithArmCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    DataLogManager.log("Auton Arm START");
     Pose2d targetPose = m_targetPose.get();
     xDistance = targetPose.getX() - m_robotPose.getX();
     yDistance = targetPose.getY() - m_robotPose.getY(); 
@@ -85,6 +87,7 @@ public class AutonGoToPoseWithArmCommand extends Command {
   @Override
   public void execute() {
 
+    DataLogManager.log("Auton Arm EXECUTE");
     //l2 norm for distance between bot and speaker
     Pose2d targetPose = m_targetPose.get(); 
     xDistance = targetPose.getX() - m_robotPose.getX();
@@ -117,6 +120,7 @@ public class AutonGoToPoseWithArmCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
+    DataLogManager.log("Auton Arm END");
     
   }
 
