@@ -26,7 +26,25 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot "
+            "name": "Spin up Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp-Side Taxi 1"
           }
         }
       ]

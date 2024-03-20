@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7632939243364416,
-      "y": 6.6598494772974535
+      "x": 0.76,
+      "y": 6.66
     },
-    "rotation": -122.05662332244285
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -24,38 +24,26 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Slow Shoot Test"
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": []
+            "name": "Slow spin up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slow Shoot (No Wait)"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Primary TESTS",
   "choreoAuto": false
 }

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.790365980646464,
-      "y": 4.44
+      "x": 0.7894774213563436,
+      "y": 4.4434934648480935
     },
     "rotation": 120.0
   },
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Alpha Source-Side BLIP Start"
+            "pathName": "Source-Side Start"
           }
         },
         {
@@ -66,7 +66,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Alpha Source-Side BLIP 2"
+                  "pathName": "2 Source-Side Shoot 2"
                 }
               },
               {
@@ -81,56 +81,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Align)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Alpha Source-Side BLIP 3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Alpha Source-Side BLIP 4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spin up Shooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Align)"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -142,6 +93,6 @@
       ]
     }
   },
-  "folder": "Blips",
+  "folder": null,
   "choreoAuto": false
 }
