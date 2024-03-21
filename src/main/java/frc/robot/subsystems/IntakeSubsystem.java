@@ -31,7 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void setPower(double power)
   {
     m_intakeMotor.set(power);
-    DataLogManager.log("INTAKE POWER: " + power);
+    //DataLogManager.log("INTAKE POWER: " + power);
   }
 
   public Command setPowerCommand(double power) {

@@ -170,36 +170,36 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+        SmartDashboard.putBoolean("front limit", frontLimitSwitch()); 
+        SmartDashboard.putBoolean("bakc ", backLimitSwitch()); 
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
-        double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.1); //clamp power to 8% 
+        double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.4); //clamp power to 8% 
         if (clampedPower > 0)
         {
-          if (frontLimitSwitch())
-          {
-            m_armMotorL.set(0.0);
-            m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
-          }
-          else {
-            if (!m_IntakeSubsystem.isIntaking())
-            {
-              m_armMotorL.set(clampedPower); 
-            }
-          }
-        } else {
           if (backLimitSwitch())
           {
-            m_armMotorL.set(0.0); 
+            clampedPower = 0.0;
           }
-          else{
-            if (!m_IntakeSubsystem.isIntaking())
-            {
-              m_armMotorL.set(clampedPower); 
-            }
+          // else {
+          //   if (!m_IntakeSubsystem.isIntaking())
+          //   {
+          //     m_armMotorL.set(clampedPower); 
+          //   }
+          //}
+        } else {
+          if (frontLimitSwitch())
+          {
+            clampedPower = 0.0;
           }
+          // else{
+          //   if (!m_IntakeSubsystem.isIntaking())
+          //   {
+          //     m_armMotorL.set(clampedPower); 
+          //   }
+          // }
         }
 
-        SmartDashboard.putBoolean("front limit", m_frontLimit.get()); 
-        SmartDashboard.putBoolean("bakc ", m_backLimit.get()); 
+
         m_armMotorL.set(clampedPower);
         //SmartDashboard.putNumber("RawPower", rawPower);
         //SmartDashboard.putNumber("ClampedPower", clampedPower);

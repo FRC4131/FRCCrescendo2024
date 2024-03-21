@@ -29,6 +29,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -233,10 +234,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_OFF_PROP).andThen(new WaitCommand(0.5)));
     NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem).withTimeout(1.5));
     NamedCommands.registerCommand("Slow Shoot (No Wait)", (m_feederSubsystem.setFeederPowerCommand(1))
-      .andThen(new WaitCommand(0.25)).andThen(m_shooterSubsystem.setPowerCommand(0.0))
+      .andThen(new WaitCommand(1.0))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
+    NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(1.0));
 
-    NamedCommands.registerCommand("Slow spin up", m_shooterSubsystem.setPowerCommand(0.05));
+    NamedCommands.registerCommand("Slow spin up", m_shooterSubsystem.setPowerCommand(0.1));
     NamedCommands.registerCommand("Spin up Shooter", m_shooterSubsystem.setPowerCommand(1.0));
     NamedCommands.registerCommand("Shoot (No Wait)", new AutonGoToPoseWithArmCommand(m_drivetrainSubsystem, m_armSubsystem, 
     m_poseEstimationSubsystem, 0, ()-> 0.0, ()-> 0.0, ()-> 0.0 , true, () -> m_speakerPose).withTimeout(1.5)
@@ -257,6 +259,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("Offset up", m_armSubsystem.setOffsetCommand(0.254));
     NamedCommands.registerCommand("Offset down", m_armSubsystem.setOffsetCommand(-0.254));
     NamedCommands.registerCommand("Reset Offset", m_armSubsystem.hardSetOffsetCommand(0.0));
+
+    NamedCommands.registerCommand("Auton End", new InstantCommand (() -> {
+        DataLogManager.log("AUTON END");
+    }
+        )); 
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
@@ -325,6 +332,19 @@ public class RobotContainer {
       () -> m_driverController.getRightTriggerAxis(), 
       true, () -> m_ampPose)); 
 
+    //right bumper -- go to note 
+    m_driverController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+      m_visionSubsystem,
+       m_intakeSubsystem, 
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,
+      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+            MAX_VELOCITY_METERS_PER_SECOND,   
+      () -> m_driverController.getRightTriggerAxis(),
+       false)); 
+
+      m_driverController.povUp().onTrue(m_armSubsystem.setOffsetCommand(0.0254));
+      m_driverController.povDown().onTrue(m_armSubsystem.setOffsetCommand(-0.0254));
 
    // new Trigger(()-> m_feederSubsystem.getShooterBreaker())
    //    .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
@@ -342,8 +362,7 @@ public class RobotContainer {
     //   ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
     //pov up/down -- adjusts offset for the auto speaker align by 1 INCH
-    m_driverController.povUp().onTrue(m_armSubsystem.setOffsetCommand(0.0254));
-    m_driverController.povDown().onTrue(m_armSubsystem.setOffsetCommand(-0.0254));
+
 
     // //rumble for shooter ready 
     // new Trigger(() -> m_shooterSubsystem.isSpunUp())
@@ -438,16 +457,15 @@ public class RobotContainer {
     m_operatorController.y().onTrue(m_intakeSubsystem.setPowerCommand(-0.7).alongWith(m_feederSubsystem.setFeederPowerCommand(-0.7))
       ).onFalse((m_intakeSubsystem.setPowerCommand(0.0)).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
-    //right bumper -- go to note 
-    m_operatorController.leftBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
-      m_visionSubsystem,
-       m_intakeSubsystem, 
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,   
-      () -> m_driverController.getRightTriggerAxis(),
-       false)); 
+
+    // new Trigger(() -> m_visionSubsystem.seesNote())
+    //         .whileTrue(new InstantCommand (() -> {
+    //     m_operatorController.getHID().setRumble(RumbleType.kRightRumble, 0.2); 
+    //   })).onFalse(new InstantCommand (() -> {
+    //     m_operatorController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
+    //   }));
+
+    
 
     //up arrow -- manual move arm up 
     m_operatorController.povUp().whileTrue(m_armSubsystem.manualModeCommand(0.08)); 

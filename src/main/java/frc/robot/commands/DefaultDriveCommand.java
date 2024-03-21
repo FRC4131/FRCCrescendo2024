@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -47,6 +48,7 @@ public class DefaultDriveCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //DataLogManager.log("DRIVE init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -61,6 +63,15 @@ public class DefaultDriveCommand extends Command {
         fieldRelative,
         true);
 
+      //  m_drivetrainSubsystem.drive(new Translation2d(x.getAsDouble() * scale,
+      //   0.0),
+      //   theta.getAsDouble() * scale,
+      //   m_poseEstimationSubsystem.getPose().getRotation(),
+      //   fieldRelative,
+      //   true);
+
+    
+    //DataLogManager.log("DRIVE EXECUTE");
     SmartDashboard.putNumber("x axis", x.getAsDouble()); 
     SmartDashboard.putNumber("y axis", y.getAsDouble()); 
     SmartDashboard.putNumber("rot axis", theta.getAsDouble()); 
@@ -70,6 +81,7 @@ public class DefaultDriveCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_drivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), fieldRelative, true);
+    //DataLogManager.log("DRIVE END");
   }
 
   // Returns true when the command should end.

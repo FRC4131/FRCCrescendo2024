@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.35,
-      "y": 5.55
+      "x": 1.3501122987236596,
+      "y": 5.546280751098089
     },
     "rotation": 180.0
   },
@@ -18,15 +18,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Arm off prop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spin up Shooter"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm off prop"
+                }
+              }
+            ]
           }
         },
         {
@@ -36,7 +43,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -48,10 +55,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Go To Note"
+                  "name": "Intake On"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
           }
         },
         {
@@ -67,9 +80,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Center Across"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Beta #1 Amp-Side Shoot Path 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              }
+            ]
           }
         },
         {
@@ -87,7 +113,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center Across 2"
+            "pathName": "Beta #2 Amp-Side Shoot Path 4"
           }
         },
         {

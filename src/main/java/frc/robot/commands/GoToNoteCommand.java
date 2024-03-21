@@ -40,7 +40,7 @@ public class GoToNoteCommand extends Command {
     m_DrivetrainSubsystem = drivetrainSubsystem;
     m_IntakeSubsystem = intakeSubsystem;
     m_throttle = throttle;
-    m_angleController = new PIDController(4.0, 0, 0);
+    m_angleController = new PIDController(6.0, 0, 0);
     m_angleController.enableContinuousInput(-Math.PI, Math.PI);
     m_fieldRelative = fieldRelative;
     addRequirements(m_DrivetrainSubsystem, m_visionSubsystem, m_IntakeSubsystem);
@@ -66,22 +66,22 @@ public class GoToNoteCommand extends Command {
 
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; // Throttle control
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL;
-    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.2;
-
+    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.3;
+    m_IntakeSubsystem.setPower(1.0); 
     //Robot is driven (in Robot-Centric frame) towards note
-    // m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,
-    //     0.0),
+    m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,
+        0.0),
+        rotOutput,
+        new Rotation2d(),
+        false,
+        true);
+
+    // m_DrivetrainSubsystem.drive(new Translation2d(m_xSupplier.getAsDouble() * scale,
+    // m_ySupplier.getAsDouble() * scale),
     //     rotOutput,
     //     new Rotation2d(),
     //     m_fieldRelative,
     //     true);
-    m_IntakeSubsystem.setPower(1.0); 
-    m_DrivetrainSubsystem.drive(new Translation2d(vel_x, 
-        m_ySupplier.getAsDouble() * scale),
-        rotOutput,
-        new Rotation2d(),
-        m_fieldRelative,
-        true);
   }
 
   // Called once the command ends or is interrupted.
@@ -94,12 +94,6 @@ public class GoToNoteCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (!m_visionSubsystem.seesNote())
-    {
-      return true; 
-    }
-    else{
        return false;
-    }
   }
 }

@@ -38,7 +38,7 @@ public class FeederSubsystem extends SubsystemBase {
   public void setPower(double power)
   {
     m_feederMotor.set(power);
-    DataLogManager.log("FEEDER POWER: " + power);
+   // DataLogManager.log("FEEDER POWER: " + power);
   }
 
   public Command setFeederPowerCommand(double power) {

@@ -72,7 +72,7 @@ public class AutonGoToNoteCommand extends Command {
         0.0),
         rotOutput,
         new Rotation2d(),
-        true,
+        false,
         true);
   }
 

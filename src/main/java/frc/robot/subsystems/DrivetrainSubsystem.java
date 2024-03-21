@@ -63,7 +63,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
      */
     public void drive(Translation2d translation, double rotation, Rotation2d currentRotation, boolean fieldRelative,
             boolean isOpenLoop) {
-        DataLogManager.log("DRIVE");
+        //DataLogManager.log("DRIVE");
         SwerveModuleState[] swerveModuleStates = Constants.Swerve.SWERVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                         translation.getX(),
@@ -95,6 +95,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SwerveModuleState[] swerveModuleStates = Constants.Swerve.SWERVE_KINEMATICS.toSwerveModuleStates(
                 chassisSpeeds);
         setModuleStates(swerveModuleStates);
+        //DataLogManager.log("DRIVE AUTON");
     }
 
     /**

@@ -43,7 +43,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -55,7 +55,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Go To Note"
+                  "name": "Intake On"
                 }
               }
             ]
@@ -74,7 +74,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -86,7 +86,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Go To Note"
+                  "name": "Intake On"
                 }
               }
             ]
