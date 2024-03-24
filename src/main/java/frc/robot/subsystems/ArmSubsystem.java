@@ -54,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_armEncoder = m_armMotorL.getEncoder(); 
 
-    m_armPidController = new PIDController(0.02, 0, 0);
+    m_armPidController = new PIDController(0.03, 0, 0);
     m_armEncoder.setPositionConversionFactor(Constants.ArmConstants.ARM_ENCODER_SCALING_FACTOR);
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
     m_speakerHeightOffset = 0.0; 

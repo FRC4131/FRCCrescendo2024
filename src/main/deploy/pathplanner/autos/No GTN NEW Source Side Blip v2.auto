@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3501122987236596,
-      "y": 5.546280751098089
+      "x": 0.7894774213563436,
+      "y": 4.4434934648480935
     },
-    "rotation": 180.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -18,102 +18,15 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spin up Shooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm off prop"
-                }
-              }
-            ]
+            "name": "Arm off prop"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of Center-Side Start"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake On"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Beta #1 Amp-Side Shoot Path 4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake On"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Beta #2 Amp-Side Shoot Path 4"
+            "name": "Spin up Shooter"
           }
         },
         {
@@ -127,10 +40,84 @@
           "data": {
             "name": "Shooter off"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Slow spin up"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NEW Alpha Source-Side BLIP Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slow Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NEW Source-Side BLIP 2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "NEW v2 Alpha Source-Side BLIP 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
+          }
         }
       ]
     }
   },
-  "folder": "3 notes",
+  "folder": "Blips",
   "choreoAuto": false
 }

@@ -36,6 +36,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [

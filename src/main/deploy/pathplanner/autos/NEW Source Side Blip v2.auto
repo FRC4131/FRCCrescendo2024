@@ -42,52 +42,28 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Alpha Source-Side BLIP Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Slow spin up"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "v2 Alpha Source-Side BLIP 2 (Straight)"
+                  "pathName": "NEW Alpha Source-Side BLIP Start"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Slow spin up"
+                  "name": "Intake On"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Slow Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
           }
         },
         {
@@ -97,22 +73,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Slow spin up"
-                }
-              }
-            ]
+            "name": "Intake"
           }
         },
         {
@@ -122,15 +85,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shooter off"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "NEW Source-Side BLIP 2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "v2 Alpha Source-Side BLIP 4 (Straight)"
+            "pathName": "NEW v2 Alpha Source-Side BLIP 3"
           }
         },
         {
@@ -140,28 +116,9 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Slow spin up"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Slow Shoot (No Wait)"
+            "name": "Intake"
           }
         },
         {

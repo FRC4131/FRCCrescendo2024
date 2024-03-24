@@ -14,6 +14,7 @@ import frc.robot.commands.AutonShootCommand;
 import frc.robot.commands.AutonGoToPoseWithArmCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GoToNoteCommand;
+//import frc.robot.commands.GoToNoteCommand;
 import frc.robot.commands.GoToPoseTeleopCommand;
 import frc.robot.commands.GoToPoseWithArmCommand;
 import frc.robot.commands.StdDevEstimatorCommand;
@@ -332,7 +333,7 @@ public class RobotContainer {
       () -> m_driverController.getRightTriggerAxis(), 
       true, () -> m_ampPose)); 
 
-    //right bumper -- go to note 
+    // //right bumper -- go to note 
     m_driverController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
       m_visionSubsystem,
        m_intakeSubsystem, 

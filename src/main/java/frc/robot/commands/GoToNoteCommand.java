@@ -40,7 +40,7 @@ public class GoToNoteCommand extends Command {
     m_DrivetrainSubsystem = drivetrainSubsystem;
     m_IntakeSubsystem = intakeSubsystem;
     m_throttle = throttle;
-    m_angleController = new PIDController(6.0, 0, 0);
+    m_angleController = new PIDController(3.0, 0, 0);
     m_angleController.enableContinuousInput(-Math.PI, Math.PI);
     m_fieldRelative = fieldRelative;
     addRequirements(m_DrivetrainSubsystem, m_visionSubsystem, m_IntakeSubsystem);

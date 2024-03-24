@@ -5,7 +5,7 @@
       "x": 0.7632939243364416,
       "y": 6.6598494772974535
     },
-    "rotation": -120.0
+    "rotation": -122.05662332244285
   },
   "command": {
     "type": "sequential",
@@ -36,7 +36,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -48,7 +48,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Go To Note"
+                  "name": "Intake On"
                 }
               }
             ]
@@ -61,6 +61,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "Go To Note "
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "Intake"
                 }
               }
@@ -68,13 +74,19 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
                 }
               }
             ]
@@ -87,7 +99,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -95,20 +107,20 @@
                 "data": {
                   "pathName": "Copy of Amp-Side Shoot Path 3"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Go To Note"
-                }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Go To Note"
+                }
+              },
               {
                 "type": "named",
                 "data": {

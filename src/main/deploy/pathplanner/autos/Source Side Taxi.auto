@@ -26,25 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
+            "name": "Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source-Side Taxi 1"
+            "pathName": "Source-Side BLIP Start"
           }
         }
       ]
