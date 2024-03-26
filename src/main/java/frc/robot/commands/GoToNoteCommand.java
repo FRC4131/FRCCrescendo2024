@@ -66,7 +66,7 @@ public class GoToNoteCommand extends Command {
 
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; // Throttle control
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL;
-    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.3;
+    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.4;
     m_IntakeSubsystem.setPower(1.0); 
     //Robot is driven (in Robot-Centric frame) towards note
     m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,

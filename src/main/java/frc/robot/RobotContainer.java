@@ -397,6 +397,16 @@ public class RobotContainer {
     //     m_driverController.getHID().setRumble(RumbleType.kLeftRumble, 0.0); 
     //   }));
 
+    //trigger for sees note
+    new Trigger(() -> m_visionSubsystem.seesNote())
+      .whileTrue(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.2); 
+      })).onFalse(new InstantCommand (() -> {
+        m_driverController.getHID().setRumble(RumbleType.kRightRumble, 0.0); 
+      }));
+
+
+
     //Only allow intake when the feeder state shows it's ready for more input AND the driver presses the button
     // Trigger intakeTrigger = new Trigger(m_feederSubsystem::intakeAllowed);
     // m_driverController.x().and(intakeTrigger)
@@ -478,7 +488,13 @@ public class RobotContainer {
     m_operatorController.leftTrigger().whileTrue(m_shooterSubsystem.setPowerCommand(1.0))
       .onFalse(m_shooterSubsystem.setPowerCommand(0.0)); 
 
-
+    
+    // new Trigger(() -> m_feederSubsystem.getShooterBreaker())
+    //   .whileTrue(new InstantCommand (() -> {
+    //     m_operatorController.getHID().setRumble(RumbleType.kBothRumble, 0.2); 
+    //   })).onFalse(new InstantCommand (() -> {
+    //     m_operatorController.getHID().setRumble(RumbleType.kBothRumble, 0.0); 
+    //   }));
 
   }
 

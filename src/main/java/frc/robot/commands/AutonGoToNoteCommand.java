@@ -58,7 +58,7 @@ public class AutonGoToNoteCommand extends Command {
       rotOutput = m_angleController.calculate(noteTx.get() * (Math.PI / 180)); // gets tx and converts to radians
     }
 
-    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.3;
+    double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.4;
 
     //Robot is driven (in Robot-Centric frame) towards note
     // m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,

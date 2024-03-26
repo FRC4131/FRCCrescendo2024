@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7894774213563436,
-      "y": 4.4434934648480935
+      "x": 0.790365980646464,
+      "y": 4.44
     },
     "rotation": 120.0
   },
@@ -15,6 +15,18 @@
           "type": "named",
           "data": {
             "name": "Set Arm Angle Prop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Offset up"
           }
         },
         {
@@ -54,7 +66,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "NEW Alpha Source-Side BLIP Start"
+                  "pathName": "Alpha Source-Side BLIP Start"
                 }
               },
               {
@@ -64,6 +76,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
           }
         },
         {
@@ -91,16 +109,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "NEW Source-Side BLIP 2"
+                  "pathName": "v2 Alpha Source-Side BLIP 2"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "NEW v2 Alpha Source-Side BLIP 3"
+            "name": "Go To Note"
           }
         },
         {

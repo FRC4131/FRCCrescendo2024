@@ -36,21 +36,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Slow spin up"
-                }
-              },
               {
                 "type": "path",
                 "data": {
@@ -79,46 +67,22 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Slow Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "Intake On"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
-                  "pathName": "v2 Alpha Source-Side BLIP 2"
+                  "pathName": "Alpha Source-Side BLIP BACK"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "v2 Alpha Source-Side BLIP 3"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
+            "name": "Shoot (No Wait)"
           }
         },
         {
@@ -130,6 +94,6 @@
       ]
     }
   },
-  "folder": "Blips",
+  "folder": "2 notes",
   "choreoAuto": false
 }
