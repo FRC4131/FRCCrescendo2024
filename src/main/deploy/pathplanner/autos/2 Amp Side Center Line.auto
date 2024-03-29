@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7894774213563436,
-      "y": 4.4434934648480935
+      "x": 0.77430354290908,
+      "y": 6.583808951093687
     },
-    "rotation": 120.0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -18,15 +18,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Arm off prop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spin up Shooter"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm off prop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
@@ -38,13 +45,26 @@
         {
           "type": "named",
           "data": {
-            "name": "Shooter off"
+            "name": "Arm Rest Angle"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Source-Side Start"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Side Wipeout Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              }
+            ]
           }
         },
         {
@@ -54,28 +74,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "2 Source-Side Shoot 2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spin up Shooter"
-                }
-              }
-            ]
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "amp side center line back"
           }
         },
         {

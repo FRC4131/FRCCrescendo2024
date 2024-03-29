@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7632939243364416,
-      "y": 6.6598494772974535
+      "x": 0.790365980646464,
+      "y": 4.519278340402505
     },
-    "rotation": -122.05662332244285
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -20,18 +20,18 @@
         {
           "type": "named",
           "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Arm off prop"
           }
         },
         {
           "type": "named",
           "data": {
+            "name": "Spin up Shooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot (No Wait)"
           }
         },
@@ -42,7 +42,32 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy #1 Amp-Side Start"
+                  "pathName": "Source Side Wipeout Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter off"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 Source Side Wipeout EXTRA"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Source Side Wipeout Intake Last"
                 }
               },
               {
@@ -55,90 +80,20 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake On"
-                }
-              }
-            ]
+            "name": "Go To Note"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "beta Amp Side Wipeout 2"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Offset up"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
+            "name": "Intake"
           }
         }
       ]
     }
   },
-  "folder": "3 notes",
+  "folder": "Wipeouts",
   "choreoAuto": false
 }

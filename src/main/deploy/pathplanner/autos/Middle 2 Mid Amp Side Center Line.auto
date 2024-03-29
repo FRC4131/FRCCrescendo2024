@@ -5,7 +5,7 @@
       "x": 0.7632939243364416,
       "y": 6.6598494772974535
     },
-    "rotation": -122.05662332244285
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -18,15 +18,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Arm off prop"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm off prop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
@@ -42,39 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy #1 Amp-Side Start"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake On"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+                  "pathName": "Alpha Amp-Side BLIP Start"
                 }
               },
               {
@@ -89,6 +64,49 @@
         {
           "type": "named",
           "data": {
+            "name": "Go To Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Alpha Amp-Side BLIP 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Offset up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Offset up"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot (No Wait)"
           }
         },
@@ -99,10 +117,28 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "beta Amp Side Wipeout 2"
+                  "pathName": "Copy of Alpha Amp-Side BLIP 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter off"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
           }
         },
         {
@@ -116,29 +152,11 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Offset up"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
           }
         }
       ]
     }
   },
-  "folder": "3 notes",
+  "folder": "2 notes",
   "choreoAuto": false
 }

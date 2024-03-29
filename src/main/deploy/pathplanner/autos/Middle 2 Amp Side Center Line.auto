@@ -18,31 +18,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Arm off prop"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Side Wipeout Start"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Side Wipeout Path 1"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Amp Side Wipeout Path 2"
+                  "name": "Arm off prop"
                 }
               },
               {
@@ -63,12 +45,67 @@
         {
           "type": "named",
           "data": {
+            "name": "Arm Rest Angle"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Middle Amp Side Wipeout Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake On"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle Amp Side Wipeout Back"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shooter off"
           }
         }
       ]
     }
   },
-  "folder": "Wipeouts",
+  "folder": "2 notes",
   "choreoAuto": false
 }

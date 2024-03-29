@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7632939243364416,
-      "y": 6.6598494772974535
+      "x": 0.79,
+      "y": 4.44
     },
-    "rotation": -122.05662332244285
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -18,15 +18,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Arm off prop"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm off prop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
@@ -36,35 +43,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy #1 Amp-Side Start"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake On"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
+            "name": "Arm Rest Angle"
           }
         },
         {
@@ -74,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+                  "pathName": "Middle Source Side Wipeout Start"
                 }
               },
               {
@@ -89,33 +70,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
+            "name": "Go To Note"
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "beta Amp Side Wipeout 2"
-                }
-              }
-            ]
+            "name": "Intake"
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
+            "pathName": "Middle Source Side Wipeout BACK"
           }
         },
         {
@@ -139,6 +106,6 @@
       ]
     }
   },
-  "folder": "3 notes",
+  "folder": "2 notes",
   "choreoAuto": false
 }
