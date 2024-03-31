@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.29,
-        "y": 1.78
+        "x": 0.790365980646464,
+        "y": 4.519278340402505
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.129370607709321,
-        "y": 0.7007935967091449
+        "x": 2.0499107981588893,
+        "y": 1.3747159085767113
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.95,
-        "y": 4.172896516814411
+        "x": 7.86,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 1.047497582168561,
-        "y": 2.554436652816299
+        "x": 8.211757991211945,
+        "y": 0.282742988288828
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -38,14 +44,14 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 123.11134196037203,
+    "velocity": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Wipeouts",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 120.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

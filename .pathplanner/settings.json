@@ -13,11 +13,11 @@
     "3 notes",
     "Blips",
     "EXTRA IDEAS",
-    "Wipeouts",
     "No Moves",
     "Primary",
     "Primary TESTS",
-    "Taxi"
+    "Taxi",
+    "Wipeouts"
   ],
   "defaultMaxVel": 1.5,
   "defaultMaxAccel": 3.0,

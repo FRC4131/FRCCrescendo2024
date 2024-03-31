@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77430354290908,
-      "y": 6.583808951093687
+      "x": 0.790365980646464,
+      "y": 4.44
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -18,22 +18,27 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm off prop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spin up Shooter"
-                }
-              }
-            ]
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm off prop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spin up Shooter"
           }
         },
         {
@@ -45,7 +50,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Arm Rest Angle"
+            "name": "Shooter off"
           }
         },
         {
@@ -55,7 +60,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Middle Amp Side Wipeout Start"
+                  "pathName": "Bear Metal Alpha Source-Side BLIP Start"
                 }
               },
               {
@@ -76,36 +81,55 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake"
+            "name": "Intake Only"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Outake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Bear Metal Outake Source Path 2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Amp Side Wipeout Back"
+            "pathName": "Bear Metal Outake Source Path 3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Offset up"
+            "name": "Intake On"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
+            "name": "Go To Note"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter off"
+            "name": "Intake"
           }
         }
       ]
     }
   },
-  "folder": "2 notes",
+  "folder": "Blips",
   "choreoAuto": false
 }

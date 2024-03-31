@@ -261,6 +261,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Offset down", m_armSubsystem.setOffsetCommand(-0.254));
     NamedCommands.registerCommand("Reset Offset", m_armSubsystem.hardSetOffsetCommand(0.0));
 
+    NamedCommands.registerCommand("Outake", new WaitCommand(1.0).andThen( m_intakeSubsystem.setPowerCommand(-1.0)));
+
     NamedCommands.registerCommand("Auton End", new InstantCommand (() -> {
         DataLogManager.log("AUTON END");
     }
@@ -449,11 +451,14 @@ public class RobotContainer {
     //back -- reset encoder
     m_operatorController.back().onTrue(m_armSubsystem.resetEncoderCommand());
 
-    // right trigger -- climb
-    m_operatorController.rightTrigger().onTrue(m_climberSubsystem.setPowerCommand(0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    //right trigger -- climb
+    //scarlett added code to (hopefully) make the climber stop when the breaker is on true. maybe the code is wrong who knows
+    m_operatorController.rightTrigger().and(new Trigger(()-> !m_climberSubsystem.getClimberBreaker()))
+    .whileTrue(m_climberSubsystem.setPowerCommand(-0.6)).onFalse(m_climberSubsystem.setPowerCommand(0.0));
 
     //right bumper -- undo climb 
-    m_operatorController.rightBumper().onTrue(m_climberSubsystem.setPowerCommand(-0.7)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
+    m_operatorController.rightBumper()
+    .whileTrue(m_climberSubsystem.setPowerCommand(0.6)).onFalse(m_climberSubsystem.setPowerCommand(0.0));
     //m_operatorController.b().and(m_operatorController.rightBumper()).onTrue(m_climberSubsystem.setPowerCommand(-1.0)).onFalse(m_climberSubsystem.setPowerCommand(0.0)); 
 
     //b -- intake

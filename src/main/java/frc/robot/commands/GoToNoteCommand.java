@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -21,6 +22,7 @@ public class GoToNoteCommand extends Command {
   private VisionSubsystem m_visionSubsystem;
   private DrivetrainSubsystem m_DrivetrainSubsystem;
   private IntakeSubsystem m_IntakeSubsystem;
+  //private FeederSubsystem m_FeederSubsystem; 
   private PIDController m_angleController;
   private DoubleSupplier m_xSupplier; 
   private DoubleSupplier m_ySupplier;
@@ -68,6 +70,7 @@ public class GoToNoteCommand extends Command {
     double scale = slope * m_throttle.getAsDouble() + Constants.Swerve.MIN_THROTTLE_LEVEL;
     double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.4;
     m_IntakeSubsystem.setPower(1.0); 
+
     //Robot is driven (in Robot-Centric frame) towards note
     m_DrivetrainSubsystem.drive(new Translation2d(vel_x * scale,
         0.0),

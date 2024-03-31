@@ -86,6 +86,8 @@ public final class Constants {
 
     public static final class ClimberConstants{
         public static final int CLIMBER_MOTOR_ID = 15;
+        public static final int CLIMBER_BEAMBREAK_ID = 3;
+
     }
 
     //     /* SDS MK4 Potential Drive Gear Ratios*/

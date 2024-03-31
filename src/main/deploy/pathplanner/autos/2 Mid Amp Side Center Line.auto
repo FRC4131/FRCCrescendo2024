@@ -18,7 +18,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -64,41 +64,17 @@
         {
           "type": "named",
           "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Intake"
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "Alpha Amp-Side BLIP 2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spin up Shooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Offset up"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Offset up"
                 }
               }
             ]
@@ -108,6 +84,12 @@
           "type": "named",
           "data": {
             "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
           }
         },
         {
@@ -123,22 +105,10 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Shooter off"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "Intake On"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
           }
         },
         {

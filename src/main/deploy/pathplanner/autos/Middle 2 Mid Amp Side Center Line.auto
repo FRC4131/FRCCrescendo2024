@@ -18,7 +18,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -87,18 +87,6 @@
                 "type": "named",
                 "data": {
                   "name": "Spin up Shooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Offset up"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Offset up"
                 }
               }
             ]

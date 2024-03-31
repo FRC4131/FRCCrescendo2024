@@ -174,30 +174,31 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("bakc ", backLimitSwitch()); 
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
         double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.4); //clamp power to 8% 
-        if (clampedPower > 0)
-        {
-          if (backLimitSwitch())
-          {
-            clampedPower = 0.0;
-          }
-          // else {
-          //   if (!m_IntakeSubsystem.isIntaking())
-          //   {
-          //     m_armMotorL.set(clampedPower); 
-          //   }
-          //}
-        } else {
-          if (frontLimitSwitch())
-          {
-            clampedPower = 0.0;
-          }
-          // else{
-          //   if (!m_IntakeSubsystem.isIntaking())
-          //   {
-          //     m_armMotorL.set(clampedPower); 
-          //   }
-          // }
-        }
+        // if (clampedPower > 0)
+        // {
+        //   if (backLimitSwitch())
+        //   {
+        //     clampedPower = 0.0;
+        //   }
+        //   // else {
+        //   //   if (!m_IntakeSubsystem.isIntaking())
+        //   //   {
+        //   //     m_armMotorL.set(clampedPower); 
+        //   //   }
+        //   //}
+        // } 
+        // else {
+        //   if (frontLimitSwitch())
+        //   {
+        //     clampedPower = 0.0;
+        //   }
+        //   // else{
+        //   //   if (!m_IntakeSubsystem.isIntaking())
+        //   //   {
+        //   //     m_armMotorL.set(clampedPower); 
+        //   //   }
+        //   // }
+        // }
 
 
         m_armMotorL.set(clampedPower);
