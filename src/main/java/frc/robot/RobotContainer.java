@@ -273,7 +273,7 @@ public class RobotContainer {
 
   public void setDefaultCommands() {
 
-    //drive w joysticks + boost left trigger 
+    //drive w joysticks + boost right trigger 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem, m_poseEstimationSubsystem,
         () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
             MAX_VELOCITY_METERS_PER_SECOND,
@@ -281,7 +281,7 @@ public class RobotContainer {
             MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_driverController.getRightX(), false) *
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-        () -> m_driverController.getLeftTriggerAxis(),
+        () -> m_driverController.getRightTriggerAxis(),
         true));
 
   }
@@ -312,11 +312,14 @@ public class RobotContainer {
     //      true, () -> m_speakerPose));
 
     // //a -- shoot with the wait 
-    m_driverController.a().onTrue(m_shooterSubsystem.setPowerCommand(0.4).andThen(new WaitCommand(0.25)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+    m_driverController.b().onTrue(m_shooterSubsystem.setPowerCommand(0.4).andThen(new WaitCommand(0.25)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
+        .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
+
+    m_driverController.leftTrigger().onTrue(m_shooterSubsystem.setPowerCommand(0.1).andThen(new WaitCommand(0.25)).andThen(m_feederSubsystem.setFeederPowerCommand(1.0)))
         .onFalse(m_shooterSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0))); 
 
   // b intake 
-      m_driverController.b().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
+      m_driverController.a().and(new Trigger(()-> m_feederSubsystem.getShooterBreaker()))
       .whileTrue(m_intakeSubsystem.setPowerCommand(1.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.5)))
       .onFalse(m_intakeSubsystem.setPowerCommand(0.0).alongWith(m_feederSubsystem.setFeederPowerCommand(0.0)));
 
@@ -338,16 +341,16 @@ public class RobotContainer {
     //   () -> m_driverController.getRightTriggerAxis(), 
     //   true, () -> m_ampPose)); 
 
-    // //right bumper -- go to note 
-    m_driverController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
-      m_visionSubsystem,
-       m_intakeSubsystem, 
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,
-      () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
-            MAX_VELOCITY_METERS_PER_SECOND,   
-      () -> m_driverController.getRightTriggerAxis(),
-       false)); 
+    // // //right bumper -- go to note 
+    // m_driverController.rightBumper().whileTrue(new GoToNoteCommand(m_drivetrainSubsystem, 
+    //   m_visionSubsystem,
+    //    m_intakeSubsystem, 
+    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftY(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,
+    //   () -> m_directionInvert * -modifyAxis(m_driverController.getLeftX(), false) *
+    //         MAX_VELOCITY_METERS_PER_SECOND,   
+    //   () -> m_driverController.getRightTriggerAxis(),
+    //    false)); 
 
     //right arrow -- arm go to back stop
     m_driverController.povRight().onTrue(m_armSubsystem.rotateToAngleCommand(Constants.ArmConstants.ARM_STRAIGHT_UP));
