@@ -16,6 +16,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -35,6 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
   private DigitalInput m_frontLimit = new DigitalInput(0); 
   private DigitalInput m_backLimit = new DigitalInput(1); 
   private IntakeSubsystem m_IntakeSubsystem; 
+  //private PowerDistribution m_PDH; 
 
   public ArmSubsystem(IntakeSubsystem intakeSubsystem) {
 
@@ -58,6 +61,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder.setPositionConversionFactor(Constants.ArmConstants.ARM_ENCODER_SCALING_FACTOR);
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
     m_speakerHeightOffset = 0.0; 
+
+    //m_PDH = new PowerDistribution(1, ModuleType.kRev); 
   }
 
   public void setPower(double power) {
@@ -79,13 +84,13 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void manualMode(double power) 
   {
-    if (power > 0 && backLimitSwitch() == false)
+    if (power > 0 && !m_backLimit.get())
     {
-      m_angleSetpoint = m_angleSetpoint + 5;
+      m_angleSetpoint = m_angleSetpoint + 10;
     }
     else if (power < 0)
     {
-      m_angleSetpoint = m_angleSetpoint - 5;
+      m_angleSetpoint = m_angleSetpoint - 10;
     }
   }
 
@@ -129,7 +134,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void goToAngle(double angleDegrees) //sets arm to a specified angle 
   {
-    m_angleSetpoint = angleDegrees; 
+    if (!m_backLimit.get())
+    {
+        m_angleSetpoint = angleDegrees; 
+    }
+
   }
   
   public void resetPosition() { 
@@ -173,7 +182,7 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("front limit", frontLimitSwitch()); 
         SmartDashboard.putBoolean("bakc ", backLimitSwitch()); 
         double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
-        double clampedPower = MathUtil.clamp(rawPower, -0.05, 0.4); //clamp power to 8% 
+        double clampedPower = MathUtil.clamp(rawPower, -0.3, 0.5); //clamp power to 10% 
         // if (clampedPower > 0)
         // {
         //   if (backLimitSwitch())
@@ -201,15 +210,39 @@ public class ArmSubsystem extends SubsystemBase {
         // }
 
 
-        m_armMotorL.set(clampedPower);
         //SmartDashboard.putNumber("RawPower", rawPower);
         //SmartDashboard.putNumber("ClampedPower", clampedPower);
     //}
+
+    // if (m_backLimit.get())
+    // {
+    //   m_angleSetpoint = Constants.ArmConstants.ARM_BACK_ANGLE; 
+    // }
+
+    if (m_armMotorL.getOutputCurrent() > 3.0 && clampedPower < 0)
+    {
+      clampedPower = 0.0; 
+      m_angleSetpoint = Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE;
+    }
+    // if (m_armMotorL.getOutputCurrent() > 12.0 && clampedPower > 0)
+    // {
+    //   clampedPower = 0.0; 
+    //   m_angleSetpoint = Constants.ArmConstants.ARM_BACK_ANGLE; 
+    // }
+    m_armMotorL.set(clampedPower);
+
+    
+  
       
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Degrees", getArmAngle()); 
     SmartDashboard.putNumber("ArmSetpoint", m_angleSetpoint);
     SmartDashboard.putNumber("inch Height Offset", m_speakerHeightOffset / 0.0254); 
+    SmartDashboard.putNumber("Arm Motor Current", m_armMotorL.getOutputCurrent());
+    SmartDashboard.putNumber("clmapedPower", clampedPower); 
+    // SmartDashboard.putNumber("Arm 1 Current", m_PDH.getCurrent(3)); 
+    // SmartDashboard.putNumber("Arm 2 Current", m_PDH.getCurrent(13)); 
+
     //SmartDashboard.putData("ARM PID",m_armPidController);
   }
 }

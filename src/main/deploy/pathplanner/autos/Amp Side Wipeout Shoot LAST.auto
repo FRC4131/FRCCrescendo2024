@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.790365980646464,
-      "y": 4.44
+      "x": 0.77430354290908,
+      "y": 6.583808951093687
     },
-    "rotation": 120.0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -24,15 +24,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Spin up Shooter"
+            "pathName": "Amp Side Wipeout Start"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot (No Wait)"
+            "pathName": "Amp Side Wipeout Path 1"
           }
         },
         {
@@ -42,38 +42,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Alpha Source-Side BLIP Start"
+                  "pathName": "Amp Side Wipeout Path 2"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake On"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Alpha Source-Side BLIP BACK"
+                  "name": "Spin up Shooter"
                 }
               }
             ]
@@ -94,6 +69,6 @@
       ]
     }
   },
-  "folder": "2 notes",
+  "folder": "Wipeouts",
   "choreoAuto": false
 }

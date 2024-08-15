@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7632939243364416,
-      "y": 6.6598494772974535
+      "x": 0.790365980646464,
+      "y": 4.44
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Spin up Shooter"
+            "name": "Offset up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Offset up"
           }
         },
         {
@@ -32,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
+            "name": "Arm Rest Angle"
           }
         },
         {
@@ -42,26 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy #1 Amp-Side Start"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Go To Note"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
+                  "pathName": "Alpha Source-Side BLIP Start"
                 }
               }
             ]
@@ -74,32 +61,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of Amp-Side Shoot Path 3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Go To Note"
+                  "pathName": "SPIN v2 Alpha Source-Side BLIP 2"
                 }
               }
             ]
@@ -110,18 +72,18 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": " SPIN 3"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Spin up Shooter"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Offset up"
           }
         },
         {
@@ -139,6 +101,6 @@
       ]
     }
   },
-  "folder": "3 notes",
+  "folder": "Blips",
   "choreoAuto": false
 }

@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 5.366968782718054,
+      "y": 7.747234706476918
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Set Arm Angle Prop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm off prop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp LINE Wipeout Start"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Wipeout EXTRA"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Wipeouts",
+  "choreoAuto": false
+}

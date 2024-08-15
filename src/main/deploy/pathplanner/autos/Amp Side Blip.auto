@@ -20,108 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Arm off prop"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy #1 Amp-Side Start"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Go To Note"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of Amp-Side Shoot Path 3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Go To Note"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Offset up"
+            "name": "Spin up Shooter"
           }
         },
         {
@@ -135,10 +40,102 @@
           "data": {
             "name": "Shooter off"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Alpha Amp-Side BLIP Start"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Alpha Amp-Side BLIP 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Alpha Amp-Side BLIP 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Slow spin up"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slow Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
+          }
         }
       ]
     }
   },
-  "folder": "3 notes",
+  "folder": "Blips",
   "choreoAuto": false
 }

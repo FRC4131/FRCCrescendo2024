@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private PowerDistribution m_PDH; 
+  //private PowerDistribution m_PDH; 
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_PDH = new PowerDistribution(1, ModuleType.kRev); 
+    //m_PDH = new PowerDistribution(1, ModuleType.kRev); 
     //m_robotContainer.setAllianceSpecific();
     DataLogManager.start(); 
   }
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Total Current", m_PDH.getTotalCurrent());
+    //SmartDashboard.putNumber("Total Current", m_PDH.getTotalCurrent());
     // SmartDashboard.putNumber("Intake Current", m_PDH.getCurrent(6));
     // SmartDashboard.putNumber("Shooter 1 Current", m_PDH.getCurrent(10)); //arb
     // SmartDashboard.putNumber("Shooter 2 Current", m_PDH.getCurrent(11)); //arb
