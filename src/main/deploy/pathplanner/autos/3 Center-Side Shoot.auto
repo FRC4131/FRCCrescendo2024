@@ -64,12 +64,6 @@
         {
           "type": "named",
           "data": {
-            "name": "Go To Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Intake"
           }
         },
@@ -96,12 +90,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Go To Note"
           }
         },
         {

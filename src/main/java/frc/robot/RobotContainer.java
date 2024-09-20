@@ -233,7 +233,7 @@ public class RobotContainer {
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
     NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_OFF_PROP).andThen(new WaitCommand(0.5)));
-    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem).withTimeout(1.5));
+    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem).withTimeout(1.0));
     NamedCommands.registerCommand("Slow Shoot (No Wait)", (m_feederSubsystem.setFeederPowerCommand(1))
       .andThen(new WaitCommand(1.0))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7632939243364416,
-      "y": 6.6598494772974535
+      "x": 0.7894774213563436,
+      "y": 4.4434934648480935
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Placeholder Path"
+            "pathName": "Alpha Source-Side BLIP Start"
           }
         },
         {
@@ -66,13 +66,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Placeholder Path"
+                  "pathName": "v2 Alpha Source-Side BLIP 2 (Straight)"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Spin up Shooter"
+                  "name": "Slow spin up"
                 }
               }
             ]
@@ -81,7 +81,44 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
+            "name": "Slow Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Go To Note"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Slow spin up"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slow Shoot (No Wait)"
           }
         },
         {
@@ -93,7 +130,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Placeholder Path"
+            "pathName": "v2 Alpha Source-Side BLIP 4 (Straight)"
           }
         },
         {
@@ -113,15 +150,9 @@
                 }
               },
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Placeholder Path"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
-                  "name": "Spin up Shooter"
+                  "name": "Slow spin up"
                 }
               }
             ]
@@ -130,7 +161,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot (No Wait)"
+            "name": "Slow Shoot (No Wait)"
           }
         },
         {
@@ -142,6 +173,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Blips",
   "choreoAuto": false
 }
