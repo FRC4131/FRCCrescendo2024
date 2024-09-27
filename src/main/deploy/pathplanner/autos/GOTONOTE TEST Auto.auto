@@ -16,6 +16,18 @@
           "data": {
             "name": "Go To Note"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of TEST"
+          }
         }
       ]
     }
