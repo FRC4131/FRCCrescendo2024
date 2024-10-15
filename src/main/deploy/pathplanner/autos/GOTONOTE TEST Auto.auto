@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.9,
+      "x": 1.5,
       "y": 5.55
     },
     "rotation": 180.0
@@ -15,18 +15,6 @@
           "type": "named",
           "data": {
             "name": "Go To Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of TEST"
           }
         }
       ]

@@ -22,6 +22,24 @@
           "data": {
             "name": "Go To Note"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot (No Align)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "other TEST"
+          }
         }
       ]
     }
