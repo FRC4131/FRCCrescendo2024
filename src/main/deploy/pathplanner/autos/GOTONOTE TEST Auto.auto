@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5,
+      "x": 3.382099983573186,
       "y": 5.55
     },
     "rotation": 180.0
@@ -12,9 +12,27 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "103124 TEST"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Go To Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Feeder Only"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slow Shoot"
           }
         }
       ]

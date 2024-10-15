@@ -8,6 +8,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.commands.AutoArmCommand;
+import frc.robot.commands.AutonFeederCommand;
 import frc.robot.commands.AutonGoToNoteCommand;
 import frc.robot.commands.AutonIntakeCommand;
 import frc.robot.commands.AutonShootCommand;
@@ -226,9 +227,7 @@ public class RobotContainer {
     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0).alongWith(m_intakeSubsystem.setPowerCommand(0.0)))
     // .andThen(m_shooterSubsystem.setPowerCommand(0.5).andThen(new WaitCommand(3)).andThen(m_shooterSubsystem.setPowerCommand(0.0)))
     ); 
-  NamedCommands.registerCommand("Feeder Only",m_feederSubsystem.setFeederPowerCommand(0.5)
-    .andThen(new WaitUntilCommand(()-> !m_feederSubsystem.getShooterBreaker()))
-    .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
+  NamedCommands.registerCommand("Feeder Only", new AutonFeederCommand(m_feederSubsystem, m_visionSubsystem, m_intakeSubsystem));
     // NamedCommands.registerCommand("Shoot Speaker", m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(0.5))
     //  .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(1.0)));
     // NamedCommands.registerCommand("Stop Shooter", m_shooterSubsystem.setPowerCommand(0.0).andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
@@ -237,7 +236,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
     NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_OFF_PROP).andThen(new WaitCommand(0.5)));
     NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem));
-    NamedCommands.registerCommand("Slow Shoot (No Wait)", (m_feederSubsystem.setFeederPowerCommand(1))
+    NamedCommands.registerCommand("Slow Shoot", m_shooterSubsystem.setPowerCommand(0.5).andThen(new WaitCommand(0.5))
+    .andThen(m_feederSubsystem.setFeederPowerCommand(1))
       .andThen(new WaitCommand(1.0))
      .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
     NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(1.0));

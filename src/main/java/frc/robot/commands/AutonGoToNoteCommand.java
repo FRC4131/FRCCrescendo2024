@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -25,7 +26,9 @@ public class AutonGoToNoteCommand extends Command {
   private DrivetrainSubsystem m_DrivetrainSubsystem;
   private IntakeSubsystem m_intakeSubsystem; 
   private Timer m_timer; 
+  private Timer m_timer2;
   private boolean seesNote;
+  private int restart;
 
   private PIDController m_angleController;
 
@@ -37,6 +40,7 @@ public class AutonGoToNoteCommand extends Command {
     m_DrivetrainSubsystem = drivetrainSubsystem;
     m_intakeSubsystem = intakeSubsystem; 
     m_timer = new Timer();
+    m_timer2 = new Timer();
     
     m_angleController = new PIDController(5.0, 0, 0);
     m_angleController.enableContinuousInput(-Math.PI, Math.PI);
@@ -50,6 +54,8 @@ public class AutonGoToNoteCommand extends Command {
     m_timer.restart();
     DataLogManager.log("Auton Go To Note START");
     seesNote = false;
+    m_visionSubsystem.setSawNote(false);
+    restart = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -65,6 +71,7 @@ public class AutonGoToNoteCommand extends Command {
       m_angleController.setSetpoint(0.0); // goal: tx == 0
       rotOutput = m_angleController.calculate(noteTx.get() * -(Math.PI / 180)); // gets tx and converts to radians
       seesNote = true;
+      m_visionSubsystem.setSawNote(true);
     }
 
     double vel_x = -Constants.Swerve.MAX_VELOCITY_METERS_PER_SECOND * 0.2;
@@ -85,18 +92,22 @@ public class AutonGoToNoteCommand extends Command {
         true);
 
     if (!m_visionSubsystem.seesNote()){
-       m_timer.restart();
-       if (m_timer.hasElapsed(0.25)){
+      if(restart<2)
+      {
+        restart++;
+        restartTimer();
+      }   
+      SmartDashboard.putNumber("restart", restart);
+       if(m_timer.hasElapsed(0.25)){
+        DataLogManager.log("Reached 0.25 seconds");
         m_DrivetrainSubsystem.drive(new Translation2d(0.0, 0.0), 0.0, new Rotation2d(), false, true);
+     
        }
-       //m_DrivetrainSubsystem.drive(new Translation2d(0.0, 0.0), 0.0, new Rotation2d(), false, true);
-
-        if (m_timer.hasElapsed(0.5))
-        {
-          DataLogManager.log("AG2N 2 Second Elapse");
-          seesNote = false;
+        if(m_timer.hasElapsed(0.25)){
+           seesNote = false;
         }
-    }
+    } 
+    SmartDashboard.putNumber("seconds", m_timer.get());
       // if (m_timer.hasElapsed(3.0)){
       //   m_DrivetrainSubsystem.drive(new Translation2d(0.0, 0.0), 0.0, new Rotation2d(), false, true);
       // }
@@ -105,16 +116,19 @@ public class AutonGoToNoteCommand extends Command {
       //   seesNote = false;
       // }
 
+      
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_DrivetrainSubsystem.drive(new Translation2d(), 0, new Rotation2d(), true, true);
-    m_intakeSubsystem.setPower(0.0);
-    DataLogManager.log("Intake STOP AG2N");
-    m_timer.stop();
-    DataLogManager.log("Auton Go To Note END");
+        m_DrivetrainSubsystem.drive(new Translation2d(0.0, 0.0), 0.0, new Rotation2d(), false, true);
+          DataLogManager.log("AG2N 2 Second Elapse");
+          m_intakeSubsystem.setPower(0.0);
+          DataLogManager.log("Intake STOP AG2N");
+          m_timer2.stop();
+          DataLogManager.log("Auton Go To Note END");
+    
   }
 
   // Returns true when the command should end.
@@ -135,4 +149,11 @@ public class AutonGoToNoteCommand extends Command {
        return false;
     }
   }
+  public void restartTimer(){
+    if(restart == 1){
+      m_timer.restart();
+    }
+  }
+
+
 }

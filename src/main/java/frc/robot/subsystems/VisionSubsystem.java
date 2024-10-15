@@ -29,6 +29,7 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
   private NetworkTable m_NetworkTableFront;
   private NetworkTable m_NetworkTableBack;
   private Vector m_targetVector; // holds vector from target to camera
+  public boolean sawNote;
 
   public VisionSubsystem() {
     m_NetworkTableFront = NetworkTableInstance.getDefault().getTable("limelight-front");
@@ -37,6 +38,13 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
                                                   // tag, it does not trust from the get go
   }
 
+  public boolean getSawNote(){
+    return sawNote;
+  }
+
+  public void setSawNote(boolean input){
+    sawNote = input;
+  }
   public Optional<EstimatedRobotPose> getAprilTagRobotPose() { // returns current april tag robot pose
     return m_estimatedRobotPose;
   }
@@ -146,6 +154,7 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
                                                                                             // values + heading
       SmartDashboard.putNumber("April Tag Y", m_estimatedRobotPose.get().getPose().getY());
       SmartDashboard.putNumber("April Tag Heading", m_estimatedRobotPose.get().getPose().getRotation().getDegrees());
+      SmartDashboard.putBoolean("SawNote", sawNote);
     }
 
   }
