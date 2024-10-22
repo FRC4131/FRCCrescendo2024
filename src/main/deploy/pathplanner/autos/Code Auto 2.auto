@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
+      "x": 2.5,
       "y": 5.55
     },
     "rotation": 180.0
@@ -11,18 +11,6 @@
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "named",
-          "data": {
-            "name": "Start Log"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "103124 TEST"
-          }
-        },
         {
           "type": "named",
           "data": {
@@ -36,15 +24,21 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "103124 TEST 3"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Slow Shoot"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "End Log"
+            "pathName": "Copy of 103124 TEST 3"
           }
         }
       ]

@@ -91,14 +91,15 @@ public class AutonGoToNoteCommand extends Command {
         false,
         true);
 
-    if (!m_visionSubsystem.seesNote()){
-      if(restart<2)
+    if (!m_visionSubsystem.seesNote()){ //If doesn't see note
+      if(restart<2) // Only restarts timer once
       {
         restart++;
         restartTimer();
+        DataLogManager.log("Timer Restart");
       }   
-      SmartDashboard.putNumber("restart", restart);
-       if(m_timer.hasElapsed(0.25)){
+      //SmartDashboard.putNumber("restart", restart);
+       if(m_timer.hasElapsed(0.25)){ //After 0.25 seconds stops the command
         DataLogManager.log("Reached 0.25 seconds");
         m_DrivetrainSubsystem.drive(new Translation2d(0.0, 0.0), 0.0, new Rotation2d(), false, true);
      
@@ -123,7 +124,7 @@ public class AutonGoToNoteCommand extends Command {
   @Override
   public void end(boolean interrupted) {
         m_DrivetrainSubsystem.drive(new Translation2d(0.0, 0.0), 0.0, new Rotation2d(), false, true);
-          DataLogManager.log("AG2N 2 Second Elapse");
+          //DataLogManager.log("AG2N 2 Second Elapse");
           m_intakeSubsystem.setPower(0.0);
           DataLogManager.log("Intake STOP AG2N");
           m_timer2.stop();

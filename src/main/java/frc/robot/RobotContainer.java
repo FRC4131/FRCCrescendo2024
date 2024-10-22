@@ -58,6 +58,8 @@ import java.util.concurrent.locks.Condition;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -238,9 +240,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem));
     NamedCommands.registerCommand("Slow Shoot", m_shooterSubsystem.setPowerCommand(0.5).andThen(new WaitCommand(0.5))
     .andThen(m_feederSubsystem.setFeederPowerCommand(1))
-      .andThen(new WaitCommand(1.0))
-     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
+      .andThen(new WaitCommand(0.5))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(m_shooterSubsystem.setPowerCommand(0.0)));
+
     NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(1.0));
+    NamedCommands.registerCommand("Start Log", new InstantCommand(() -> {DataLogManager.log("Auton Start");}));
+    NamedCommands.registerCommand("End Log", new InstantCommand(() -> {DataLogManager.log("Auton End");}));
 
     NamedCommands.registerCommand("Slow spin up", m_shooterSubsystem.setPowerCommand(0.1));
     NamedCommands.registerCommand("Spin up Shooter", m_shooterSubsystem.setPowerCommand(1.0));
@@ -272,6 +277,21 @@ public class RobotContainer {
         )); 
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
+
+    Command testAuto = 
+      Commands.sequence(
+        new PathPlannerAuto("Code Auto 1"), //Moves backwards to the note
+        Commands.either(new PathPlannerAuto("Code Auto 2"), //Intakes, drives, shoots
+         new PathPlannerAuto("Code Auto 3"), // Drives to the other note
+          () -> m_visionSubsystem.seesNote()), 
+        Commands.either(new PathPlannerAuto("Code Auto 4"),
+         new PathPlannerAuto("Code Auto 5"),
+          () -> m_visionSubsystem.seesNote())
+        //new PathPlannerPath
+      );
+
+    m_autoChooser.addOption("Code Auto FINAL", testAuto);
+
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
     
   }
