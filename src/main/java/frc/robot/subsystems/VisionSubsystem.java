@@ -22,9 +22,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.EstimatedRobotPose;
+import frc.robot.LimelightHelpers;
 
 public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag Detection
-  private Optional<EstimatedRobotPose> m_estimatedRobotPose;
+  //private Optional<EstimatedRobotPose> m_estimatedRobotPose;
 
   private NetworkTable m_NetworkTableFront;
   private NetworkTable m_NetworkTableBack;
@@ -33,7 +34,7 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
 
   public VisionSubsystem() {
     m_NetworkTableFront = NetworkTableInstance.getDefault().getTable("limelight-front");
-    m_NetworkTableBack = NetworkTableInstance.getDefault().getTable("limelight-back");
+    m_NetworkTableBack = NetworkTableInstance.getDefault().getTable("limelight-back"); //notes 
     m_targetVector = VecBuilder.fill(20, 20, 20); // arbitrary big values -- if the robot starts out not seeing april
                                                   // tag, it does not trust from the get go
   }
@@ -45,9 +46,9 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
   public void setSawNote(boolean input){
     sawNote = input;
   }
-  public Optional<EstimatedRobotPose> getAprilTagRobotPose() { // returns current april tag robot pose
-    return m_estimatedRobotPose;
-  }
+  // public Optional<EstimatedRobotPose> getAprilTagRobotPose() { // returns current april tag robot pose
+  //   return m_estimatedRobotPose;
+  // }
 
   public boolean seesNote() {
     return (1.0 == m_NetworkTableBack.getEntry("tv").getDouble(0));
@@ -103,16 +104,17 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
     }
   }
 
-  public Optional<EstimatedRobotPose> aprilTagUpdate() // updates estimated robot pose based on april tags seen
+  public Optional<EstimatedRobotPose> aprilTagUpdate(double yaw) // updates estimated robot pose based on april tags seen
   {
     double rawBotPose[];
+    LimelightHelpers.SetRobotOrientation("limelight-front", yaw, 0, 0, 0, 0, 0);
     Boolean validTargetsPresent = (1.0 == m_NetworkTableFront.getEntry("tv").getDouble(0));
     // SmartDashboard.putBoolean("valid targets", validTargetsPresent);
 
     if (validTargetsPresent) // returns bot pose if april tags are seen
     {
       // gets blue pose (assuming a single coordinate system for both alliances)
-      rawBotPose = m_NetworkTableFront.getEntry("botpose_wpiblue").getDoubleArray(new double[7]);
+      rawBotPose = m_NetworkTableFront.getEntry("botpose_orb_wpiblue").getDoubleArray(new double[7]);
       // SmartDashboard.putNumber("pose x", rawBotPose[0]);
       // SmartDashboard.putNumber("pose y", rawBotPose [1]);
       // SmartDashboard.putNumber("pose z", rawBotPose [2]);
@@ -139,23 +141,22 @@ public class VisionSubsystem extends SubsystemBase { // handles LL3 April Tag De
     }
   }
 
-  public boolean seesTargets() // returns whether robot sees april tags (used for triggers)
-  {
-    return aprilTagUpdate().isPresent();
-  }
+ 
 
   @Override
   public void periodic() {
-    m_estimatedRobotPose = aprilTagUpdate(); // constantly updates bot pose
+ 
+   
     SmartDashboard.putBoolean("sees note", seesNote());
     SmartDashboard.putBoolean("sees amp", seesAmpTags());
-    if (m_estimatedRobotPose.isPresent()) { // if optional contains a value
-      SmartDashboard.putNumber("April Tag X", m_estimatedRobotPose.get().getPose().getX()); // returns robot x and y
-                                                                                            // values + heading
-      SmartDashboard.putNumber("April Tag Y", m_estimatedRobotPose.get().getPose().getY());
-      SmartDashboard.putNumber("April Tag Heading", m_estimatedRobotPose.get().getPose().getRotation().getDegrees());
-      SmartDashboard.putBoolean("SawNote", sawNote);
-    }
+    SmartDashboard.putBoolean("SawNote", sawNote);
+    // if (m_estimatedRobotPose.isPresent()) { // if optional contains a value
+    //   SmartDashboard.putNumber("April Tag X", m_estimatedRobotPose.get().getPose().getX()); // returns robot x and y
+    //                                                                                         // values + heading
+    //   SmartDashboard.putNumber("April Tag Y", m_estimatedRobotPose.get().getPose().getY());
+    //   SmartDashboard.putNumber("April Tag Heading", m_estimatedRobotPose.get().getPose().getRotation().getDegrees());
+    //   SmartDashboard.putBoolean("SawNote", sawNote);
+    //}
 
   }
 

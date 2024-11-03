@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 // import org.photonvision.EstimatedRobotPose;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.EstimatedRobotPose;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 
 public class PoseEstimationSubsystem extends SubsystemBase { //calculates the robot's estimated pose using both vision and odometry 
   DrivetrainSubsystem m_drivetrainSubsystem;
@@ -113,17 +115,38 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
       return (radius < radialThreshold); //are we past the threshold? 
   }
 
+ 
+  public boolean seesTargets() // returns whether robot sees april tags (used for triggers)
+  {
+    return m_visionSubsystem.aprilTagUpdate(getGyroYaw().getDegrees()).isPresent();
+  }
+
+  public Optional<EstimatedRobotPose> getAprilTagRobotPose() { // returns current april tag robot pose
+    return m_visionSubsystem.aprilTagUpdate(getGyroYaw().getDegrees());
+  }
+
+
+
   @Override
   public void periodic() {     // This method will be called once per scheduler run
-    EstimatedRobotPose aprilTagPose = m_visionSubsystem.getAprilTagRobotPose().orElse(null);
+    //Optional<EstimatedRobotPose> m_ATestPose = m_visionSubsystem.aprilTagUpdate(getGyroYaw().getDegrees()); 
+    EstimatedRobotPose aprilTagPose = m_visionSubsystem.aprilTagUpdate(getGyroYaw().getDegrees()).orElse(null);
+
+     if (aprilTagPose != null) { // if apriltagpose is present 
+      SmartDashboard.putNumber("April Tag X", aprilTagPose.getPose().getX()); // returns robot x and y  values + heading                                                      
+      SmartDashboard.putNumber("April Tag Y", aprilTagPose.getPose().getY());
+      SmartDashboard.putNumber("April Tag Heading", aprilTagPose.getPose().getRotation().getDegrees());
+     }
+
+    //EstimatedRobotPose aprilTagPose = m_visionSubsystem.getAprilTagRobotPose().orElse(null);
     DriverStation.refreshData();
     m_aprilTagStatus = false; 
-
+    
     if (aprilTagPose != null && (!DriverStation.isAutonomous())) {
       SmartDashboard.putNumber("MAGNITUDE", aprilTagPose.getMagnitude());
       //updates std values based on magnitude of the vector from camera to april tag (trusts it less as we go back more)
-      if (aprilTagPose.getMagnitude() < Constants.VisionConstants.APRIL_TAG_CUTOFF_DISTANCE)
-      {
+      // if (aprilTagPose.getMagnitude() < Constants.VisionConstants.APRIL_TAG_CUTOFF_DISTANCE)
+      // {
         SmartDashboard.putBoolean("AprilTagUpdating", true);
          m_swerveDrivePoseEst.setVisionMeasurementStdDevs( 
         VecBuilder.fill(Constants.VisionConstants.APRIL_TAG_SD_X * aprilTagPose.getMagnitude(),
@@ -131,11 +154,11 @@ public class PoseEstimationSubsystem extends SubsystemBase { //calculates the ro
         1000));
         m_aprilTagStatus = true;
         m_swerveDrivePoseEst.addVisionMeasurement(aprilTagPose.getPose(), aprilTagPose.getTimeStamp());
-      }   
+      // }   
     }
     m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions());
     field2d.setRobotPose(m_swerveDrivePoseEst.update(getGyroYaw(), m_drivetrainSubsystem.getModulePositions()));
-
+    
     SmartDashboard.putBoolean("AprilTagUpdating", m_aprilTagStatus);
     SmartDashboard.putNumber("RawGyroYaw", getGyroYaw().getDegrees());
     SmartDashboard.putNumber("SwervePoseEst x", m_swerveDrivePoseEst.getEstimatedPosition().getX());
