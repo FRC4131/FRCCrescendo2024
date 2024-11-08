@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -28,6 +29,7 @@ import frc.robot.Constants.ArmConstants;
 // arm subsystem controls the pivot of the arm/indexing mechanism. uses 2 motors. in this iteration: left = leader, right = follower
 
 public class ArmSubsystem extends SubsystemBase {
+  private static double kDt = 0.02;
   private CANSparkMax m_armMotorL;  //lead/left motor
   private CANSparkMax m_armMotorR; //follower/right motor
   private RelativeEncoder m_armEncoder; 
@@ -37,6 +39,12 @@ public class ArmSubsystem extends SubsystemBase {
   private DigitalInput m_frontLimit = new DigitalInput(0); 
   private DigitalInput m_backLimit = new DigitalInput(1); 
   private IntakeSubsystem m_IntakeSubsystem; 
+
+  private final TrapezoidProfile m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(1.75, 0.75));
+  private TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
+  private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
+
+
   //private PowerDistribution m_PDH; 
 
   public ArmSubsystem(IntakeSubsystem intakeSubsystem) {
@@ -61,6 +69,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder.setPositionConversionFactor(Constants.ArmConstants.ARM_ENCODER_SCALING_FACTOR);
     m_armEncoder.setPosition(Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE);
     m_speakerHeightOffset = 0.0; 
+
 
     //m_PDH = new PowerDistribution(1, ModuleType.kRev); 
   }
@@ -180,8 +189,16 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
         SmartDashboard.putBoolean("front limit", frontLimitSwitch()); 
-        SmartDashboard.putBoolean("bakc ", backLimitSwitch()); 
-        double rawPower = m_armPidController.calculate(getArmAngle(), m_angleSetpoint);
+        SmartDashboard.putBoolean("bakc ", backLimitSwitch());
+        
+        m_setpoint = m_profile.calculate(kDt, m_setpoint, m_goal);
+
+
+
+        double rawPower = m_armPidController.calculate(getArmAngle(), m_setpoint.position);
+
+//MOTION PROFILE SHOULD DO THIS NOW COMMENT BACK IF IT DOESNT WORK
+
         double clampedPower = MathUtil.clamp(rawPower, -0.3, 0.5); //clamp power to 10% 
         // if (clampedPower > 0)
         // {
