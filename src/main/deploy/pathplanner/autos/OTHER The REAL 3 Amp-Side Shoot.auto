@@ -18,21 +18,34 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Arm off prop"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm off prop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Shoot (No Wait)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
           }
         },
         {
@@ -50,14 +63,7 @@
                 "data": {
                   "name": "Go To Note"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
@@ -68,13 +74,19 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "Copy of Copy of Copy of Amp-Side Shoot Path 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin up Shooter"
                 }
               }
             ]
@@ -87,6 +99,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shooter off"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -95,14 +113,7 @@
                 "data": {
                   "name": "Go To Note"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {

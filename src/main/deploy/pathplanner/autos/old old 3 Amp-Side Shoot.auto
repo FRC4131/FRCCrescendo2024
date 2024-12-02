@@ -91,12 +91,6 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of Amp-Side Shoot Path 3"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Go To Note"

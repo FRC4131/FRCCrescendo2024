@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7894774213563436,
-      "y": 4.4434934648480935
+      "x": 2.5,
+      "y": 5.55
     },
-    "rotation": 120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,42 +14,36 @@
         {
           "type": "named",
           "data": {
-            "name": "Set Arm Angle Prop"
+            "name": "Go To Note"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Arm off prop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spin up Shooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot (No Wait)"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter off"
+            "name": "Feeder Only"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Source-Side Taxi 1"
+            "pathName": "103124 TEST 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Slow Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of 103124 TEST 3"
           }
         }
       ]
     }
   },
-  "folder": "Taxi",
+  "folder": "Test",
   "choreoAuto": false
 }

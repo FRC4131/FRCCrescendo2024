@@ -5,14 +5,16 @@
   "pathFolders": [
     "Blips",
     "EXTRA Paths",
-    "Wipeouts",
-    "Primary Paths"
+    "TESTING FOR BUG",
+    "Primary Paths",
+    "Wipeouts"
   ],
   "autoFolders": [
     "2 notes",
     "3 notes",
     "Blips",
     "EXTRA IDEAS",
+    "Test",
     "No Moves",
     "Primary",
     "Primary TESTS",

@@ -9,11 +9,13 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.util.EstimatedRobotPose;
+import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class StdDevEstimatorCommand extends Command { //not currently used : test command used when trying to figure out variable std dev values for vision
   /** Creates a new StdDevEstimatorCommand. */
   private VisionSubsystem m_visionSubsystem; 
+  private PoseEstimationSubsystem m_PoseEstimationSubsystem; 
   private double[] m_xArray = new double [45]; 
   private double[] m_yArray = new double [45]; 
   private double[] m_thetaArr = new double [45]; 
@@ -41,7 +43,7 @@ public class StdDevEstimatorCommand extends Command { //not currently used : tes
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Optional<EstimatedRobotPose> robotPose = m_visionSubsystem.getAprilTagRobotPose(); 
+    Optional<EstimatedRobotPose> robotPose = m_PoseEstimationSubsystem.getAprilTagRobotPose(); 
     if (robotPose.isPresent())
     {
       if (robotPose.get().getTimeStamp() > m_currentTimeStamp)

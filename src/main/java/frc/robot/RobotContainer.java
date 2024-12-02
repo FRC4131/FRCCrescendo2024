@@ -8,6 +8,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.commands.AutoArmCommand;
+import frc.robot.commands.AutonFeederCommand;
 import frc.robot.commands.AutonGoToNoteCommand;
 import frc.robot.commands.AutonIntakeCommand;
 import frc.robot.commands.AutonShootCommand;
@@ -57,6 +58,8 @@ import java.util.concurrent.locks.Condition;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -226,6 +229,7 @@ public class RobotContainer {
     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0).alongWith(m_intakeSubsystem.setPowerCommand(0.0)))
     // .andThen(m_shooterSubsystem.setPowerCommand(0.5).andThen(new WaitCommand(3)).andThen(m_shooterSubsystem.setPowerCommand(0.0)))
     ); 
+  NamedCommands.registerCommand("Feeder Only", new AutonFeederCommand(m_feederSubsystem, m_visionSubsystem, m_intakeSubsystem));
     // NamedCommands.registerCommand("Shoot Speaker", m_shooterSubsystem.setPowerCommand(1.0).andThen(new WaitCommand(0.5))
     //  .andThen(m_feederSubsystem.setFeederPowerCommand(1)).andThen(new WaitCommand(1.0)));
     // NamedCommands.registerCommand("Stop Shooter", m_shooterSubsystem.setPowerCommand(0.0).andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
@@ -233,11 +237,15 @@ public class RobotContainer {
    NamedCommands.registerCommand("Arm Rest Angle", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_RESTING_POSITION_ANGLE));
     NamedCommands.registerCommand("Set Arm Angle Prop", m_armSubsystem.setEncodertoPropAngle());
     NamedCommands.registerCommand("Arm off prop", new AutoArmCommand(m_armSubsystem, Constants.ArmConstants.ARM_OFF_PROP).andThen(new WaitCommand(0.5)));
-    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem).withTimeout(1.5));
-    NamedCommands.registerCommand("Slow Shoot (No Wait)", (m_feederSubsystem.setFeederPowerCommand(1))
-      .andThen(new WaitCommand(1.0))
-     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)));
+    NamedCommands.registerCommand("Go To Note", new AutonGoToNoteCommand(m_drivetrainSubsystem, m_visionSubsystem, m_intakeSubsystem));
+    NamedCommands.registerCommand("Slow Shoot", m_shooterSubsystem.setPowerCommand(0.5).andThen(new WaitCommand(0.5))
+    .andThen(m_feederSubsystem.setFeederPowerCommand(1))
+      .andThen(new WaitCommand(0.5))
+     .andThen(m_feederSubsystem.setFeederPowerCommand(0.0)).andThen(m_shooterSubsystem.setPowerCommand(0.0)));
+
     NamedCommands.registerCommand("Intake On", m_intakeSubsystem.setPowerCommand(1.0));
+    NamedCommands.registerCommand("Start Log", new InstantCommand(() -> {DataLogManager.log("Auton Start");}));
+    NamedCommands.registerCommand("End Log", new InstantCommand(() -> {DataLogManager.log("Auton End");}));
 
     NamedCommands.registerCommand("Slow spin up", m_shooterSubsystem.setPowerCommand(0.1));
     NamedCommands.registerCommand("Spin up Shooter", m_shooterSubsystem.setPowerCommand(1.0));
@@ -269,6 +277,21 @@ public class RobotContainer {
         )); 
 
     m_autoChooser = AutoBuilder.buildAutoChooser();
+
+    Command testAuto = 
+      Commands.sequence(
+        new PathPlannerAuto("Code Auto 1"), //Moves backwards to the note
+        Commands.either(new PathPlannerAuto("Code Auto 2"), //Intakes, drives, shoots
+         new PathPlannerAuto("Code Auto 3"), // Drives to the other note
+          () -> m_visionSubsystem.seesNote()), 
+        Commands.either(new PathPlannerAuto("Code Auto 4"),
+         new PathPlannerAuto("Code Auto 5"),
+          () -> m_visionSubsystem.seesNote())
+        //new PathPlannerPath
+      );
+
+    m_autoChooser.addOption("Code Auto FINAL", testAuto);
+
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
     
   }

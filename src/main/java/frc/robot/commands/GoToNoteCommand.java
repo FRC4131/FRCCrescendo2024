@@ -63,7 +63,7 @@ public class GoToNoteCommand extends Command {
     if (noteTx.isPresent()) // if the robot sees a note
     {
       m_angleController.setSetpoint(0.0); // goal: tx == 0
-      rotOutput = m_angleController.calculate(noteTx.get() * (Math.PI / 180)); // gets tx and converts to radians
+      rotOutput = m_angleController.calculate(noteTx.get() * -(Math.PI / 180)); // gets tx and converts to radians
     }
 
     double slope = 1 - Constants.Swerve.MIN_THROTTLE_LEVEL; // Throttle control
